@@ -6,6 +6,7 @@
 
 #include <map>
 #include <string>
+#include <vector>
 
 
 namespace PSL
@@ -17,6 +18,7 @@ namespace PSL
 		BINARY_OP,		// Binary operation e.g. PLUS
 		VARIABLE,		// Language defined variable e.g. ALL_OUTCOMES_W
 		INTEGER,		// Integer constant
+		LINE_NO,		// Line number
 		INVALID_TOKEN	// Token not allowed by the language
 	};
 
@@ -53,6 +55,14 @@ namespace PSL
 	const std::map<std::string, int> variableDictionary = { { "LASTOUTCOME", LASTOUTCOME }, { "W", W }, { "X", X }, { "Y", Y },
 	{ "Z", Z }, { "ALLOUTCOMES_W", ALLOUTCOMES_W }, { "ALLOUTCOMES_X", ALLOUTCOMES_X }, { "ALLOUTCOMES_Y", ALLOUTCOMES_Y },
 	{ "ALLOUTCOMES_Z", ALLOUTCOMES_Z }, { "ITERATIONS", ITERATIONS }, { "MYSCORE", MYSCORE } };
+
+	// Dictionaries used by the strategy generator
+	const std::vector<std::string> charVariables = { "W", "X", "Y", "Z" };
+	const std::vector<std::string> variables = { "ALLOUTCOMES_W", "ALLOUTCOMES_X", "ALLOUTCOMES_Y", "ALLOUTCOMES_Z", "ITERATIONS", "MYSCORE" };
+	const std::vector<std::string> outcomes = { "BETRAY", "SILENCE", "RANDOM" };
+	const std::vector<std::string> relationalOps = { ">", "<", "=" };
+	const std::vector<std::string> arithmeticOps = { "+", "-" };
+	//TODO: Refactor repetition oir at least variable names
 }
 
 typedef PSL::TokenType TokenType;

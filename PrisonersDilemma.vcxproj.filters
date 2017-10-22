@@ -2,5 +2,33 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Game\Prisoner.cpp" />
+    <ClCompile Include="Utility\RandomNumberGenerator.cpp" />
+    <ClCompile Include="Utility\FileManager.cpp" />
+    <ClCompile Include="Interpreter\Interpreter.cpp" />
+    <ClCompile Include="Interpreter\Lexer.cpp" />
+    <ClCompile Include="Game\Strategy.cpp" />
+    <ClCompile Include="Interpreter\SyntaxAnalyser.cpp" />
+    <ClCompile Include="Game\StrategyGenerator.cpp" />
+    <ClCompile Include="Interpreter\Token.cpp" />
+    <ClCompile Include="Interpreter\Statement.cpp" />
+    <ClCompile Include="Interpreter\Expression.cpp" />
+    <ClCompile Include="Game\Game.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Game\Prisoner.h" />
+    <ClInclude Include="Utility\RandomNumberGenerator.h" />
+    <ClInclude Include="Utility\FileManager.h" />
+    <ClInclude Include="Interpreter\Interpreter.h" />
+    <ClInclude Include="Interpreter\Lexer.h" />
+    <ClInclude Include="Game\Strategy.h" />
+    <ClInclude Include="Interpreter\SyntaxAnalyser.h" />
+    <ClInclude Include="Game\StrategyGenerator.h" />
+    <ClInclude Include="Interpreter\Token.h" />
+    <ClInclude Include="PrisonerStrategyLanguage.h" />
+    <ClInclude Include="Interpreter\Statement.h" />
+    <ClInclude Include="Interpreter\Expression.h" />
+    <ClInclude Include="Game\PrisonersDilemmaGame.h" />
+    <ClInclude Include="Game\Game.h" />
   </ItemGroup>
 </Project>
