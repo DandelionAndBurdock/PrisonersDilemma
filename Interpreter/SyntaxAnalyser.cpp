@@ -100,33 +100,37 @@ bool SyntaxAnalyser::TestCharExpressionFormat(const std::vector<Token>& provisio
 
 
 bool SyntaxAnalyser::ValidateLine(const std::vector<Token>& provisional){
+	
 	if (IsEmptyLine(provisional)){
 		PrintError(ErrorCode::EMPTY);
 		return false;
 	}
+	// Remove line number
+	const std::vector<Token> code = std::vector<Token>(std::next(provisional.begin()), provisional.end());
+
 	// Can make a quick exit if line starts or ends with a binary operator
-	if (IsDanglingBinaryOp(provisional)){
+	if (IsDanglingBinaryOp(code)){
 		PrintError(ErrorCode::DANGLING_BINARY);
 		return false;
 	}
 
 	// Can make a quick exit if line begins with rValue or ends with a variable
-	if (IsDanglingVariable(provisional)){
+	if (IsDanglingVariable(code)){
 		PrintError(ErrorCode::DANGLING_VARIABLE);
 		return false;
 	}
 
-	if (!IsValidOutcome(provisional)){
+	if (!IsValidOutcome(code)){
 		PrintError(ErrorCode::INVALID_OUTCOME);
 		return false;
 	}
 
-	if (!IsValidIf(provisional)){
+	if (!IsValidIf(code)){
 		PrintError(ErrorCode::INVALID_IF);
 		return false;
 	}
 
-	if (!IsValidGOTO(provisional)){
+	if (!IsValidGOTO(code)){
 		PrintError(ErrorCode::INVALID_GOTO);
 		return false;
 	}

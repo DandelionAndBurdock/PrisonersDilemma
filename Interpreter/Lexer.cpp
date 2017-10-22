@@ -20,7 +20,7 @@ Lexer::~Lexer()
 {
 }
 
-
+//TODO: Add some console output to give progress update
 
 std::unique_ptr<Statement> Lexer::Construct(const std::string& line) 
 {
@@ -160,6 +160,7 @@ std::vector<Token> Lexer::MakeTokens(const std::string& line){
 	while (input >> word){
 		Token t = CreateToken(word);
 		if (t.GetType() == INVALID_TOKEN){
+			std::cout << "Lexer Error: " << word << " is not a valid token" << std::endl; //TODO: Dont let program continue
 			splitLine.clear();
 			splitLine.push_back(t);
 			return splitLine;
@@ -176,21 +177,23 @@ std::unique_ptr<Statement>  Lexer::MakeStatement(const std::vector<Token>& vec){
 	// First token after line number will either be outcome or if
 	auto start = vec.begin();
 	int lineNumber = start->GetValue();
-	start += 1;
+	start += 1; // Move past line number
 	if (start->GetType() == PSL::TokenType::OUTCOME){
 		return std::unique_ptr<Statement>(new StatementOutcome(lineNumber, PSL::TokenValue(start->GetValue())));
 	}
 	else if (start->GetValue() == PSL::TokenValue::IF) { //TODO: Make IF Statement
-		auto relOpIter = std::find_if(start, vec.end(), [](const Token& t) { return t.IsOutcome(); });
+		start += 1; //Move past IF
+		auto relOpIter = std::find_if(start, vec.end(), [](const Token& t) { return t.IsRelOp(); });
 		std::vector<Token> lhs = std::vector<Token>(start, relOpIter);
-		std::vector<Token> rhs = std::vector<Token>(relOpIter + 1, vec.end());
+		
 		auto actionIter = std::find_if(start, vec.end(), [](const Token& t) { return t.IsAction(); });
+		std::vector<Token> rhs = std::vector<Token>(relOpIter + 1, actionIter);
 		if (actionIter->GetValue() == PSL::TokenValue::GOTO) {
 			Statement* action = new StatementGoto((++actionIter)->GetValue());
 			return std::unique_ptr<Statement>(new StatementIf(lineNumber, lhs, rhs, PSL::TokenValue(relOpIter->GetValue()), action));
 		}
 		else {
-			Statement* action = new StatementGoto(actionIter->GetValue());
+			Statement* action = new StatementOutcome(lineNumber, PSL::TokenValue(actionIter->GetValue()));
 			return std::unique_ptr<Statement>(new StatementIf(lineNumber, lhs, rhs, PSL::TokenValue(relOpIter->GetValue()), action));
 		}
 	}

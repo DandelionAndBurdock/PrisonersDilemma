@@ -1,7 +1,7 @@
 #include "Strategy.h"
 
 
-Strategy::Strategy(const std::string& filename, std::map<TokenValue, int*>& intVariables, std::map<TokenValue, char*> charVariables) :
+Strategy::Strategy(const std::string& filename, const std::map<TokenValue, int*>& intVariables, const std::map<TokenValue, char*>& charVariables) :
 	m_interpreter(filename, intVariables, charVariables)
 {
 }

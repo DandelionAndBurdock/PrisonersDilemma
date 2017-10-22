@@ -10,7 +10,7 @@
 class Prisoner
 {
 private:
-	const std::vector<char> Outcomes{ 'W', 'X', 'Y', 'Z' }; //TODO: Remove
+	static char outcomes[];  //TODO: Static, make const
 public:
 	Prisoner(const std::string& strategy); //TODO:Faster to pass const?
 	~Prisoner();
@@ -20,10 +20,10 @@ public:
 	inline int  GetScore() { return m_score; }
 	inline void AddToScore(int x) { m_score += x; }
 
-	inline void SetLastOutcome(char outcome) {	m_lastOutcome = outcome; }
+	void SetLastOutcome(char outcome);
+
+	void PrintDebugInfo();
 private:
-	Strategy m_strategy;
-		
 	char  m_lastOutcome; // TODO: Comment
 	int      m_alloutcomesW;
 	int      m_alloutcomesX;
@@ -33,9 +33,15 @@ private:
 	int      m_iterations;
 	int		 m_score;
 
+	const std::map<TokenValue, int*>  m_intVars;
+	const std::map<TokenValue, char*> m_charVars;
+	Strategy m_strategy;
+
 	//
 	std::map<TokenValue, int*> MakeIntegerVariableMap();
 	std::map<TokenValue, char*> MakeCharVariableMap(); //TODO: Should it be a char or an Outcome???
+
+
 };
 
 //TODO: What should m_lastOutcome be initialised too

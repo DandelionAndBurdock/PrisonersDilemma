@@ -148,7 +148,7 @@ void StrategyGenerator::AddEndLine(std::string& str){
 std::string StrategyGenerator::GetRandomCharVariable(){
 	return PSL::charVariables[rng->GetRandInt(0, PSL::charVariables.size())];
 }
-std::string StrategyGenerator::GetRandomVariable(){
+std::string StrategyGenerator::GetRandomVariable(){ //TODO: What about ints?
 	return PSL::variables[rng->GetRandInt(0, PSL::variables.size())];
 }
 

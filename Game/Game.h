@@ -9,8 +9,7 @@ class Game
 public:
 	enum GameResult {PRISONER_A, PRISONER_B, DRAW, UNFINISHED};
 public:
-	struct Sentence{
-		Sentence() {} 
+	struct Sentence{ //TODO: m_
 		int punishmentSentence = 4;
 		int temptationSentence = 0;
 		int silentSentence = 2;
@@ -32,7 +31,7 @@ private:
 	int m_iterations;
 	int m_currentIteration;
 
-	Sentence& m_sentence;
+	Sentence m_sentence;
 	int m_maxSentence;
 
 	// Helper function quickly returns maximum sentence

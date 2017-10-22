@@ -16,7 +16,7 @@
 class Strategy
 {
 public:
-	Strategy(const std::string& filename, std::map<TokenValue, int*>& intVariables, std::map<TokenValue, char*> charVariables);
+	Strategy(const std::string& filename, const std::map<TokenValue, int*>& intVariables, const std::map<TokenValue, char*>& charVariables);
 	~Strategy();
 
 	ActionType GetAction(); //TODO: Fix selection/action flip-flopping

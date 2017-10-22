@@ -3,7 +3,7 @@
 Expression::Expression(const std::vector<Token>& vec)
 {
 	if (vec.empty()){
-		std::cout << "Error: Trying to construct emprt expression" << std::endl;
+		std::cout << "Error: Trying to construct empty expression" << std::endl;
 	}
 	m_tokens = vec;
 }
@@ -34,7 +34,7 @@ int Expression::ParseNonCharExpression(const std::map<TokenValue, int*>& intVars
 	
 	runningSum += GetIntegerValue(intVars, position);
 
-	while (position < m_tokens.size() - 2){
+	while (m_tokens.size() > 1 && position < (m_tokens.size() - 2)){
 		switch (m_tokens[position + 1].GetValue()){
 		case TokenValue::PLUS:	//TODO: Need to update this bit if define PSL++
 			runningSum += GetIntegerValue(intVars, position);
@@ -53,7 +53,7 @@ int Expression::GetIntegerValue(const std::map<TokenValue, int*>& intVars, int p
 		return m_tokens[position].GetValue();
 	}
 	else{
-		TokenValue variable = (TokenValue)m_tokens[position].GetType();
+		TokenValue variable = (TokenValue)m_tokens[position].GetValue();
 		return *(intVars.at(variable));
 	}
 
