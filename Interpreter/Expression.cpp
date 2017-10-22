@@ -1,7 +1,11 @@
 #include "Expression.h"
-
-Expression::Expression() 
+#include <iostream>
+Expression::Expression(const std::vector<Token>& vec)
 {
+	if (vec.empty()){
+		std::cout << "Error: Trying to construct emprt expression" << std::endl;
+	}
+	m_tokens = vec;
 }
 
 
@@ -54,3 +58,4 @@ int Expression::GetIntegerValue(const std::map<TokenValue, int*>& intVars, int p
 	}
 
 }
+

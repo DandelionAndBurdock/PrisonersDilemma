@@ -13,7 +13,8 @@
 class Expression
 {
 public:
-	Expression(); //TODO: No default constructor throw some error if no tokens
+	Expression() = delete;
+	Expression(const std::vector<Token>& vec); 
 	~Expression();
 
 	int Parse(const std::map<TokenValue, int*>& intVars, const std::map<TokenValue, char*>& charVars);

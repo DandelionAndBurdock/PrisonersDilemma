@@ -1,44 +1,68 @@
 #include "Statement.h"
 
 #include <iostream>
-#include "RandomNumberGenerator.h"
+#include "../Utility/RandomNumberGenerator.h"
+#include "../PrisonerStrategyLanguage.h"
+#include "../Game/PrisonersDilemmaGame.h"
 
-
+StatementIf::StatementIf(int lineNumber, std::vector<Token> left, std::vector<Token> right, TokenValue relOp, Statement* action) :
+Statement(lineNumber), m_relOp(relOp), m_action(action){
+	m_left = new Expression(left);
+	m_right = new Expression(right);
+}
+StatementIf::~StatementIf(){
+	delete m_left;
+	delete m_right;
+	delete m_action;
+}
 //TODO: Use a typedef for Selection 
 Action  StatementIf::Execute(const std::map<TokenValue, int*>& intVars, const std::map<TokenValue, char*>& charVars){
-	switch (relOp){
-	case TokenValue::EQUAL_TO:
-		if (left->Parse(intVars, charVars) == right->Parse(intVars, charVars)){
+	switch (m_relOp){
+	case TokenValue::EQUAL_TO: //TODO: Lambda/Function Array
+		if (m_left->Parse(intVars, charVars) == m_right->Parse(intVars, charVars)){
 			return m_action->Execute(intVars, charVars);
 		}
-		break;
+		else {
+			return Action(ActionType::NEXT_LINE);
+		}
 	case TokenValue::LESS_THAN:
-		if (left->Parse(intVars, charVars) > right->Parse(intVars, charVars)){
+		if (m_left->Parse(intVars, charVars) > m_right->Parse(intVars, charVars)){
 			return m_action->Execute(intVars, charVars);
 		}
-		break;
+		else {
+			return Action(ActionType::NEXT_LINE);
+		}
 	case TokenValue::GREATER_THAN:
-		if (left->Parse(intVars, charVars) > right->Parse(intVars, charVars)){
+		if (m_left->Parse(intVars, charVars) > m_right->Parse(intVars, charVars)){
 			return m_action->Execute(intVars, charVars);
 		}
-		break;
+		else {
+			return Action(ActionType::NEXT_LINE);
+		}
 	default:
 		std::cout << "Interpreter Error: Error interpreting IF statement" << std::endl;
 	}
 }
+StatementGoto::StatementGoto(int jumpLine) :
+Statement(0), m_jumpLine(jumpLine)
+{}
 
 Action StatementGoto::Execute(const std::map<TokenValue, int*>& intVars, const std::map<TokenValue, char*>& charVars){
-		return Action(ActionType::GOTO, line);
+		return Action(ActionType::GOTO, m_jumpLine);
 }
 
+StatementOutcome::StatementOutcome(int lineNum, TokenValue val) :
+	Statement(lineNum), m_value(val)
+{}
+
 Action StatementOutcome::Execute(const std::map<TokenValue, int*>& intVars, const std::map<TokenValue, char*>& charVars){
-	switch (value){
+	switch (m_value){
 	case TokenValue::BETRAY:
 		return Action(ActionType::BETRAY);
 	case TokenValue::SILENCE:
 		return Action(ActionType::SILENCE);
 	case TokenValue::RANDOM:
-		if (RandomNumberGenerator::Instance()->GetRandInt(0, 1) % 2) //TODO: Check
+		if (RandomNumberGenerator::Instance()->GetRandInt(0, 1) % 2) //TODO: GetTrueOrFalse
 			return Action(ActionType::BETRAY);
 		else
 			return Action(ActionType::SILENCE);
