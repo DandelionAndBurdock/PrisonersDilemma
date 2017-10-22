@@ -15,7 +15,7 @@ class StrategyGenerator
 public:
 	StrategyGenerator();
 	~StrategyGenerator();
-
+	void GenerateStrategy(const std::string& outputFile);
 	std::string GenerateStrategy();
 public: //TODO: private
 	// Generate a valid Prisoner Strategy Language expression

@@ -20,6 +20,7 @@ public:
 	Interpreter(const std::string& fileName, const std::map<TokenValue, int*>& intVars, const std::map<TokenValue, char*>& charVars);
 	~Interpreter();
 
+	bool IsValid();
 	ActionType GetSelection();
 private:
 	Lexer lexer;
@@ -35,6 +36,8 @@ private:
 	void PrintToScreen(); 
 	const std::map<TokenValue, int*>& intVars; 
 	const std::map<TokenValue, char*>& charVars;
+
+	bool m_valid = false;
 
 };
 

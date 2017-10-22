@@ -1,6 +1,7 @@
 #include "StrategyGenerator.h"
 #include "../PrisonerStrategyLanguage.h"
 #include "../Utility/RandomNumberGenerator.h"
+#include "../Utility/FileManager.h"
 
 StrategyGenerator::StrategyGenerator() : // TODO: Make a real constructor
 charExpressionProb(0.3),
@@ -82,6 +83,10 @@ std::string StrategyGenerator::GenerateStrategy(){
 	} while (ShouldAddAnotherLine());
 
 	return buffer;
+}
+
+void StrategyGenerator::GenerateStrategy(const std::string& outputFile) {
+	FileManager::Instance()->WriteFile(outputFile, GenerateStrategy());
 }
 
 std::string StrategyGenerator::GenerateIfLine(){

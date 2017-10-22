@@ -72,4 +72,8 @@ void Prisoner::SetLastOutcome(char outcome){
 	}
 }
 
+bool Prisoner::HasValidStrategy() {
+	return m_strategy.IsValid();
+}
+
 //TODO: Order of functions matches order of header files

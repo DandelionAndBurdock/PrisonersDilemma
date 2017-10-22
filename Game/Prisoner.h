@@ -22,6 +22,8 @@ public:
 
 	void SetLastOutcome(char outcome);
 
+	bool HasValidStrategy();
+
 	void PrintDebugInfo();
 private:
 	char  m_lastOutcome; // TODO: Comment

@@ -14,3 +14,6 @@ Strategy::~Strategy()
 ActionType Strategy::GetAction() {
 	return m_interpreter.GetSelection();
 }
+bool Strategy::IsValid() {
+	return m_interpreter.IsValid();
+}

@@ -67,7 +67,7 @@ bool FileManager::PrintFile(const std::string& path, std::ostream& os) const{
 }
 
 bool FileManager::WriteFile(const std::string& path, std::string& contents) const{
-	std::ofstream outFile(path, std::ofstream::app);
+	std::ofstream outFile(path);
 	if (outFile){
 		outFile << contents;
 		return true;

@@ -24,6 +24,7 @@ public:
 
 	// Writes contents to file at path. Creates file if it does not exist. 
 	// Returns false if file exists but could not be opened
+	// Warning overwrites files if already exist
 	bool WriteFile(const std::string& path, std::string& contents) const;
 
 	// Returns true if able to delete contents of file at path and false otherwise.

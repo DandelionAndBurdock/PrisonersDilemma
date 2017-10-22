@@ -27,6 +27,7 @@ std::unique_ptr<Statement> Lexer::Construct(const std::string& line)
 	std::vector<Token> tokens =  MakeTokens(line);
 	if (tokens.size() == 1 && tokens[0].GetType() == INVALID_TOKEN){
 		std::cout << "Lexer Error: Invalid token detected in " << line << std::endl;
+		return std::unique_ptr<Statement>(nullptr);
 	}
 	else{
 		if (SyntaxAnalyser::ValidateLine(tokens)){

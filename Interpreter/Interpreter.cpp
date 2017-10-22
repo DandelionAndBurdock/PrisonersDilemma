@@ -31,9 +31,16 @@ void Interpreter::LoadCodeFromFile(){
 	std::istringstream ss(source);
 	std::string line;
 	while (std::getline(ss, line)){
-		m_code.push_back(lexer.Construct(line)); //TODO: Should check if returned invalid token
+		std::unique_ptr<Statement> linePtr = lexer.Construct(line);
+		if (linePtr) {
+			m_code.push_back(std::move(linePtr));
+		}
+		else {
+			m_valid = false;
+			return;
+		}
 	}
-	int lineNumber;
+	m_valid = true;
 }
 
 std::vector<std::unique_ptr<Statement>>::iterator Interpreter::GetIterator(int lineNum) {
@@ -72,6 +79,9 @@ ActionType Interpreter::GetSelection() {
 	}
 }
 
+bool Interpreter::IsValid() {
+	return m_valid;
+}
 
 //void Interpreter::PrintToScreen(){
 //	for (std::vector<Token>::iterator line = m_code.begin(); line != m_code.end(); ++line){
