@@ -12,7 +12,10 @@ class Prisoner
 private:
 	static char outcomes[];  //TODO: Static, make const
 public:
-	Prisoner(const std::string& strategy); //TODO:Faster to pass const?
+	Prisoner(int ID, const std::string& strategy); //TODO:Faster to pass const?
+	Prisoner(const Prisoner& prisoner);
+
+
 	~Prisoner();
 
 	ActionType MakeSelection();
@@ -20,9 +23,15 @@ public:
 	inline int  GetScore() { return m_score; }
 	inline void AddToScore(int x) { m_score += x; }
 
+	inline int GetID() { return m_ID; }
+
 	void SetLastOutcome(char outcome);
 
 	bool HasValidStrategy();
+
+	void ChangeStrategy(const std::string& strategy);
+
+	void Reset();
 
 	void PrintDebugInfo();
 private:
@@ -34,6 +43,7 @@ private:
 		 
 	int      m_iterations;
 	int		 m_score;
+	int		 m_ID;
 
 	const std::map<TokenValue, int*>  m_intVars;
 	const std::map<TokenValue, char*> m_charVars;

@@ -14,6 +14,8 @@
     <ClCompile Include="Interpreter\Statement.cpp" />
     <ClCompile Include="Interpreter\Expression.cpp" />
     <ClCompile Include="Game\Game.cpp" />
+    <ClCompile Include="StrategyTester.cpp" />
+    <ClCompile Include="Game\Tournament.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Prisoner.h" />
@@ -30,5 +32,8 @@
     <ClInclude Include="Interpreter\Expression.h" />
     <ClInclude Include="Game\PrisonersDilemmaGame.h" />
     <ClInclude Include="Game\Game.h" />
+    <ClInclude Include="StrategyTester.h" />
+    <ClInclude Include="Game\Tournament.h" />
+    <ClInclude Include="Utility\Matrix.h" />
   </ItemGroup>
 </Project>

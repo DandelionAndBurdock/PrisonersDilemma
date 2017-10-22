@@ -2,8 +2,8 @@
 
 #include "Game\Game.h"
 
-StrategyTester::StrategyTester(Prisoner& testSubject) :
-	m_prisoner(testSubject), m_robot(Prisoner(robotFile))
+StrategyTester::StrategyTester() :
+	m_robot(Prisoner(-1, robotFile)) //TODO: ROBOT enum
 {
 
 }
@@ -13,16 +13,17 @@ StrategyTester::~StrategyTester()
 {
 }
 
-bool StrategyTester::PassesTest() { //TODO: This should accept a prisoner function parameter
-	if (!m_prisoner.HasValidStrategy())
+bool StrategyTester::PassesTest(Prisoner& testSubject) { //TODO: This should accept a prisoner function parameter
+	if (!testSubject.HasValidStrategy())
 		return false;
 
-	Game gameA(m_prisoner, m_robot, 10);
+	Game gameA(testSubject, m_robot, 10); //TODO: Magic Numbers
 	gameA.GetWinner();
-	if (!m_prisoner.HasValidStrategy())
+	if (!testSubject.HasValidStrategy())
 		return false;
 
-	Game gameB(m_robot, m_prisoner, 200);
+	Game gameB(m_robot, testSubject, 200);
 	gameB.GetWinner();
-	return m_prisoner.HasValidStrategy();
+	return testSubject.HasValidStrategy();
 }
+

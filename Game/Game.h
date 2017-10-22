@@ -7,8 +7,6 @@
 class Game
 {
 public:
-	enum GameResult {PRISONER_A, PRISONER_B, DRAW, UNFINISHED};
-public:
 	struct Sentence{ //TODO: m_
 		int punishmentSentence = 4;
 		int temptationSentence = 0;
@@ -20,7 +18,7 @@ public:
 	Game(Prisoner& prisonerA, Prisoner& prisonerB, int iterationsPerGame);
 	~Game();
 
-	GameResult GetWinner();
+	int GetWinner();
 	bool IsFinished();
 	void Resolve(ActionType choiceA, ActionType choiceB);
 
@@ -39,6 +37,7 @@ private:
 	// Returns absolute value of the score differenceget absolu
 	inline int GetScoreDifference() { return abs(m_prisonerA.GetScore() - m_prisonerB.GetScore()); }
 	inline int GetMaxScoreChange() { return (m_iterations - m_currentIteration) * m_maxSentence; }
+	bool m_finished = false;
 };
 
 //TODO: Don't include functions in class that are unrelated (make seperate functions for them) e.g. gcd in fraction class. 

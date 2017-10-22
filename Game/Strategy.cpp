@@ -11,6 +11,11 @@ Strategy::~Strategy()
 {
 }
 
+Strategy& Strategy::operator=(const Strategy& rhs) {
+	m_interpreter = rhs.m_interpreter;
+	return *this;
+}
+
 ActionType Strategy::GetAction() {
 	return m_interpreter.GetSelection();
 }

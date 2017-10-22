@@ -11,7 +11,7 @@ currentLineNumber(0),
 gotoForecast(3),
 addLineProb(0.8), 
 maximumLineNumber(10),
-ifProb(0.8),
+ifProb(0.7),
 minimumLineNumber(3),
 highestGotoLine(0)
 {
@@ -55,11 +55,13 @@ std::string StrategyGenerator::GenerateArithExpression(){
 	buffer += GetRandomRelOp();
 	AddSpace(buffer);
 	buffer += GetRandomVariable();
+	AddSpace(buffer);
 
 	while (rng->GetRandFloat() < extendArithmeticProb){
 		buffer += GetRandomArithOp();
 		AddSpace(buffer);
 		buffer += GetRandomVariable();
+		AddSpace(buffer);
 	}
 	return buffer;
 }
@@ -73,6 +75,7 @@ std::string StrategyGenerator::GenerateLine(){
 }
 
 std::string StrategyGenerator::GenerateStrategy(){
+	currentLineNumber = highestGotoLine = 0; //TODO: m_
 	std::string buffer = std::string(); 
 	
 	do{
@@ -81,6 +84,7 @@ std::string StrategyGenerator::GenerateStrategy(){
 		buffer += GenerateLine();
 		AddEndLine(buffer);
 	} while (ShouldAddAnotherLine());
+
 
 	return buffer;
 }
@@ -118,7 +122,7 @@ std::string StrategyGenerator::GenerateGoto(){
 		upperLimit = currentLineNumber + gotoForecast;
 	}
 
-	int gotoLine = rng->GetRandInt(1, upperLimit);
+	int gotoLine = RandomNumberGenerator::Instance()->GetExcludedRandInt(1, upperLimit, currentLineNumber); //typedef instance
 	if (gotoLine > highestGotoLine){
 		highestGotoLine = gotoLine;
 	}

@@ -17,7 +17,8 @@ public:
 	int GetRandInt(int min, int max);
 	// Get a random int in the range [min, max) which is not the excluded int
 	int GetExcludedRandInt(int min, int max, int excluded);
-
+	// Returns true or false with 50:50 chance
+	bool TrueOrFalse();
 private:
 	RandomNumberGenerator();
 	~RandomNumberGenerator();

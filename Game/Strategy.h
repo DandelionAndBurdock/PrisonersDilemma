@@ -17,9 +17,12 @@ class Strategy
 {
 public:
 	Strategy(const std::string& filename, const std::map<TokenValue, int*>& intVariables, const std::map<TokenValue, char*>& charVariables);
+	Strategy() {}
 	~Strategy();
+	Strategy& operator=(const Strategy& strategy);
 	bool IsValid();
 	ActionType GetAction(); //TODO: Fix selection/action flip-flopping
+
 private:
 	Interpreter m_interpreter;
 };

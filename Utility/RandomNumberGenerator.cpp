@@ -45,3 +45,12 @@ int RandomNumberGenerator::GetExcludedRandInt(int min, int max, int excluded){
 	}
 	return randNo;
 }
+
+bool RandomNumberGenerator::TrueOrFalse() {
+	if (GetRandInt(0, 2) % 2) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}

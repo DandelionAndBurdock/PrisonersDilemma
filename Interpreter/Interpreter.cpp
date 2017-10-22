@@ -57,6 +57,7 @@ ActionType Interpreter::GetSelection() {
 	for (auto iter = m_code.begin();;) {
 		if (std::find(visitedLines.begin(), visitedLines.end(), (*iter)->m_linenumber) != visitedLines.end()) {
 			std::cout << "Logic Error: Inifinite Loop detected" << std::endl; //TODO: Discarding file
+			m_valid = false;
 			return ActionType::INVALID_ACTION;
 		}
 		else {
@@ -69,6 +70,7 @@ ActionType Interpreter::GetSelection() {
 		else if (lineAction.m_action == ActionType::NEXT_LINE){
 			iter++;
 			if (iter == m_code.end()) {
+				m_valid = false;
 				std::cout << "Logic Error: Program did not return an outcome" << std::endl;
 				return ActionType::INVALID_ACTION;
 			}
@@ -82,6 +84,18 @@ ActionType Interpreter::GetSelection() {
 bool Interpreter::IsValid() {
 	return m_valid;
 }
+
+Interpreter& Interpreter::operator=(const Interpreter& rhs) {
+	
+	m_code.clear(); 
+	m_filename = rhs.m_filename;
+	lexer.m_lastLineNumber = 0;
+	LoadCodeFromFile();
+	
+	 return *this;
+}
+
+
 
 //void Interpreter::PrintToScreen(){
 //	for (std::vector<Token>::iterator line = m_code.begin(); line != m_code.end(); ++line){

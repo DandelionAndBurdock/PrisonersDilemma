@@ -12,12 +12,11 @@ class StrategyTester
 {
 	const std::string robotFile = "Test.txt";
 public:
-	StrategyTester(Prisoner& testSubject);
+	StrategyTester();
 	~StrategyTester();
-	bool PassesTest();
+	bool PassesTest(Prisoner& testSubject);
 
 private:
-	Prisoner& m_prisoner;
 	Prisoner m_robot; // Will just give random selections
 
 };

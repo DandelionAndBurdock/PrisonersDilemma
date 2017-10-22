@@ -3,26 +3,37 @@
 
 char Prisoner::outcomes[] = { 'W', 'X', 'Y', 'Z' };
 
-Prisoner::Prisoner(const std::string& filename) :
+Prisoner::Prisoner(int ID, const std::string& filename) :
 	m_lastOutcome('?'), // TODO: Check
-m_alloutcomesW(0),
-m_alloutcomesX(0),
-m_alloutcomesY(0),
-m_alloutcomesZ(0),
-m_iterations(0),
-m_intVars(MakeIntegerVariableMap()),
-m_charVars(MakeCharVariableMap()),
-m_score(0),
-m_strategy(filename, m_intVars, m_charVars)
+	m_alloutcomesW(0),
+	m_alloutcomesX(0),
+	m_alloutcomesY(0),
+	m_alloutcomesZ(0),
+	m_iterations(0),
+	m_intVars(MakeIntegerVariableMap()),
+	m_charVars(MakeCharVariableMap()),
+	m_score(0),
+	m_ID(ID),
+	m_strategy(filename, m_intVars, m_charVars)
 {}
-
-ActionType Prisoner::MakeSelection() {
-	++m_iterations;
-	return m_strategy.GetAction();
-}
 
 Prisoner::~Prisoner()
 {
+}
+
+Prisoner::Prisoner(const Prisoner& prisoner):
+	m_intVars(MakeIntegerVariableMap()),
+	m_charVars(MakeCharVariableMap())
+{
+	m_lastOutcome = prisoner.m_lastOutcome; // TODO: Check
+	m_alloutcomesW= prisoner.m_alloutcomesW;
+	m_alloutcomesX= prisoner.m_alloutcomesX;
+	m_alloutcomesY= prisoner.m_alloutcomesY;
+	m_alloutcomesZ= prisoner.m_alloutcomesZ;
+	m_iterations = prisoner.m_iterations;
+	m_score = prisoner.m_score;
+	m_ID = prisoner.m_ID;
+	m_strategy = prisoner.m_strategy;
 }
 
 std::map<TokenValue, int*> Prisoner::MakeIntegerVariableMap() {//TODO: Make const pointers??
@@ -53,6 +64,15 @@ void Prisoner::PrintDebugInfo() {
 	std::cout << "Score:" << m_score << std::endl;
 }
 
+void Prisoner::ChangeStrategy(const std::string& strategyFile) {
+	m_strategy = Strategy(strategyFile, m_intVars, m_charVars);
+}
+
+ActionType Prisoner::MakeSelection() {
+	++m_iterations;
+	return m_strategy.GetAction();
+}
+
 void Prisoner::SetLastOutcome(char outcome){	
 	m_lastOutcome = outcome; 
 	//TODO: Would be bettter if the outcomes were in an array/vector
@@ -76,4 +96,13 @@ bool Prisoner::HasValidStrategy() {
 	return m_strategy.IsValid();
 }
 
+
+void Prisoner::Reset() {
+	m_alloutcomesW = 0;
+	m_alloutcomesX = 0;
+	m_alloutcomesY = 0;
+	m_alloutcomesZ = 0;
+	m_iterations = 0;
+	m_score = 0;
+}
 //TODO: Order of functions matches order of header files

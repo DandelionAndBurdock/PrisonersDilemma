@@ -62,7 +62,7 @@ Action StatementOutcome::Execute(const std::map<TokenValue, int*>& intVars, cons
 	case TokenValue::SILENCE:
 		return Action(ActionType::SILENCE);
 	case TokenValue::RANDOM:
-		if (RandomNumberGenerator::Instance()->GetRandInt(0, 1) % 2) //TODO: GetTrueOrFalse
+		if (RandomNumberGenerator::Instance()->TrueOrFalse()) 
 			return Action(ActionType::BETRAY);
 		else
 			return Action(ActionType::SILENCE);
