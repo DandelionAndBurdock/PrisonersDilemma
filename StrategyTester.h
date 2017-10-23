@@ -10,7 +10,7 @@
 #pragma once
 class StrategyTester
 {
-	const std::string robotFile = "Test.txt";
+	const std::string robotFile = "RobotTester.txt"; //TODO: What if doesn't exist? Is file manager doing job?
 public:
 	StrategyTester();
 	~StrategyTester();
@@ -20,4 +20,3 @@ private:
 	Prisoner m_robot; // Will just give random selections
 
 };
-

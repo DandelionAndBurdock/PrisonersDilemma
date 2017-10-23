@@ -14,7 +14,7 @@ private:
 public:
 	Prisoner(int ID, const std::string& strategy); //TODO:Faster to pass const?
 	Prisoner(const Prisoner& prisoner);
-
+	Prisoner operator=(const Prisoner& prisoner);
 
 	~Prisoner();
 
@@ -31,6 +31,8 @@ public:
 
 	void ChangeStrategy(const std::string& strategy);
 
+	std::string GetCode();
+
 	void Reset();
 
 	void PrintDebugInfo();
@@ -45,8 +47,8 @@ private:
 	int		 m_score;
 	int		 m_ID;
 
-	const std::map<TokenValue, int*>  m_intVars;
-	const std::map<TokenValue, char*> m_charVars;
+	std::map<TokenValue, int*>  m_intVars;
+	std::map<TokenValue, char*> m_charVars;
 	Strategy m_strategy;
 
 	//

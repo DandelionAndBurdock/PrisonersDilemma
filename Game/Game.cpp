@@ -55,7 +55,7 @@ void Game::Resolve(ActionType choiceA, ActionType choiceB) {
 	if (choiceA == SILENCE && choiceB == SILENCE) { //TODO: Could do some calculation rather than brute force?
 		m_prisonerA.SetLastOutcome('W');
 		m_prisonerB.SetLastOutcome('W');
-		m_prisonerB.AddToScore(m_sentence.silentSentence);
+		m_prisonerA.AddToScore(m_sentence.silentSentence);
 		m_prisonerB.AddToScore(m_sentence.silentSentence);
 		//std::cout << "A: Chose Silence (W) " << std::endl;
 		//m_prisonerA.PrintDebugInfo();

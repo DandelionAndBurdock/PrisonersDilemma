@@ -36,13 +36,14 @@ int RandomNumberGenerator::GetRandInt(int min, int max){
 	return min + (rand() % static_cast<int>(max - min));
 }
 
-
+#include <iostream>
 
 int RandomNumberGenerator::GetExcludedRandInt(int min, int max, int excluded){
 	int randNo = excluded;
 	while (randNo == excluded){
 		randNo = min + (rand() % static_cast<int>(max - min));
 	}
+
 	return randNo;
 }
 

@@ -22,6 +22,7 @@ public:
 	Strategy& operator=(const Strategy& strategy);
 	bool IsValid();
 	ActionType GetAction(); //TODO: Fix selection/action flip-flopping
+	std::string GetCode();
 
 private:
 	Interpreter m_interpreter;

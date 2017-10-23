@@ -22,3 +22,7 @@ ActionType Strategy::GetAction() {
 bool Strategy::IsValid() {
 	return m_interpreter.IsValid();
 }
+
+std::string Strategy::GetCode() {
+	return m_interpreter.GetCode();
+}

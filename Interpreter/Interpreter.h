@@ -24,20 +24,25 @@ public:
 
 	bool IsValid();
 	ActionType GetSelection();
+
+	std::string GetCode();
 private:
 	Lexer lexer;
 
 	void LoadCodeFromFile();
 	std::vector<std::unique_ptr<Statement>> m_code; // Maps line number to code
 	std::string m_filename;
+	std::string m_codeString; // What happens if code length exceeds maximum size of the string?
 
 	// Returns iterator of m_code corresponding to line number lineNum
 	std::vector<std::unique_ptr<Statement>>::iterator GetIterator(int lineNum);//TODO: Probably should be size_t
 
+
 	// Debug function
 	void PrintToScreen(); 
-	const std::map<TokenValue, int*> intVars; 
-	const std::map<TokenValue, char*> charVars;
+	
+	std::map<TokenValue, int*> intVars; 
+	std::map<TokenValue, char*> charVars;
 
 	bool m_valid = false;
 

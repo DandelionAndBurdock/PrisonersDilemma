@@ -13,7 +13,7 @@
 #include "Lexer.h"
 
 Interpreter::Interpreter(const std::string& fileName, const std::map<TokenValue, int*>& intVars, const std::map<TokenValue, char*>& charVars) :
-m_filename(fileName), intVars(intVars), charVars(charVars)
+m_filename(fileName), intVars(intVars), charVars(charVars), m_codeString(std::string())
 {
 	LoadCodeFromFile();
 }
@@ -27,8 +27,8 @@ Interpreter::~Interpreter()
 
 void Interpreter::LoadCodeFromFile(){
 	std::cout << "Loading " << m_filename << "..." << std::endl;
-	std::string source = FileManager::Instance()->ReadFile(m_filename);
-	std::istringstream ss(source);
+	m_codeString = FileManager::Instance()->ReadFile(m_filename);//TODO: What if file is empty? Will give warning but crash the program
+	std::istringstream ss(m_codeString);
 	std::string line;
 	while (std::getline(ss, line)){
 		std::unique_ptr<Statement> linePtr = lexer.Construct(line);
@@ -88,11 +88,18 @@ bool Interpreter::IsValid() {
 Interpreter& Interpreter::operator=(const Interpreter& rhs) {
 	
 	m_code.clear(); 
+	m_codeString = rhs.m_codeString;
 	m_filename = rhs.m_filename;
+	intVars = rhs.intVars;
+	charVars = rhs.charVars;
 	lexer.m_lastLineNumber = 0;
 	LoadCodeFromFile();
 	
 	 return *this;
+}
+
+std::string Interpreter::GetCode() {
+	return m_codeString;
 }
 
 

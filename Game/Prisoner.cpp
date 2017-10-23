@@ -36,6 +36,24 @@ Prisoner::Prisoner(const Prisoner& prisoner):
 	m_strategy = prisoner.m_strategy;
 }
 
+Prisoner Prisoner::operator=(const Prisoner& prisoner) 
+{
+	if (this == &prisoner) {
+		return *this;
+	}
+	m_lastOutcome = prisoner.m_lastOutcome; // TODO: Check
+	m_alloutcomesW = prisoner.m_alloutcomesW;
+	m_alloutcomesX = prisoner.m_alloutcomesX;
+	m_alloutcomesY = prisoner.m_alloutcomesY;
+	m_alloutcomesZ = prisoner.m_alloutcomesZ;
+	m_iterations = prisoner.m_iterations;
+	m_score = prisoner.m_score;
+	m_ID = prisoner.m_ID;
+	m_intVars = prisoner.m_intVars;
+	m_charVars = prisoner.m_charVars;
+	m_strategy = prisoner.m_strategy;
+}
+
 std::map<TokenValue, int*> Prisoner::MakeIntegerVariableMap() {//TODO: Make const pointers??
 	return std::map<TokenValue, int*> {  	//TODO: Would be bettter if the outcomes were in an array/vector
 										{ TokenValue::ALLOUTCOMES_W, &m_alloutcomesW }, //TODO: Is there any way to automate this
@@ -104,5 +122,9 @@ void Prisoner::Reset() {
 	m_alloutcomesZ = 0;
 	m_iterations = 0;
 	m_score = 0;
+}
+
+std::string Prisoner::GetCode() {
+	return m_strategy.GetCode();
 }
 //TODO: Order of functions matches order of header files

@@ -1,10 +1,15 @@
 #include "Game\Tournament.h"
+#include "Utility\RandomNumberGenerator.h"
 #include <iostream>
 
 int main()
 {
-	using namespace std;
-	Tournament t;
+
+	Tournament t(12, "Tournaments//", false, 100, 10);
+
+	t.RunTournament();
+	t.CalculateRankings();
+
 
 
 }
