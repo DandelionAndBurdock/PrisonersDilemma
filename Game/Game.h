@@ -46,6 +46,8 @@ private:
 
 	bool m_invalidStrategy;		// True if one strategy is detected to be invalid
 
+	const int m_draw = -1;		// Negative number signifies draw
+
 	// Updates prisoner data after one round of the game
 	void Resolve(ActionType choiceA, ActionType choiceB);
 	

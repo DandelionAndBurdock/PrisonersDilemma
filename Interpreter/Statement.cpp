@@ -16,7 +16,7 @@ StatementIf::~StatementIf(){
 	delete m_action;
 }
 //TODO: Use a typedef for Selection 
-Action  StatementIf::Execute(const std::map<TokenValue, int*>& intVars, const std::map<TokenValue, char*>& charVars){
+Action  StatementIf::Execute(const IntMap& intVars, CharMap& charVars){
 	switch (m_relOp){
 	case TokenValue::EQUAL_TO: //TODO: Lambda/Function Array
 		if (m_left->Parse(intVars, charVars) == m_right->Parse(intVars, charVars)){
@@ -47,7 +47,7 @@ StatementGoto::StatementGoto(int jumpLine) :
 Statement(0), m_jumpLine(jumpLine)
 {}
 
-Action StatementGoto::Execute(const std::map<TokenValue, int*>& intVars, const std::map<TokenValue, char*>& charVars){
+Action StatementGoto::Execute(const IntMap& intVars, CharMap& charVars){
 		return Action(ActionType::GOTO, m_jumpLine);
 }
 
@@ -55,7 +55,7 @@ StatementOutcome::StatementOutcome(int lineNum, TokenValue val) :
 	Statement(lineNum), m_value(val)
 {}
 
-Action StatementOutcome::Execute(const std::map<TokenValue, int*>& intVars, const std::map<TokenValue, char*>& charVars){
+Action StatementOutcome::Execute(const IntMap& intVars, CharMap& charVars){
 	switch (m_value){
 	case TokenValue::BETRAY:
 		return Action(ActionType::BETRAY);

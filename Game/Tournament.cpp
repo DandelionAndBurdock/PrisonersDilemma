@@ -27,11 +27,7 @@ Tournament::Tournament(int ID, const std::string& fileDirectory, bool generateSt
 			m_results.SetElement(x, y, Result::UNFINISHED);
 		}
 
-	
-
 	LoadPrisoners();
-
-	//TODO: Save best winners 
 }
 
 void Tournament::LoadPrisoners() {
@@ -107,7 +103,7 @@ void Tournament::MoveWinners(int n) {
 
 }
 
-void Tournament::RunGame(Prisoner& prisonerA, Prisoner& prisonerB) {//TODO: Handle draw -> CAn return negative number if equal
+void Tournament::RunGame(Prisoner& prisonerA, Prisoner& prisonerB) {
 	Game game(prisonerA, prisonerB, m_iterationsPerGame, m_payoffs);
 	int winner = game.GetWinner();
 	if (winner == prisonerA.GetID()) {
@@ -117,12 +113,12 @@ void Tournament::RunGame(Prisoner& prisonerA, Prisoner& prisonerB) {//TODO: Hand
 	}
 	else if (winner == prisonerB.GetID()) {
 		m_results.SetElement(prisonerA.GetID(), prisonerB.GetID(), LOSE);
-		m_results.SetElement(prisonerB.GetID(), prisonerA.GetID(), WIN); //TODO: Is there a smart way to do this?
+		m_results.SetElement(prisonerB.GetID(), prisonerA.GetID(), WIN); 
 		m_victories[prisonerB.GetID()]++;
 	}
 	else {
 		m_results.SetElement(prisonerA.GetID(), prisonerB.GetID(), DRAW);
-		m_results.SetElement(prisonerB.GetID(), prisonerA.GetID(), DRAW); //TODO: Is there a smart way to do this?
+		m_results.SetElement(prisonerB.GetID(), prisonerA.GetID(), DRAW); 
 		m_draws[prisonerA.GetID()]++;
 		m_draws[prisonerB.GetID()]++;
 	}

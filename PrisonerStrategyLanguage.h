@@ -65,5 +65,10 @@ namespace PSL
 	//TODO: Refactor repetition oir at least variable names
 }
 
+
 typedef PSL::TokenType TokenType;
 typedef PSL::TokenValue TokenValue;
+
+
+typedef std::map<TokenValue, int* const>  IntMap;
+typedef std::map<TokenValue, char* const> CharMap;

@@ -55,8 +55,8 @@ Prisoner Prisoner::operator=(const Prisoner& prisoner)
 	m_strategy = prisoner.m_strategy;
 }
 
-std::map<TokenValue, int*> Prisoner::MakeIntegerVariableMap() {//TODO: Make const pointers??
-	return std::map<TokenValue, int*> {  	//TODO: Would be bettter if the outcomes were in an array/vector
+IntMap Prisoner::MakeIntegerVariableMap() {//TODO: Make const pointers??
+	return IntMap {  	//TODO: Would be bettter if the outcomes were in an array/vector
 										{ TokenValue::ALLOUTCOMES_W, &m_alloutcomesW }, 
 										{ TokenValue::ALLOUTCOMES_X, &m_alloutcomesX },
 										{ TokenValue::ALLOUTCOMES_Y, &m_alloutcomesY },
@@ -65,22 +65,12 @@ std::map<TokenValue, int*> Prisoner::MakeIntegerVariableMap() {//TODO: Make cons
 										{ TokenValue::MYSCORE,       &m_score },
 									 };
 }
-std::map<TokenValue, char*> Prisoner::MakeCharVariableMap() { //TODO: Could use a loop and rely on ASCII
-	return std::map<TokenValue, char*> { { TokenValue::LASTOUTCOME, &m_lastOutcome},
+CharMap Prisoner::MakeCharVariableMap() { //TODO: Could use a loop and rely on ASCII
+	return CharMap { { TokenValue::LASTOUTCOME, &m_lastOutcome},
 										 { TokenValue::W, outcomes + 0 },
 										 { TokenValue::X, outcomes + 1 },
 										 { TokenValue::Y, outcomes + 2 },
 										 { TokenValue::Z, outcomes + 3 }};
-}
-
-void Prisoner::PrintDebugInfo() {
-	std::cout << "LastOutcome:" << m_lastOutcome << std::endl;
-	std::cout << "Alloutcomes W:" << m_alloutcomesW << std::endl;
-	std::cout << "Alloutcomes X:" << m_alloutcomesX << std::endl;
-	std::cout << "Alloutcomes Y:" << m_alloutcomesY << std::endl;
-	std::cout << "Alloutcomes Z:" << m_alloutcomesZ << std::endl;
-	std::cout << "Iterations:" << m_iterations << std::endl;	
-	std::cout << "Score:" << m_score << std::endl;
 }
 
 void Prisoner::ChangeStrategy(const std::string& strategyFile) {
@@ -124,6 +114,7 @@ void Prisoner::Reset() {
 	m_iterations = 0;
 	m_score = 0;
 }
+
 
 std::string Prisoner::GetCode() {
 	return m_strategy.GetCode();

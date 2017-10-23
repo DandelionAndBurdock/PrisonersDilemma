@@ -10,51 +10,56 @@
 class Prisoner
 {
 private:
-	static char outcomes[];  //TODO: Static, make const
+	//TODO: Why can't make const?
+	static char outcomes[];			// 
 public:
+	// Constructor
 	Prisoner(int ID, const std::string& strategy); 
+	// Copy constructor
 	Prisoner(const Prisoner& prisoner);
+	// Assignment operator
 	Prisoner operator=(const Prisoner& prisoner);
-
+	// Destructor
 	~Prisoner();
 
+	// Returns
 	ActionType GetSelection();
 
+	// Getters 
 	inline int  GetScore() { return m_score; }
-	inline void AddToScore(int x) { m_score += x; }
-
-	inline int GetID() { return m_ID; }
-
-	void SetLastOutcome(char outcome);
+	inline int  GetID()    { return m_ID; }
 
 	bool HasValidStrategy();
-
-	void ChangeStrategy(const std::string& strategy);
-	void SetValidStrategy(bool isValid);
 	std::string GetCode();
 
+	// Setters
+	inline void AddToScore(int x) { m_score += x; }
+
+	void SetLastOutcome(char outcome);
+	void SetValidStrategy(bool isValid);
+
+	// Load new strategy at filepath
+	void ChangeStrategy(const std::string& filepath);
+
+	// Set all game variables to zero
 	void Reset();
 
-	void PrintDebugInfo();
 private:
-	char	m_lastOutcome; // TODO: Comment
-	int      m_alloutcomesW;
-	int      m_alloutcomesX;
-	int      m_alloutcomesY;
-	int      m_alloutcomesZ;
+	char m_lastOutcome;		// Holds outcome of the last game (W, X, Y, Z)
+	int  m_alloutcomesW;	// Running total of W outcomes in current game 
+	int  m_alloutcomesX;	// Running total of X outcomes in current game
+	int  m_alloutcomesY;  	// Running total of Y outcomes in current game
+	int  m_alloutcomesZ;	// Running total of Z outcomes in current game
 		 
-	int      m_iterations;
-	int		 m_score;
-	int		 m_ID;
+	int  m_iterations;		// Current number of iterations in this game
+	int	 m_score;			// Cumulative total of years sentenced
+	int	 m_ID;				// Prisoner identifier //TODO: Make unique?
 
-	std::map<TokenValue, int*>  m_intVars;
-	std::map<TokenValue, char*> m_charVars;
-	Strategy m_strategy;
+	IntMap  m_intVars;		// Map from integer variables to pointers
+	CharMap m_charVars;		// Map from character variables to pointers
+	
+	Strategy m_strategy;	// Current strategy applied by the prisoner //TODO: Right now is order dependent
 
-	//
-	std::map<TokenValue, int*> MakeIntegerVariableMap();
-	std::map<TokenValue, char*> MakeCharVariableMap(); //TODO: Should it be a char or an Outcome???
+	IntMap MakeIntegerVariableMap();
+	CharMap MakeCharVariableMap(); //TODO: Should it be a char or an Outcome???
 };
-
-
-

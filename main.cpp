@@ -4,7 +4,7 @@
 
 int main()
 {
-
+	
 	Tournament t(12, "Tournaments//", true, 200, 20);
 
 	t.RunTournament();

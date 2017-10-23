@@ -11,7 +11,7 @@
 //TODO: Consider typedef
 class Statement{ //TODO: Access specifier
 public:
-	virtual Action Execute(const std::map<TokenValue, int*>& intVars, const std::map<TokenValue, char*>& charVars) = 0;
+	virtual Action Execute(const IntMap& intVars, CharMap& charVars) = 0;
 	Statement(int linenumber) : m_linenumber(linenumber){}
 	virtual ~Statement() {} // TODO: Is this okay?
 	int m_linenumber;
@@ -22,7 +22,7 @@ class StatementIf : public Statement{
 public:
 	StatementIf(int lineNum, std::vector<Token> left, std::vector<Token> right, PSL::TokenValue relOp, Statement* action);
 	~StatementIf();
-	Action Execute(const std::map<TokenValue, int*>& intVars, const std::map<TokenValue, char*>& charVars) override;
+	Action Execute(const IntMap& intVars, CharMap& charVars) override;
 
 	Expression* m_left;
 	Expression* m_right;
@@ -34,7 +34,7 @@ public:
 class StatementGoto : public Statement{
 public:
 	StatementGoto(int jumpLine);
-	Action Execute(const std::map<TokenValue, int*>& intVars, const std::map<TokenValue, char*>& charVars) override;
+	Action Execute(const IntMap& intVars, CharMap& charVars) override;
 
 	int m_jumpLine; 
 };
@@ -42,7 +42,7 @@ public:
 class StatementOutcome : public Statement{
 public:
 	StatementOutcome(int lineNum, TokenValue val);
-	Action Execute(const std::map<TokenValue, int*>& intVars, const std::map<TokenValue, char*>& charVars) override;
+	Action Execute(const IntMap& intVars, CharMap& charVars) override;
 
 	TokenValue m_value;
 };

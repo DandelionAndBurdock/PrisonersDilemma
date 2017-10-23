@@ -13,7 +13,7 @@ Expression::~Expression()
 {
 }
 
-int Expression::Parse(const std::map<TokenValue, int*>& intVars, const std::map<TokenValue, char*>& charVars){
+int Expression::Parse(const IntMap& intVars, const CharMap& charVars){
 
 	if (m_tokens.begin()->IsCharVariable()){
 		return ParseCharExpression(charVars);
@@ -23,11 +23,11 @@ int Expression::Parse(const std::map<TokenValue, int*>& intVars, const std::map<
 	}
 }
 
-int Expression::ParseCharExpression(const std::map<TokenValue, char*>& charVars){
+int Expression::ParseCharExpression(const CharMap& charVars){
 	TokenValue variable = (TokenValue) m_tokens[0].GetValue();
 	return *(charVars.at(variable));
 }
-int Expression::ParseNonCharExpression(const std::map<TokenValue, int*>& intVars){
+int Expression::ParseNonCharExpression(const IntMap& intVars){
 	// Int expressions
 	int position = 0;		// Position in the expression
 	int runningSum = 0;		// 
@@ -48,7 +48,7 @@ int Expression::ParseNonCharExpression(const std::map<TokenValue, int*>& intVars
 	return runningSum;
 }
 
-int Expression::GetIntegerValue(const std::map<TokenValue, int*>& intVars, int position){
+int Expression::GetIntegerValue(const IntMap& intVars, int position){
 	if (m_tokens[position].GetType() == TokenType::INTEGER){
 		return m_tokens[position].GetValue();
 	}

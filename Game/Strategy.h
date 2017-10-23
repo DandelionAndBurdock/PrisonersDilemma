@@ -14,7 +14,7 @@
 class Strategy
 {
 public:
-	Strategy(const std::string& filename, const std::map<TokenValue, int*>& intVariables, const std::map<TokenValue, char*>& charVariables);
+	Strategy(const std::string& filename, const IntMap& intVariables, const CharMap& charVariables);
 	Strategy() {}
 	~Strategy();
 	Strategy& operator=(const Strategy& strategy);

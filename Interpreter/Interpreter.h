@@ -17,7 +17,7 @@
 class Interpreter
 {
 public:
-	Interpreter(const std::string& fileName, const std::map<TokenValue, int*>& intVars, const std::map<TokenValue, char*>& charVars);
+	Interpreter(const std::string& fileName, const IntMap& intVars, const CharMap& charVars);
 	Interpreter() {}
 	~Interpreter();
 	Interpreter& operator=(const Interpreter& rhs);
@@ -42,8 +42,8 @@ private:
 	// Debug function
 	void PrintToScreen(); 
 	
-	std::map<TokenValue, int*> intVars; 
-	std::map<TokenValue, char*> charVars;
+	IntMap intVars; 
+	CharMap charVars;
 
 	bool m_valid = false;
 

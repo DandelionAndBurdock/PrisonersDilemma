@@ -12,7 +12,7 @@
 #include "../Utility/FileManager.h"
 #include "Lexer.h"
 
-Interpreter::Interpreter(const std::string& fileName, const std::map<TokenValue, int*>& intVars, const std::map<TokenValue, char*>& charVars) :
+Interpreter::Interpreter(const std::string& fileName, const IntMap& intVars, const CharMap& charVars) :
 m_filename(fileName), intVars(intVars), charVars(charVars), m_codeString(std::string())
 {
 	LoadCodeFromFile();

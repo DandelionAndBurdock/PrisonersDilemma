@@ -17,13 +17,13 @@ public:
 	Expression(const std::vector<Token>& vec); 
 	~Expression();
 
-	int Parse(const std::map<TokenValue, int*>& intVars, const std::map<TokenValue, char*>& charVars);
+	int Parse(const IntMap& intVars, const CharMap& charVars);
 private:
 	std::vector<Token> m_tokens;
 
-	int ParseCharExpression(const std::map<TokenValue, char*>& charVars);
-	int ParseNonCharExpression(const std::map<TokenValue, int*>& intVars);
+	int ParseCharExpression(const CharMap& charVars);
+	int ParseNonCharExpression(const IntMap& intVars);
 
-	int GetIntegerValue(const std::map<TokenValue, int*>& intVars, int position);
+	int GetIntegerValue(const IntMap& intVars, int position);
 };
 
