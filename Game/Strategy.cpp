@@ -26,3 +26,7 @@ bool Strategy::IsValid() {
 std::string Strategy::GetCode() {
 	return m_interpreter.GetCode();
 }
+
+void Strategy::SetValidStrategy(bool isValid) {
+	m_interpreter.SetValidStrategy(isValid);
+}

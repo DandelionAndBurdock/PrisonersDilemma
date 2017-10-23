@@ -39,8 +39,9 @@ private:
 	std::vector<Prisoner> m_prisoners; // List or prisoners in the tournament
 	Matrix<Result> m_results; // Keep track of results for each prisoner
 	std::vector<int> m_victories; //Keeps track of number of victories for each prisoner
+	std::vector<int> m_draws; //Keeps track of number of draws for each prisoner
 					  // Simulates a game for prisoner A and prisoner B and returns the ID of the winner
-	int RunGame(Prisoner& prisonerA, Prisoner& prisonerB);
+	void RunGame(Prisoner& prisonerA, Prisoner& prisonerB);
 
 
 	int m_iterationsPerGame;

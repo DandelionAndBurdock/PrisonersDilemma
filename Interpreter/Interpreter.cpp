@@ -56,7 +56,7 @@ ActionType Interpreter::GetSelection() {
 	std::vector<int> visitedLines;
 	for (auto iter = m_code.begin();;) {
 		if (std::find(visitedLines.begin(), visitedLines.end(), (*iter)->m_linenumber) != visitedLines.end()) {
-			std::cout << "Logic Error: Inifinite Loop detected" << std::endl; //TODO: Discarding file
+			std::cout << "Logic Error: Inifinite Loop detected in " << m_filename << std::endl; //TODO: Discarding file
 			m_valid = false;
 			return ActionType::INVALID_ACTION;
 		}
@@ -103,7 +103,9 @@ std::string Interpreter::GetCode() {
 }
 
 
-
+void Interpreter::SetValidStrategy(bool isValid) {
+	m_valid = isValid;
+}
 //void Interpreter::PrintToScreen(){
 //	for (std::vector<Token>::iterator line = m_code.begin(); line != m_code.end(); ++line){
 //		for (auto& token : *line){

@@ -21,6 +21,7 @@ public:
 	~Strategy();
 	Strategy& operator=(const Strategy& strategy);
 	bool IsValid();
+	void SetValidStrategy(bool isValid);
 	ActionType GetAction(); //TODO: Fix selection/action flip-flopping
 	std::string GetCode();
 

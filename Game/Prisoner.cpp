@@ -127,4 +127,8 @@ void Prisoner::Reset() {
 std::string Prisoner::GetCode() {
 	return m_strategy.GetCode();
 }
+
+void Prisoner::SetValidStrategy(bool isValid) {
+	m_strategy.SetValidStrategy(false);
+}
 //TODO: Order of functions matches order of header files

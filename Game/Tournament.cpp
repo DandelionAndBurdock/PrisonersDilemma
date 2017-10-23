@@ -19,6 +19,7 @@ Tournament::Tournament(int ID, const std::string& fileDirectory, bool generateSt
 	m_directory(fileDirectory),
 	m_results(Matrix<Result>(numberOfPrisoners)),
 	m_victories(std::vector<int>(numberOfPrisoners, 0)),
+	m_draws(std::vector<int>(numberOfPrisoners, 0)),
 	m_ID(ID)
 {
 	//m_results = Matrix<Result>(numberOfPrisoners);//TODO: Why can't I get this in the initializer list
@@ -35,12 +36,14 @@ Tournament::Tournament(int ID, const std::string& fileDirectory, bool generateSt
 }
 
 void Tournament::LoadPrisoners() {
+	std::cout << "Loading prisoners into tournament " << m_ID << std::endl;
 	if (m_createNewStrategies) {
 		CreateNewStrategies();
 	}
 	else {
 		LoadStrategies();
 	}
+	std::cout << "Prisoners loaded" << std::endl;
 }
 
 void Tournament::CreateNewStrategies() {
@@ -105,7 +108,7 @@ void Tournament::MoveWinners(int n) {
 
 }
 
-int Tournament::RunGame(Prisoner& prisonerA, Prisoner& prisonerB) {//TODO: Handle draw -> CAn return negative number if equal
+void Tournament::RunGame(Prisoner& prisonerA, Prisoner& prisonerB) {//TODO: Handle draw -> CAn return negative number if equal
 	Game game(prisonerA, prisonerB, m_iterationsPerGame, m_payoffs);
 	int winner = game.GetWinner();
 	if (winner == prisonerA.GetID()) {
@@ -113,18 +116,21 @@ int Tournament::RunGame(Prisoner& prisonerA, Prisoner& prisonerB) {//TODO: Handl
 		m_results.SetElement(prisonerB.GetID(), prisonerA.GetID(), LOSE);
 		m_victories[prisonerA.GetID()]++;
 	}
-	else {
+	else if (winner == prisonerB.GetID()) {
 		m_results.SetElement(prisonerA.GetID(), prisonerB.GetID(), LOSE);
 		m_results.SetElement(prisonerB.GetID(), prisonerA.GetID(), WIN); //TODO: Is there a smart way to do this?
 		m_victories[prisonerB.GetID()]++;
 	}
-	return winner;
+	else {
+		m_results.SetElement(prisonerA.GetID(), prisonerB.GetID(), DRAW);
+		m_results.SetElement(prisonerB.GetID(), prisonerA.GetID(), DRAW); //TODO: Is there a smart way to do this?
+		m_draws[prisonerA.GetID()]++;
+		m_draws[prisonerB.GetID()]++;
+	}
+
 }
 
-void Tournament::CalculateRankings() {
-	const int WIN_POINTS = 3;
-	const int DRAW_POINTS = 1;
-	const int LOSS_POINTS = 0;
+void Tournament::CalculateRankings() {//TODO: Rename list games
 	for (int i = 0; i < m_numberOfPrisoners; ++i) {
 		for (int j = 0; j < m_numberOfPrisoners; ++j) {
 			if (m_results.GetElement(i, j) == WIN) {
@@ -133,11 +139,15 @@ void Tournament::CalculateRankings() {
 			else if (m_results.GetElement(i, j) == LOSE) {
 				std::cout << "Prisoner " << i << " lost to  " << " Prisoner " << j << std::endl;
 			}
+			else if (m_results.GetElement(i, j) == DRAW) {
+				std::cout << "Prisoner " << i << " drew with  " << " Prisoner " << j << std::endl;
+			}
 		}
 	}
 
 	for (int i = 0; i < m_numberOfPrisoners; ++i) {
 		std::cout << "Prisoner " << i << " has " << m_victories[i] << " victories" << std::endl;
+		std::cout << "Prisoner " << i << " has " << m_draws[i] << " draws" << std::endl;
 	}
 }
 

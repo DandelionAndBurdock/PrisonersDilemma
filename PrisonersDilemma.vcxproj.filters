@@ -16,6 +16,7 @@
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="StrategyTester.cpp" />
     <ClCompile Include="Game\Tournament.cpp" />
+    <ClCompile Include="GameManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Prisoner.h" />
@@ -35,5 +36,6 @@
     <ClInclude Include="StrategyTester.h" />
     <ClInclude Include="Game\Tournament.h" />
     <ClInclude Include="Utility\Matrix.h" />
+    <ClInclude Include="GameManager.h" />
   </ItemGroup>
 </Project>

@@ -30,7 +30,7 @@ public:
 	bool HasValidStrategy();
 
 	void ChangeStrategy(const std::string& strategy);
-
+	void SetValidStrategy(bool isValid);
 	std::string GetCode();
 
 	void Reset();

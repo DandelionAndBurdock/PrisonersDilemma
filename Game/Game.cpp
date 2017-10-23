@@ -39,6 +39,12 @@ bool Game::IsFinished() {
 }
 
 int Game::GetWinner() {
+	if (!m_prisonerA.HasValidStrategy()) {
+		return m_prisonerB.GetID();
+	}
+	if (!m_prisonerB.HasValidStrategy()) {
+		return m_prisonerA.GetID();
+	}
 	for (m_currentIteration = 0; m_currentIteration < m_iterations; ++m_currentIteration) {
 		if (IsFinished()) { //TODO: Check this works in a draw
 			break; 
@@ -47,8 +53,13 @@ int Game::GetWinner() {
 			Resolve(m_prisonerA.MakeSelection(), m_prisonerB.MakeSelection());
 		}
 	}
-
-	return m_prisonerA.GetScore() < m_prisonerB.GetScore() ? m_prisonerA.GetID() : m_prisonerB.GetID();
+	if (m_prisonerA.GetScore() == m_prisonerB.GetScore()) {
+		return -1; // Negative number signifies draw
+	}
+	else {
+		return m_prisonerA.GetScore() < m_prisonerB.GetScore() ? m_prisonerA.GetID() : m_prisonerB.GetID();
+	}
+	
 }
 
 void Game::Resolve(ActionType choiceA, ActionType choiceB) {
@@ -93,6 +104,12 @@ void Game::Resolve(ActionType choiceA, ActionType choiceB) {
 		//m_prisonerB.PrintDebugInfo();
 	}
 	else {
+		if (choiceA == INVALID_ACTION) {
+			m_prisonerA.SetValidStrategy(false);
+		}
+		if (choiceB == INVALID_ACTION) {
+			m_prisonerA.SetValidStrategy(false);
+		}
 		std::cout << "Game error: Unrecognised outcomes" << std::endl;
 		m_finished = true;
 	}

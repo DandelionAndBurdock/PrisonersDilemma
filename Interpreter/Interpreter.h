@@ -23,6 +23,7 @@ public:
 	Interpreter& operator=(const Interpreter& rhs);
 
 	bool IsValid();
+	void SetValidStrategy(bool isValid);
 	ActionType GetSelection();
 
 	std::string GetCode();
@@ -45,6 +46,8 @@ private:
 	std::map<TokenValue, char*> charVars;
 
 	bool m_valid = false;
+
+
 
 };
 

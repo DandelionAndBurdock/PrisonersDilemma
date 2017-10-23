@@ -17,13 +17,18 @@ bool StrategyTester::PassesTest(Prisoner& testSubject) { //TODO: This should acc
 	if (!testSubject.HasValidStrategy())
 		return false;
 
-	Game gameA(testSubject, m_robot, 10); //TODO: Magic Numbers
-	gameA.GetWinner();
-	if (!testSubject.HasValidStrategy())
-		return false;
+	int numberOfTests = 100; //TODO: Accept this as a parameter
+	for (int i = 0; i < numberOfTests; ++i){
+		Game gameA(testSubject, m_robot, 200); //TODO: Magic Numbers
+		gameA.GetWinner();
+		if (!testSubject.HasValidStrategy())
+			return false;
 
-	Game gameB(m_robot, testSubject, 200);
-	gameB.GetWinner();
-	return testSubject.HasValidStrategy();
+		Game gameB(m_robot, testSubject, 200); //TODO: Magic Numbers
+		gameB.GetWinner();
+		if (!testSubject.HasValidStrategy())
+			return false;
+	}
+	return true;
 }
 

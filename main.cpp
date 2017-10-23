@@ -5,7 +5,7 @@
 int main()
 {
 
-	Tournament t(12, "Tournaments//", false, 100, 10);
+	Tournament t(12, "Tournaments//", true, 200, 20);
 
 	t.RunTournament();
 	t.CalculateRankings();
