@@ -16,7 +16,7 @@ Strategy& Strategy::operator=(const Strategy& rhs) {
 	return *this;
 }
 
-ActionType Strategy::GetAction() {
+ActionType Strategy::GetSelection() {
 	return m_interpreter.GetSelection();
 }
 bool Strategy::IsValid() {

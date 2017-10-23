@@ -4,7 +4,7 @@
 char Prisoner::outcomes[] = { 'W', 'X', 'Y', 'Z' };
 
 Prisoner::Prisoner(int ID, const std::string& filename) :
-	m_lastOutcome('?'), // TODO: Check
+	m_lastOutcome('?'), 
 	m_alloutcomesW(0),
 	m_alloutcomesX(0),
 	m_alloutcomesY(0),
@@ -21,11 +21,12 @@ Prisoner::~Prisoner()
 {
 }
 
+// TODO: Check
 Prisoner::Prisoner(const Prisoner& prisoner):
 	m_intVars(MakeIntegerVariableMap()),
 	m_charVars(MakeCharVariableMap())
 {
-	m_lastOutcome = prisoner.m_lastOutcome; // TODO: Check
+	m_lastOutcome = prisoner.m_lastOutcome; 
 	m_alloutcomesW= prisoner.m_alloutcomesW;
 	m_alloutcomesX= prisoner.m_alloutcomesX;
 	m_alloutcomesY= prisoner.m_alloutcomesY;
@@ -41,7 +42,7 @@ Prisoner Prisoner::operator=(const Prisoner& prisoner)
 	if (this == &prisoner) {
 		return *this;
 	}
-	m_lastOutcome = prisoner.m_lastOutcome; // TODO: Check
+	m_lastOutcome = prisoner.m_lastOutcome; 
 	m_alloutcomesW = prisoner.m_alloutcomesW;
 	m_alloutcomesX = prisoner.m_alloutcomesX;
 	m_alloutcomesY = prisoner.m_alloutcomesY;
@@ -56,7 +57,7 @@ Prisoner Prisoner::operator=(const Prisoner& prisoner)
 
 std::map<TokenValue, int*> Prisoner::MakeIntegerVariableMap() {//TODO: Make const pointers??
 	return std::map<TokenValue, int*> {  	//TODO: Would be bettter if the outcomes were in an array/vector
-										{ TokenValue::ALLOUTCOMES_W, &m_alloutcomesW }, //TODO: Is there any way to automate this
+										{ TokenValue::ALLOUTCOMES_W, &m_alloutcomesW }, 
 										{ TokenValue::ALLOUTCOMES_X, &m_alloutcomesX },
 										{ TokenValue::ALLOUTCOMES_Y, &m_alloutcomesY },
 										{ TokenValue::ALLOUTCOMES_Z, &m_alloutcomesZ },
@@ -69,7 +70,7 @@ std::map<TokenValue, char*> Prisoner::MakeCharVariableMap() { //TODO: Could use 
 										 { TokenValue::W, outcomes + 0 },
 										 { TokenValue::X, outcomes + 1 },
 										 { TokenValue::Y, outcomes + 2 },
-										 { TokenValue::Z, outcomes + 3 }};//TODO: LASTOUTCOME->LAST_OUTCOME
+										 { TokenValue::Z, outcomes + 3 }};
 }
 
 void Prisoner::PrintDebugInfo() {
@@ -86,9 +87,9 @@ void Prisoner::ChangeStrategy(const std::string& strategyFile) {
 	m_strategy = Strategy(strategyFile, m_intVars, m_charVars);
 }
 
-ActionType Prisoner::MakeSelection() {
+ActionType Prisoner::GetSelection() {
 	++m_iterations;
-	return m_strategy.GetAction();
+	return m_strategy.GetSelection();
 }
 
 void Prisoner::SetLastOutcome(char outcome){	

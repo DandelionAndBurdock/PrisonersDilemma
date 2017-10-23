@@ -12,13 +12,13 @@ class Prisoner
 private:
 	static char outcomes[];  //TODO: Static, make const
 public:
-	Prisoner(int ID, const std::string& strategy); //TODO:Faster to pass const?
+	Prisoner(int ID, const std::string& strategy); 
 	Prisoner(const Prisoner& prisoner);
 	Prisoner operator=(const Prisoner& prisoner);
 
 	~Prisoner();
 
-	ActionType MakeSelection();
+	ActionType GetSelection();
 
 	inline int  GetScore() { return m_score; }
 	inline void AddToScore(int x) { m_score += x; }
@@ -37,7 +37,7 @@ public:
 
 	void PrintDebugInfo();
 private:
-	char  m_lastOutcome; // TODO: Comment
+	char	m_lastOutcome; // TODO: Comment
 	int      m_alloutcomesW;
 	int      m_alloutcomesX;
 	int      m_alloutcomesY;
@@ -54,9 +54,7 @@ private:
 	//
 	std::map<TokenValue, int*> MakeIntegerVariableMap();
 	std::map<TokenValue, char*> MakeCharVariableMap(); //TODO: Should it be a char or an Outcome???
-
-
 };
 
-//TODO: What should m_lastOutcome be initialised too
+
 

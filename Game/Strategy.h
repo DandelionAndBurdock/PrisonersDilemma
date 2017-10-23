@@ -7,8 +7,6 @@
 #pragma once
 
 #include <map> //TODO: Forward declaration?
-//TODO: Think this structure is okay because prisoner shouldn't really know how a strategy is interpreted + extension e.g???
-
 #include "../PrisonerStrategyLanguage.h"
 #include "../Interpreter/Interpreter.h"
 #include "PrisonersDilemmaGame.h"
@@ -22,11 +20,9 @@ public:
 	Strategy& operator=(const Strategy& strategy);
 	bool IsValid();
 	void SetValidStrategy(bool isValid);
-	ActionType GetAction(); //TODO: Fix selection/action flip-flopping
+	ActionType GetSelection(); 
 	std::string GetCode();
 
 private:
 	Interpreter m_interpreter;
 };
-//TODO: Check consistent use of m_ prefix
-//TODO: Inconsistent use of selection and outcome

@@ -12,17 +12,16 @@ Tournament::Tournament(int ID, const std::string& fileDirectory, bool generateSt
 	int punishmentSentence, int temptationSentence,
 	int silentSentence, int suckerSentence) :
 	m_iterationsPerGame(iterationsPerGame),
-	//m_payoffs = { punishmentSentence, temptationSentence, suckerSentence, silentSentence },
-	 //TODO: Generate Sentence structure in one go
 	m_numberOfPrisoners(numberOfPrisoners),
 	m_createNewStrategies(generateStrategies),
 	m_directory(fileDirectory),
 	m_results(Matrix<Result>(numberOfPrisoners)),
 	m_victories(std::vector<int>(numberOfPrisoners, 0)),
 	m_draws(std::vector<int>(numberOfPrisoners, 0)),
-	m_ID(ID)
+	m_ID(ID),
+	m_payoffs(punishmentSentence, temptationSentence, silentSentence, suckerSentence)
 {
-	//m_results = Matrix<Result>(numberOfPrisoners);//TODO: Why can't I get this in the initializer list
+	//Initialise matrix values
 	for (int x = 0; x < numberOfPrisoners; ++x)
 		for (int y = 0; y < numberOfPrisoners; ++y) {
 			m_results.SetElement(x, y, Result::UNFINISHED);

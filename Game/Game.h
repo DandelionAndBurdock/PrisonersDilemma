@@ -1,3 +1,7 @@
+// Class: Game
+// Description: Simulates a game of prisoners dilemma between two prisoners 
+// Author: Philip Jones
+// Date: 19/10/2017
 #pragma once
 
 #include "Prisoner.h"
@@ -7,37 +11,52 @@
 class Game
 {
 public:
-	struct Sentence{ //TODO: m_
-		int punishmentSentence = 4;
-		int temptationSentence = 0;
-		int silentSentence = 2;
-		int suckerSentence = 5;
+	struct Sentence{
+		Sentence(int punish = 4, int tempt = 0, int silent = 2, int sucker = 5) :
+			m_punishment(punish), m_temptation(tempt), 
+			m_silent(silent), m_sucker(sucker)
+		{}
+		int m_punishment;	// Sentence added when a prisoner betrays and oppenent betrays
+		int m_temptation;	// Sentence added when a prisoner betrays and opponent is silent
+		int m_silent;		// Sentence added when a prisoner is silent and opponent is silent
+		int m_sucker;		// Sentence added when a prisoner is silent and opponent betrays
 	};
+
 public:
+	// Constructors
 	Game(Prisoner& prisonerA, Prisoner& prisonerB, int iterationsPerGame, Sentence& sentence);
 	Game(Prisoner& prisonerA, Prisoner& prisonerB, int iterationsPerGame);
+	// Destructor
 	~Game();
 
+	// Simulates the game and returns the ID of the winning prisoner or
+	// a negative number if the game is drawn
 	int GetWinner();
-	bool IsFinished();
-	void Resolve(ActionType choiceA, ActionType choiceB);
 
 private:
-	Prisoner& m_prisonerA;
-	Prisoner& m_prisonerB;
+	
+	Prisoner& m_prisonerA;		// First competing prisoner
+	Prisoner& m_prisonerB;		// Second competing prisoner
 
-	int m_iterations;
-	int m_currentIteration;
+	int m_totalIterations;		// Maximum total number of iterations
+	int m_currentIteration;		// Current iteration
 
-	Sentence m_sentence;
-	int m_maxSentence;
+	Sentence m_sentence;		// Data for score changes 
+	int m_maxSentence;			// Largest change of score possible in one round 
 
-	// Helper function quickly returns maximum sentence
+	bool m_invalidStrategy;		// True if one strategy is detected to be invalid
 
-	// Returns absolute value of the score differenceget absolu
+	// Updates prisoner data after one round of the game
+	void Resolve(ActionType choiceA, ActionType choiceB);
+	
+
+	// Returns true if a prisoner can no longer lose with the iterations 
+	// remaining or has an invalid strategy (and so automatically loses)
+	bool IsFinished();
+
+	// Returns absolute value of the current score difference between the players
 	inline int GetScoreDifference() { return abs(m_prisonerA.GetScore() - m_prisonerB.GetScore()); }
-	inline int GetMaxScoreChange() { return (m_iterations - m_currentIteration) * m_maxSentence; }
-	bool m_finished = false;
-};
 
-//TODO: Don't include functions in class that are unrelated (make seperate functions for them) e.g. gcd in fraction class. 
+	// Returns maximum sentence possible score change with the number of iterations remaining
+	inline int GetMaxScoreChange() { return (m_totalIterations - m_currentIteration) * m_maxSentence; }
+};
