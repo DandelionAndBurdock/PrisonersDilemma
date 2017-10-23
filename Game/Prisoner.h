@@ -4,7 +4,7 @@
 // Date: 19/10/2017
 #pragma once
 
-#include "Strategy.h"
+#include "../Strategy/Strategy.h"
 #include "PrisonersDilemmaGame.h"
 #include "../PrisonerStrategyLanguage.h"
 class Prisoner
@@ -22,14 +22,16 @@ public:
 	// Destructor
 	~Prisoner();
 
-	// Returns
+	// Interprets strategy code to return a selection
 	ActionType GetSelection();
 
 	// Getters 
 	inline int  GetScore() { return m_score; }
 	inline int  GetID()    { return m_ID; }
 
+	// Returns true if strategy code compiled and has not stuck in an infinite loop
 	bool HasValidStrategy();
+	// Returns strategy code used by the interpreter 
 	std::string GetCode();
 
 	// Setters

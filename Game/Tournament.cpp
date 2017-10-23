@@ -5,7 +5,7 @@
 #include <set>
 #include <utility>
 
-#include "Utility/FileManager.h"
+#include "../Utility/FileManager.h"
 
 Tournament::Tournament(int ID, const std::string& fileDirectory, bool generateStrategies,
 	int iterationsPerGame, int numberOfPrisoners,

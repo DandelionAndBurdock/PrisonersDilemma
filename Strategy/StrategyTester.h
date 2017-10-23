@@ -3,7 +3,7 @@
 // catch strategies which get stuck in loops or cannot return an outcome
 // Author: Philip Jones
 // Date: 17/10/2017
-#include "Game\Prisoner.h"
+#include "../Game/Prisoner.h"
 
 
 

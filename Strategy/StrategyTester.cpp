@@ -1,6 +1,6 @@
 #include "StrategyTester.h"
 
-#include "Game\Game.h"
+#include "../Game/Game.h"
 
 StrategyTester::StrategyTester() :
 	m_robot(Prisoner(-1, robotFile)) //TODO: ROBOT enum

@@ -10,8 +10,8 @@
 #include <string>
 #include <vector>
 
-#include "StrategyGenerator.h" //TODO: Put these in same folder
-#include "../StrategyTester.h"
+#include "../Strategy/StrategyGenerator.h" 
+#include "../Strategy/StrategyTester.h"
 #include "../Utility/Matrix.h"
 
 class Tournament
