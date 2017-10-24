@@ -3,6 +3,7 @@
 // Note: Does not include mathematical matrix operations
 // Author: Philip Jones
 // Date: 19/10/2017
+#pragma once
 
 template <typename T>
 class Matrix

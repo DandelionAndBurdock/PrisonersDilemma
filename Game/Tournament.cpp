@@ -4,62 +4,86 @@
 #include <iostream>
 #include <set>
 #include <utility>
+#include <numeric> // For std::numeric_limits<int>::max()
+#include <iomanip> // For std::setw()
 
 #include "../Utility/FileManager.h"
 
-Tournament::Tournament(int ID, const std::string& fileDirectory, bool generateStrategies,
-	int iterationsPerGame, int numberOfPrisoners,
-	int punishmentSentence, int temptationSentence,
-	int silentSentence, int suckerSentence) :
+Tournament::Tournament(int ID, int numberOfPrisoners, bool generateStrategies,
+	const std::string& inputFileDirectory, const std::string& outputFileDirectory, std::vector<std::string>& strategyFileNames,
+	int numberOfWinners, int iterationsPerGame, 
+	Sentence sentences) :
 	m_iterationsPerGame(iterationsPerGame),
 	m_numberOfPrisoners(numberOfPrisoners),
 	m_createNewStrategies(generateStrategies),
-	m_directory(fileDirectory),
+	m_inputDirectory(inputFileDirectory),
+	m_outputDirectory(outputFileDirectory),
 	m_results(Matrix<Result>(numberOfPrisoners)),
+	m_gameScores(Matrix<int>(numberOfPrisoners)),
+	m_scores(std::vector<int>(numberOfPrisoners, 0)),
 	m_victories(std::vector<int>(numberOfPrisoners, 0)),
 	m_draws(std::vector<int>(numberOfPrisoners, 0)),
 	m_ID(ID),
-	m_payoffs(punishmentSentence, temptationSentence, silentSentence, suckerSentence)
+	m_payoffs(sentences),
+	m_numberOfWinners(numberOfWinners), 
+	m_strategyFileNames(strategyFileNames)
 {
-	//Initialise matrix values
+	//Initialise results matrix
 	for (int x = 0; x < numberOfPrisoners; ++x)
 		for (int y = 0; y < numberOfPrisoners; ++y) {
 			m_results.SetElement(x, y, Result::UNFINISHED);
 		}
 
+	//Initialise scores matrix
+	for (int x = 0; x < numberOfPrisoners; ++x)
+		for (int y = 0; y < numberOfPrisoners; ++y) {
+			m_gameScores.SetElement(x, y, 0);
+		}
+
+	if (m_numberOfWinners > m_numberOfPrisoners) {
+		m_numberOfWinners = m_numberOfPrisoners;
+	}
+
 	LoadPrisoners();
 }
 
+
+
 void Tournament::LoadPrisoners() {
-	std::cout << "Loading prisoners into tournament " << m_ID << std::endl;
+	m_prisoners.reserve(m_numberOfPrisoners);
 	if (m_createNewStrategies) {
 		CreateNewStrategies();
 	}
 	else {
 		LoadStrategies();
 	}
-	std::cout << "Prisoners loaded" << std::endl;
 }
 
 void Tournament::CreateNewStrategies() {
 	for (int prisonerID = 0; prisonerID < m_numberOfPrisoners; ++prisonerID) {
 		
-		std::string strategyFile = m_directory + std::to_string(prisonerID) + std::string(".txt");//TODO:FOrmat
-		generator.GenerateStrategy(strategyFile);
+		std::string strategyFile = m_inputDirectory + std::to_string(prisonerID) + fileFormat;
+		m_generator.GenerateStrategy(strategyFile);
 		Prisoner p(prisonerID, strategyFile);
-		while (!tester.PassesTest(p)) {
-			generator.GenerateStrategy(strategyFile);
-			p.ChangeStrategy(strategyFile); //TODO: Define assignment operator
+		while (!m_tester.PassesTest(p)) {
+			m_generator.GenerateStrategy(strategyFile);
+			p.ChangeStrategy(strategyFile); 
 		}
 		m_prisoners.push_back(p);
 	}
 }
 
-void Tournament::LoadStrategies() { //TODO: Possibly doesn't need to be a seperate function
+void Tournament::LoadStrategies() { 
+	std::string strategyFile;
 	for (int prisonerID = 0; prisonerID < m_numberOfPrisoners; ++prisonerID) {
-		std::string strategyFile = m_directory + std::to_string(prisonerID) + std::string(".txt");//TODO:FOrmat
-		Prisoner p(prisonerID, strategyFile);
-		m_prisoners.push_back(p);
+		if (m_strategyFileNames.empty()) {
+			strategyFile = m_inputDirectory + std::to_string(prisonerID) + fileFormat;
+		}
+		else {
+			strategyFile = m_strategyFileNames[prisonerID];
+		}
+		
+		m_prisoners.push_back(Prisoner(prisonerID, strategyFile));
 	}
 }
 
@@ -77,32 +101,23 @@ void Tournament::PlayGames() {
 
 void Tournament::RunTournament() {
 	PlayGames();
-	MoveWinners(3); //TOOD: Magic numbers
+	CalculateRankings();
+	MoveWinners(); 
+	PrintReport();
 }
 
-void Tournament::MoveWinners(int n) {
-	struct Comparison
-	{
-		bool operator ()(const std::pair<int, int>& a, const std::pair<int, int>& b){ // Will compare two pairs of pair<ID, Victories> want to sort in ascending order number of victories
-			return a.second > b.second;
-		}
-	};
-	std::set<std::pair<int, int>, Comparison> rankings; // Will hold pair of victories/ ID
-	for (int i = 0; i < m_numberOfPrisoners; ++i) {
-		rankings.insert(std::make_pair(i, m_victories[i]));
-	}
 
-	auto iter = rankings.begin();
-	//TODO: Assert n < numberOfPrisoners
-	for (int i = 0; i < n; ++i) {
-		std::string outputFile = m_directory + "//Winners//Tournament_" + std::to_string(m_ID) + "_Position_" + std::to_string(i + 1) + std::string(".txt");
+void Tournament::MoveWinners() {
+	auto iter = m_rankings.begin();
+	for (int i = 0; i < m_numberOfWinners; ++i, ++iter) {
+		std::string outputFile = m_outputDirectory + "Tournament_" + std::to_string(m_ID) + "_Position_" + std::to_string(i + 1) + fileFormat;
 		std::string code = m_prisoners[iter->first].GetCode();
 		FileManager::Instance()->WriteFile(outputFile, code);
 	}
-	
-
 }
 
+
+//TODO: Refactor
 void Tournament::RunGame(Prisoner& prisonerA, Prisoner& prisonerB) {
 	Game game(prisonerA, prisonerB, m_iterationsPerGame, m_payoffs);
 	int winner = game.GetWinner();
@@ -118,14 +133,50 @@ void Tournament::RunGame(Prisoner& prisonerA, Prisoner& prisonerB) {
 	}
 	else {
 		m_results.SetElement(prisonerA.GetID(), prisonerB.GetID(), DRAW);
-		m_results.SetElement(prisonerB.GetID(), prisonerA.GetID(), DRAW); 
+		m_results.SetElement(prisonerB.GetID(), prisonerA.GetID(), DRAW);
 		m_draws[prisonerA.GetID()]++;
 		m_draws[prisonerB.GetID()]++;
 	}
-
+	// Update scores
+	m_gameScores.SetElement(prisonerA.GetID(), prisonerB.GetID(), prisonerA.GetScore());
+	m_gameScores.SetElement(prisonerB.GetID(), prisonerA.GetID(), prisonerB.GetScore());
 }
 
-void Tournament::CalculateRankings() {//TODO: Rename list games
+void Tournament::CalculateRankings() {
+	// Calculate scores
+
+	for (int row = 0; row < m_numberOfPrisoners; ++row) {
+		if (!m_prisoners[row].HasValidStrategy()) {
+			m_scores[row] = std::numeric_limits<int>::max();
+			continue;
+		}
+		for (int col = 0; col < m_numberOfPrisoners; ++col) {
+			if (row == col) {
+				continue;
+			}
+			if (m_prisoners[col].HasValidStrategy()) {
+				m_scores[row] += m_gameScores.GetElement(row, col);
+			}
+		}
+	}
+
+	for (int i = 0; i < m_numberOfPrisoners; ++i) {
+		m_rankings.insert(std::make_pair(i, m_scores[i]));
+	}
+}
+
+void Tournament::PrintPrisonerPerformance() {
+	for (int i = 0; i < m_numberOfPrisoners; ++i) {
+		std::cout << std::setw(15) << std::left << m_prisoners[i].GetID();
+		std::cout << std::setw(15) << std::left << m_victories[i];
+		std::cout << std::setw(15) << std::left << m_draws[i];
+		std::cout << std::setw(15) << std::left << (m_numberOfPrisoners - 1) - m_draws[i] - m_victories[i];
+		std::cout << std::setw(15) << std::left << m_scores[i] << std::endl;
+	}
+}
+
+void Tournament::PrintGameResults() {
+
 	for (int i = 0; i < m_numberOfPrisoners; ++i) {
 		for (int j = 0; j < m_numberOfPrisoners; ++j) {
 			if (m_results.GetElement(i, j) == WIN) {
@@ -140,9 +191,42 @@ void Tournament::CalculateRankings() {//TODO: Rename list games
 		}
 	}
 
-	for (int i = 0; i < m_numberOfPrisoners; ++i) {
-		std::cout << "Prisoner " << i << " has " << m_victories[i] << " victories" << std::endl;
-		std::cout << "Prisoner " << i << " has " << m_draws[i] << " draws" << std::endl;
-	}
 }
 
+void Tournament::PrintHeader() {
+	std::cout << std::setw(15) << std::left << "Prisoner";
+	std::cout << std::setw(15) << std::left << "Victories";
+	std::cout << std::setw(15) << std::left << "Draws";
+	std::cout << std::setw(15) << std::left << "Losses";
+	std::cout << std::setw(15) << std::left << "Score" << std::endl;
+}
+
+
+void Tournament::PrintIntro() {
+	std::cout << "Results for Tournament #" << m_ID << std::endl;
+	std::cout << "Number of Prisoners: " << m_numberOfPrisoners << std::endl;
+	std::cout << "Winner: Prisoner" << m_prisoners[m_rankings.begin()->first].GetID()
+		<< " Score: " << m_scores[m_rankings.begin()->first] << std::endl;
+	std::cout << "Winning Strategy: " << std::endl;
+	std::cout << m_prisoners[m_rankings.begin()->first].GetCode();
+	std::cout << std::endl;
+}
+//Helper function: Prints n asertisk characters to the console
+void PrintStarLine(int n = 10) {
+	std::cout << std::endl;
+	for (int i = 0; i < n; ++i) {
+		std::cout << '*';
+	}
+	std::cout << std::endl;
+}
+void Tournament::PrintReport() {
+	PrintStarLine();
+	PrintStarLine();
+
+	PrintHeader();
+	PrintPrisonerPerformance();
+	PrintGameResults();
+	
+	PrintStarLine();
+	PrintStarLine();
+}

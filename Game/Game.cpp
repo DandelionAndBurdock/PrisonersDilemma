@@ -2,7 +2,7 @@
 #include <iostream>
 
 Game::Game(Prisoner& prisonerA, Prisoner& prisonerB, int iterationsPerGame, Sentence& sentence) :
-Game(prisonerA, prisonerB, iterationsPerGame)
+Game(prisonerA, prisonerB, iterationsPerGame) //TODO: This constructor overloading is not correct
 {
 	m_maxSentence = m_sentence.m_punishment;
 }

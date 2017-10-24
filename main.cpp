@@ -1,15 +1,9 @@
-#include "Game\Tournament.h"
-#include "Utility\RandomNumberGenerator.h"
-#include <iostream>
+#include "Game\Competition.h"
 
 int main()
 {
-	
-	Tournament t(12, "Tournaments//", true, 200, 20);
 
-	t.RunTournament();
-	t.CalculateRankings();
-
-
+	Competition c(3, 5, 3, true);
+	c.RunCompetition();
 
 }

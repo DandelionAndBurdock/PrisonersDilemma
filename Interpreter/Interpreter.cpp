@@ -49,7 +49,7 @@ std::vector<std::unique_ptr<Statement>>::iterator Interpreter::GetIterator(int l
 
 
 ActionType Interpreter::GetSelection() {
-
+	//TODO: If m_code is empty will crash
 
 	// Need to stack line numbers to check for loops
 	//TODO: WHich container is best

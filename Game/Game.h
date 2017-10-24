@@ -13,18 +13,6 @@
 class Game
 {
 public:
-	struct Sentence{
-		Sentence(int punish = 4, int tempt = 0, int silent = 2, int sucker = 5) :
-			m_punishment(punish), m_temptation(tempt), 
-			m_silent(silent), m_sucker(sucker)
-		{}
-		int m_punishment;	// Sentence added when a prisoner betrays and oppenent betrays
-		int m_temptation;	// Sentence added when a prisoner betrays and opponent is silent
-		int m_silent;		// Sentence added when a prisoner is silent and opponent is silent
-		int m_sucker;		// Sentence added when a prisoner is silent and opponent betrays
-	};
-
-public:
 	// Constructors
 	Game(Prisoner& prisonerA, Prisoner& prisonerB, int iterationsPerGame, Sentence& sentence);
 	Game(Prisoner& prisonerA, Prisoner& prisonerB, int iterationsPerGame);
