@@ -49,14 +49,17 @@ std::vector<std::unique_ptr<Statement>>::iterator Interpreter::GetIterator(int l
 
 
 ActionType Interpreter::GetSelection() {
-	//TODO: If m_code is empty will crash
+	if (m_code.empty()) {
+		std::cout << "Error: Trying to interpret empty code" << std::endl;
+		return ActionType::INVALID_ACTION;
+	}
 
 	// Need to stack line numbers to check for loops
 	//TODO: WHich container is best
 	std::vector<int> visitedLines;
 	for (auto iter = m_code.begin();;) {
 		if (std::find(visitedLines.begin(), visitedLines.end(), (*iter)->m_linenumber) != visitedLines.end()) {
-			std::cout << "Logic Error: Inifinite Loop detected in " << m_filename << std::endl; //TODO: Discarding file
+			std::cout << "Logic Error: Infinite Loop detected in " << m_filename << std::endl; 
 			m_valid = false;
 			return ActionType::INVALID_ACTION;
 		}
@@ -106,12 +109,3 @@ std::string Interpreter::GetCode() {
 void Interpreter::SetValidStrategy(bool isValid) {
 	m_valid = isValid;
 }
-//void Interpreter::PrintToScreen(){
-//	for (std::vector<Token>::iterator line = m_code.begin(); line != m_code.end(); ++line){
-//		for (auto& token : *line){
-//			std::cout << token << " ";
-//		}
-//		std::cout << std::endl;
-//	}
-//}
-

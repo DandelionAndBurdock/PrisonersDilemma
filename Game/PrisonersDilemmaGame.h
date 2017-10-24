@@ -40,10 +40,10 @@ struct Comparison
 {
 	bool operator ()(const std::pair<int, int>& a, const std::pair<int, int>& b) { // Will compare two pairs of pair<ID, Victories> want to sort in ascending order number of victories
 		if (a.second != b.second) {
-			return a.second > b.second;
+			return a.second < b.second;
 		}
 		else {
-			return a.first > b.first;
+			return a.first < b.first;
 		}
 	}
 };
