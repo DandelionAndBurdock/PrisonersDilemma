@@ -30,8 +30,9 @@ public:
 	// Plays games of tournament, saves winning strategies and generates output
 	void RunTournament();
 
-	// Print scores to the console
-	void PrintScores();
+	// Displays which prisoner beat which other prisoner
+	void PrintGameResults();
+
 private:
 	//TODO: Generates statistics and tournament information to the console and the file /
 	void CalculateRankings();
@@ -61,7 +62,7 @@ private:
 	void PrintIntro();
 	void PrintHeader();
 	void PrintPrisonerPerformance();
-	void PrintGameResults();
+
 
 	std::vector<Prisoner> m_prisoners;  // List or prisoners in the tournament
 	Matrix<Result>        m_results;    // Keep track of outcome of game for each pair of prisoners

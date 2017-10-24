@@ -2,21 +2,28 @@
 #include "../PrisonerStrategyLanguage.h"
 #include "../Utility/RandomNumberGenerator.h"
 #include "../Utility/FileManager.h"
-
+#include "StrategyConstants.h"
 StrategyGenerator::StrategyGenerator() : // TODO: Make a real constructor
-charExpressionProb(0.3),
-extendArithmeticProb(0.1),
-gotoProb(0.7),
-currentLineNumber(0),
-gotoForecast(3),
-addLineProb(0.8), 
-maximumLineNumber(10),
-ifProb(0.7),
-minimumLineNumber(3),
-highestGotoLine(0)
+m_currentLineNumber(0),
+m_highestGotoLine(0)
 {
-	rng = RandomNumberGenerator::Instance();
-	//TODO: Check Max Lines greater than min lines
+	if (m_maximumLineNumber && m_maximumLineNumber < m_minimumLineNumber) {
+		std::cout << "Error: Trying to generate strategies with max line number smaller than min line number" << std::endl;
+	}
+	rng = RandomNumberGenerator::Instance(); //TODO: Fix this and make the typedef
+
+	StrategyConstants constants = ReadConstants();
+
+	m_charExpressionProb = constants.charExpressionProb;
+	m_extendArithmeticProb = constants.extendArithmeticProb; 
+	m_addLineProb = constants.addLineProb;			
+	m_gotoProb = constants.gotoProb;				
+	m_ifProb = constants.ifProb;				
+
+	m_minimumLineNumber = constants.minimumLineNumber;
+	m_maximumLineNumber = constants.maximumLineNumber;
+	m_gotoForecast = constants.gotoForecast;
+
 }
 
 
@@ -25,7 +32,7 @@ StrategyGenerator::~StrategyGenerator()
 }
 
 std::string StrategyGenerator::GenerateExpression(){
-	if (rng->GetRandFloat() < charExpressionProb){
+	if (rng->GetRandFloat() < m_charExpressionProb){
 		return  GenerateCharExpression();
 	}
 	else{
@@ -50,14 +57,14 @@ std::string StrategyGenerator::GenerateArithExpression(){
 		AddSpace(buffer);
 		buffer += GetRandomVariable();
 		AddSpace(buffer);
-	} while (rng->GetRandFloat() < extendArithmeticProb);
+	} while (rng->GetRandFloat() < m_extendArithmeticProb);
 
 	buffer += GetRandomRelOp();
 	AddSpace(buffer);
 	buffer += GetRandomVariable();
 	AddSpace(buffer);
 
-	while (rng->GetRandFloat() < extendArithmeticProb){
+	while (rng->GetRandFloat() < m_extendArithmeticProb){
 		buffer += GetRandomArithOp();
 		AddSpace(buffer);
 		buffer += GetRandomVariable();
@@ -66,7 +73,7 @@ std::string StrategyGenerator::GenerateArithExpression(){
 	return buffer;
 }
 std::string StrategyGenerator::GenerateLine(){
-	if (rng->GetRandFloat() < ifProb){
+	if (rng->GetRandFloat() < m_ifProb){
 		return GenerateIfLine();
 	}
 	else {
@@ -75,11 +82,11 @@ std::string StrategyGenerator::GenerateLine(){
 }
 
 std::string StrategyGenerator::GenerateStrategy(){
-	currentLineNumber = highestGotoLine = 0; //TODO: m_
+	m_currentLineNumber = m_highestGotoLine = 0; //TODO: m_
 	std::string buffer = std::string(); 
 	
 	do{
-		buffer += std::to_string(++currentLineNumber);
+		buffer += std::to_string(++m_currentLineNumber);
 		AddSpace(buffer);
 		buffer += GenerateLine();
 		AddEndLine(buffer);
@@ -103,7 +110,7 @@ std::string StrategyGenerator::GenerateIfLine(){
 }
 
 std::string StrategyGenerator::GenerateAction(){
-	if (rng->GetRandFloat() < gotoProb){
+	if (rng->GetRandFloat() < m_gotoProb){
 		return GenerateGoto();
 	}
 	else{
@@ -115,34 +122,34 @@ std::string StrategyGenerator::GenerateGoto(){
 	std::string buffer = "GOTO";
 	AddSpace(buffer);
 	int upperLimit;
-	if (maximumLineNumber < currentLineNumber + gotoForecast){
-		upperLimit = maximumLineNumber;
+	if (m_maximumLineNumber && m_maximumLineNumber < m_currentLineNumber + m_gotoForecast){
+		upperLimit = m_maximumLineNumber;
 	}
 	else{
-		upperLimit = currentLineNumber + gotoForecast;
+		upperLimit = m_currentLineNumber + m_gotoForecast;
 	}
 
-	int gotoLine = RandomNumberGenerator::Instance()->GetExcludedRandInt(1, upperLimit, currentLineNumber); //typedef instance
-	if (gotoLine > highestGotoLine){
-		highestGotoLine = gotoLine;
+	int gotoLine = RandomNumberGenerator::Instance()->GetExcludedRandInt(1, upperLimit, m_currentLineNumber); //typedef instance
+	if (gotoLine > m_highestGotoLine){
+		m_highestGotoLine = gotoLine;
 	}
 	return buffer += std::to_string(gotoLine);
 }
 
 bool StrategyGenerator::ShouldAddAnotherLine(){
-	if (currentLineNumber <= minimumLineNumber){
+	if (m_maximumLineNumber && m_currentLineNumber <= m_minimumLineNumber){
 		return true;
 	}
 
-	if (maximumLineNumber && (currentLineNumber >= maximumLineNumber)){
+	if (m_maximumLineNumber && (m_currentLineNumber >= m_maximumLineNumber)){
 		return false; 
 	}
 
-	if (currentLineNumber <= highestGotoLine){
+	if (m_currentLineNumber <= m_highestGotoLine){
 		return true;
 	}
 	else{
-		return (rng->GetRandFloat() < addLineProb);
+		return (rng->GetRandFloat() < m_addLineProb);
 	}
 }
 

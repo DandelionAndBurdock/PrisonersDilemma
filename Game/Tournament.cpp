@@ -168,16 +168,39 @@ void Tournament::CalculateRankings() {
 //TODO: Magic numbers
 void Tournament::PrintPrisonerPerformance() {
 	for (int i = 0; i < m_numberOfPrisoners; ++i) {
-		std::cout << std::setw(12) << std::left << m_prisoners[i].GetID();
-		std::cout << std::setw(12) << std::left << m_victories[i];
-		std::cout << std::setw(12) << std::left << m_draws[i];
-		std::cout << std::setw(12) << std::left << (m_numberOfPrisoners - 1) - m_draws[i] - m_victories[i];
-		std::cout << std::setw(12) << std::left << m_scores[i] << std::endl;
+		if (m_prisoners[i].HasValidStrategy()) {
+			std::cout << std::setw(12) << std::left << m_prisoners[i].GetID();
+			std::cout << std::setw(12) << std::left << m_victories[i];
+			std::cout << std::setw(12) << std::left << m_draws[i];
+			std::cout << std::setw(12) << std::left << (m_numberOfPrisoners - 1) - m_draws[i] - m_victories[i];
+			std::cout << std::setw(12) << std::left << m_scores[i] << std::endl;
+		}
+		else {
+			std::cout << std::setw(12) << std::left << m_prisoners[i].GetID();
+			std::cout << std::setw(12) << std::left << "DQ";
+			std::cout << std::setw(12) << std::left << "DQ";
+			std::cout << std::setw(12) << std::left << "DQ";
+			std::cout << std::setw(12) << std::left << "DQ" << std::endl;
+		}
+
 	}
 }
 
-void Tournament::PrintGameResults() {
+//Helper function: Prints n asertisk characters to the console
+void PrintStarLine(bool endLine = false, int n = 40) {
+	std::cout << std::endl;
+	for (int i = 0; i < n; ++i) {
+		std::cout << '*';
+	}
+	if (endLine) {
+		std::cout << std::endl;
+	}
 
+}
+
+void Tournament::PrintGameResults() {
+	PrintStarLine();
+	PrintStarLine(true);
 	for (int i = 0; i < m_numberOfPrisoners; ++i) {
 		for (int j = 0; j < m_numberOfPrisoners; ++j) {
 			if (m_results.GetElement(i, j) == WIN) {
@@ -191,7 +214,8 @@ void Tournament::PrintGameResults() {
 			}
 		}
 	}
-
+	PrintStarLine();
+	PrintStarLine(true);
 }
 
 void Tournament::PrintHeader() {
@@ -212,25 +236,14 @@ void Tournament::PrintIntro() {
 	std::cout << m_prisoners[m_rankings.begin()->first].GetCode();
 	std::cout << std::endl;
 }
-//Helper function: Prints n asertisk characters to the console
-void PrintStarLine(bool endLine = false, int n = 40) {
-	std::cout << std::endl;
-	for (int i = 0; i < n; ++i) {
-		std::cout << '*';
-	}
-	if (endLine) {
-		std::cout << std::endl;
-	}
-	
-}
+
 void Tournament::PrintReport() {
 	PrintStarLine();
 	PrintStarLine(true);
 	PrintIntro();
 	PrintHeader();
 	PrintPrisonerPerformance();
-	PrintGameResults();
-	
+
 	PrintStarLine();
 	PrintStarLine(true);
 }

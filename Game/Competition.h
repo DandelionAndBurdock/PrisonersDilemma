@@ -14,11 +14,12 @@ class Competition
 public:
 	Competition(int numberOfTournaments = defaultTournaments, int numberOfPrisoners = defaultPrisoners, int numberOfWinners = defaultWinners,
 		bool generateStrategies = defaultGenStrategies, int iterationsPerGame = defaultIterations, std::string inputDirectory = defaultInputDir,
-	std::string outputDirectory = defaultOutputDir,
+	std::string outputDirectory = defaultOutputDir, 
 		Sentence sentence = Sentence());
 	~Competition();
 
 	void RunCompetition();
+	void PrintGameResults();
 private:
 	std::vector<Tournament*> m_tournaments;
 	std::string m_directory;
@@ -32,5 +33,7 @@ private:
 	std::string m_outputDirectory;
 
 	Sentence m_sentence;
+
+	Tournament* m_championTournament;
 };
 

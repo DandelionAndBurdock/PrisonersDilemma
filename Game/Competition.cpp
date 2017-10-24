@@ -10,7 +10,8 @@ Competition::Competition(int numberOfTournaments, int numberOfPrisoners, int num
 	m_iterationsPerGame(iterationsPerGame),
 	m_sentence(sentence),
 	m_inputDirectory(inputDirectory),
-	m_outputDirectory(outputDirectory)
+	m_outputDirectory(outputDirectory),
+	m_championTournament(nullptr)
 {
 	for (int ID = 1; ID <= numberOfTournaments; ++ID) {
 		m_tournaments.push_back(new Tournament(ID, m_numberOfPrisoners, generateStrategies, m_inputDirectory, m_outputDirectory,
@@ -25,6 +26,7 @@ Competition::~Competition()
 	for (Tournament* ptr : m_tournaments) {
 		delete ptr;
 	}
+	delete m_championTournament;
 }
 
 void Competition::RunCompetition() {
@@ -42,9 +44,20 @@ void Competition::RunCompetition() {
 			filenames.push_back(defaultOutputDir + "Tournament_" + std::to_string(ID) + "_Position_" + std::to_string(position) + fileFormat);
 		}
 	}
-	Tournament champions(m_numberOfTournaments + 1, m_numberOfPrisoners, false, defaultOutputDir, defaultOutputDir + "Champions//", 
+
+	int numberOfContenders = m_numberOfTournaments * m_numberOfWinners;
+
+	m_championTournament = new Tournament(m_numberOfTournaments + 1, numberOfContenders, false, defaultOutputDir, defaultOutputDir + "Champions//",
 		filenames, m_numberOfWinners, m_iterationsPerGame, m_sentence);
-	champions.RunTournament();
+	if (m_championTournament) {
+		m_championTournament->RunTournament();
+	}
+	
 
 }
 
+void Competition::PrintGameResults() {
+	if (m_championTournament) {
+		m_championTournament->PrintGameResults();
+	}
+}

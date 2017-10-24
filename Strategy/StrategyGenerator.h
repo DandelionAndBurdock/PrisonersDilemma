@@ -27,17 +27,17 @@ public: //TODO: private
 	std::string GenerateGoto();
 	std::string GenerateLine();
 private:
-	float charExpressionProb;	// Probability to generate a character variable expression
-	float extendArithmeticProb; // Probability to extend an arithmetic expression
-	float addLineProb;			// Probability to keep adding more lines
-	float gotoProb;				// Probability of a goto statement to appear at the end of an If
-	float ifProb;				// Probability of a goto statement to appear at the end of an If
+	float m_charExpressionProb;	// Probability to generate a character variable expression
+	float m_extendArithmeticProb; // Probability to extend an arithmetic expression
+	float m_addLineProb;			// Probability to keep adding more lines
+	float m_gotoProb;				// Probability of a goto statement to appear at the end of an If
+	float m_ifProb;				// Probability of a goto statement to appear at the end of an If
 
-	int currentLineNumber;
-	int minimumLineNumber;		// Minimum number of lines that must be generated. Note this can be altered by line numbert
-	int maximumLineNumber;		// Negative if user does not set it	
-	int gotoForecast;			// 
-	int highestGotoLine;		// Highest line number which there is a goto to
+	int m_currentLineNumber;
+	int m_minimumLineNumber;		// Minimum number of lines that must be generated. Note this can be altered by line numbert
+	int m_maximumLineNumber;		// Negative if user does not set it	
+	int m_gotoForecast;			// 
+	int m_highestGotoLine;		// Highest line number which there is a goto to
 
 
 

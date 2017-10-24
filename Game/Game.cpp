@@ -29,13 +29,10 @@ Game::~Game()
 bool Game::IsFinished() {
 	if (m_invalidStrategy)
 		return true;
-
-	if (m_currentIteration > m_totalIterations / 2) { // Check if we can get an early exit
-		return GetScoreDifference() > GetMaxScoreChange();
-	}
 	else {
 		return false;
 	}
+
 }
 
 int Game::GetWinner() {
@@ -92,7 +89,7 @@ void Game::Resolve(ActionType choiceA, ActionType choiceB) {  //TODO: Could do s
 			m_prisonerA.SetValidStrategy(false);
 		}
 		if (choiceB == INVALID_ACTION) {
-			m_prisonerA.SetValidStrategy(false);
+			m_prisonerB.SetValidStrategy(false);
 		}
 		std::cout << "Game error: Unrecognised outcomes" << std::endl;
 		m_invalidStrategy = true;
