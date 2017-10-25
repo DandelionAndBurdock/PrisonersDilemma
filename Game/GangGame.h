@@ -6,7 +6,7 @@ class Gang;
 class GangGame
 {
 public:
-	GangGame(Gang* gangA, Gang* gangB, float spyProb = 0.0f);
+	GangGame(Gang* gangA, Gang* gangB, float spyProb = 0.0f, bool spiesActive = false);
 	~GangGame();
 
 	//TODO: Implement: What kind of statistics?
@@ -16,6 +16,8 @@ public:
 
 	int GetWinner(); 
 private:
+	void CheckForSpies();
+	bool ResolveSpies();
 	Gang* m_gangA;
 	Gang* m_gangB;
 
@@ -28,6 +30,10 @@ private:
 
 	GangSentence m_sentence;
 
+	bool m_spiesActive; // True if game is using spies
+
 	const int m_draw = -1;
+
+	float m_spyProb;
 };
 //TODO: Should inherit from common game class

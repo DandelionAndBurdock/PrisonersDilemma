@@ -9,6 +9,7 @@
 
 #include "Game/GangTournament.h"
 #include "Game\Gang.h"
+#include "Game\GangGame.h"
 
 int main() {
 	std::vector<std::string> vec = { "GangTournaments//Strat1.txt" , 
@@ -27,7 +28,9 @@ int main() {
 	Gang gang3(2, vec);
 	Gang gang4(3, vec);
 	Gang gang5(4, vec);
-	std::vector<Gang> vecG { gang, gang2, gang3, gang4, gang5 };
-	GangTournament gt(1, vecG);
-	gt.RunTournament();
+	//std::vector<Gang> vecG{ gang, gang2, gang3, gang4, gang5 };
+	//GangTournament gt(1, vecG);
+	//gt.RunTournament();
+	GangGame g(&gang, &gang2, 0.5, true);
+	g.Run();
 }

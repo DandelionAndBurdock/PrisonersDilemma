@@ -2,16 +2,16 @@
 
 #include "Gang.h"
 
-GangGame::GangGame(Gang* gangA, Gang* gangB, float spyProb) :
-	m_gangA(gangA), m_gangB(gangB)
+GangGame::GangGame(Gang* gangA, Gang* gangB, float spyProb, bool spiesActive) :
+	m_gangA(gangA), m_gangB(gangB), m_spyProb(spyProb), m_spiesActive(spiesActive)
 	
 {
 	// Ensure gangs start clean
 	m_gangA->Reset();
 	m_gangB->Reset();
 
-	m_gangA->PlantSpy(spyProb);
-	m_gangB->PlantSpy(spyProb);
+
+
 
 	m_totalIterations = 200;
 }	 
@@ -74,12 +74,21 @@ void GangGame::Resolve(ActionType choiceA, ActionType choiceB) {
 
 
 }
-
+#include <iostream>
 void GangGame::Run() {
 	for (m_currentIteration = 0; m_currentIteration < m_totalIterations; ++m_currentIteration) {
+		if (m_spiesActive) {
+			m_gangA->PlantSpy(m_spyProb);
+			m_gangB->PlantSpy(m_spyProb);
+		}
 		m_gangA->GetVotes();
 		m_gangB->GetVotes();
-		Resolve(m_gangA->GetDecision(), m_gangB->GetDecision());
+		CheckForSpies();
+
+		if (!ResolveSpies()) { // If no special spy business carry on as normal
+			Resolve(m_gangA->GetDecision(), m_gangB->GetDecision());
+		}
+		std::cout << m_gangA->GetScore() << " " << m_gangB->GetScore() << std::endl;
 	}
 }
 
@@ -91,4 +100,56 @@ int GangGame::GetWinner() {
 	else {
 		return m_gangA->GetScore() < m_gangB->GetScore() ? m_gangA->GetID() : m_gangB->GetID();
 	}
+}
+
+void GangGame::CheckForSpies() {
+	if (!m_spiesActive) {
+		return;
+	}
+	m_gangA->FindSpy();
+	m_gangB->FindSpy();
+}
+
+
+// TODO: Refactor
+bool GangGame::ResolveSpies() {
+	if (!m_spiesActive) {
+		return false;
+	}
+
+	if (m_gangA->DidFindSpy() && m_gangB->DidFindSpy()) {
+		m_gangA->SetLastOutcome('?');
+		m_gangB->SetLastOutcome('?');
+		m_gangA->AddToScore(m_sentence.m_bothDiscoverSpy);
+		m_gangB->AddToScore(m_sentence.m_bothDiscoverSpy);
+	}
+	else if (m_gangA->DidFindSpy()) {
+		m_gangA->SetLastOutcome('?');
+		m_gangB->SetLastOutcome('?');
+		if (m_gangA->LeaderChanges()) {
+			m_gangA->AddToScore(m_sentence.m_changeDiscoverSpy);
+			m_gangB->AddToScore(m_sentence.m_spyUnmasked);
+		}
+		else {
+			m_gangA->AddToScore(m_sentence.m_stickDiscoverSpy);
+			m_gangB->AddToScore(m_sentence.m_spyUnmasked);
+		}
+	
+	}
+	else if (m_gangB->DidFindSpy()) {
+		m_gangA->SetLastOutcome('?');
+		m_gangB->SetLastOutcome('?');
+		if (m_gangB->LeaderChanges()) {
+			m_gangB->AddToScore(m_sentence.m_changeDiscoverSpy);
+			m_gangA->AddToScore(m_sentence.m_spyUnmasked);
+		}
+		else {
+			m_gangB->AddToScore(m_sentence.m_stickDiscoverSpy);
+			m_gangA->AddToScore(m_sentence.m_spyUnmasked);
+		}
+	}
+	else {
+		return false;
+	}
+	return true;
 }

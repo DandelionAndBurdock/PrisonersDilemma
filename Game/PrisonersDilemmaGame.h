@@ -31,6 +31,11 @@ struct GangSentence : public Sentence
 	int m_mostBetrayed;
 	int m_leastBetrayed; //TODO: Make floats
 	int m_sameBetrayed;
+
+	int m_bothDiscoverSpy = 6;
+	int m_changeDiscoverSpy = 2;
+	int m_stickDiscoverSpy = 0;
+	int m_spyUnmasked = 5;
 };
 
 // Default values

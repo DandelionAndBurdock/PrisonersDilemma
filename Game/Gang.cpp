@@ -43,25 +43,24 @@ void Gang::GetVotes() {
 		}
 		votes.push_back(m_prisoners[i]->GetSelection());
 	}
+	m_numBetrays = std::count(votes.begin(), votes.end(), ActionType::BETRAY);
+	m_numSilence = std::count(votes.begin(), votes.end(), ActionType::SILENCE);
+
 	if (m_hasSpy) {
 		votes.push_back(GetSpyVote());
 	}
-	
 
 	m_numBetrays = std::count(votes.begin(), votes.end(), ActionType::BETRAY);
 	m_numSilence = std::count(votes.begin(), votes.end(), ActionType::SILENCE);
-	if (m_numBetrays != m_numSilence) {
-		m_mixedResponse = true;
-		if (m_numBetrays > m_numSilence) {
-			m_decision = ActionType::BETRAY;
-		}
-		else {
-			m_decision = ActionType::SILENCE;
-		}
+
+	m_mixedResponse = (m_numBetrays != m_numSilence);
+	if (m_numBetrays > m_numSilence) {
+		m_decision = ActionType::BETRAY;
 	}
 	else {
-		m_mixedResponse = false;
+		m_decision = ActionType::SILENCE;
 	}
+
 
 }
 
@@ -75,6 +74,7 @@ void Gang::Reset() {
 	m_mixedResponse = false;
 	m_hasSpy = false;
 	m_spyIndex = -1;
+	m_leaderIndex = -1;
 }
 
 
@@ -108,6 +108,7 @@ bool Gang::PlantSpy(float m_prob) {
 	m_hasSpy = (RandomNumberGenerator::Instance()->GetRandFloat() < m_prob);
 	if (m_hasSpy) {
 		m_spyIndex = RandomNumberGenerator::Instance()->GetRandInt(0, m_gangSize - 1);
+		m_leaderIndex = RandomNumberGenerator::Instance()->GetRandInt(0, m_gangSize - 1);
 	}
 	return m_hasSpy;
 }
@@ -122,4 +123,38 @@ ActionType Gang::GetSpyVote() {
 	else {
 		return m_prisoners[m_spyIndex]->GetSelection();
 	}
+}
+
+bool Gang::FindSpy() {
+	// Guess a spy at random (not the leader)
+	int initalGuess = RandomNumberGenerator::Instance()->GetExcludedRandInt(0, m_gangSize - 1, m_leaderIndex);
+
+	// Reveal non-spy (other than the leader)
+	std::vector<int> remainingIndices; //TODO: This method will not be efficient for large gang sizes
+	for (int i = 0; i < m_gangSize; ++i) {
+		if (i != m_spyIndex && i != m_leaderIndex && i != initalGuess) {
+			remainingIndices.push_back(i);
+		}
+	}
+
+	int innocentIndex = remainingIndices[RandomNumberGenerator::Instance()->GetRandInt(0, remainingIndices.size() -1)];
+	
+
+	// Depending on leader characteristics stick with original guess or try a new one
+	int finalGuess;
+	if (m_leaderChange) {
+		remainingIndices.clear();
+		for (int i = 0; i < m_gangSize; ++i) {
+			if (i != innocentIndex && i != m_leaderIndex && i != initalGuess) {
+				remainingIndices.push_back(i);
+			}
+		}
+		finalGuess = remainingIndices[RandomNumberGenerator::Instance()->GetRandInt(0, remainingIndices.size() - 1)];
+	}
+	else {
+		finalGuess = initalGuess;
+	}
+
+	m_foundSpy = (finalGuess == m_spyIndex);
+	return m_foundSpy;
 }
