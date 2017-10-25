@@ -71,6 +71,38 @@ int GameManager::GetUserInput() {
 	}
 }
 
+int GameManager::GetUserInt() {
+	int choice;
+
+	std::string input;
+	for (;;) {
+		getline(std::cin, input);
+		std::stringstream ss(input);
+		if (input.find('.') == std::string::npos && ss >> choice) { // Check not a float and valid number
+			return choice;
+		}
+		else {
+			std::cout << "Please enter a valid integer" << std::endl;
+		}
+	}
+}
+float GameManager::GetUserFloat() {
+	float choice;
+
+	std::string input;
+	for (;;) {
+		getline(std::cin, input);
+		std::stringstream ss(input);
+		if (ss >> choice) { // Check not a float and valid number
+			return choice;
+		}
+		else {
+			std::cout << "Please enter a valid number" << std::endl;
+		}
+	}
+}
+
+
 char GameManager::GetYesOrNo() {
 	char choice;
 
@@ -100,7 +132,7 @@ void GameManager::DisplayOptions() {
 
 //TODO: Refactor
 void GameManager::PrintWelcomeMessage() {
-	std::cout << "Welcome to Prisoners Dilemma!" << std::endl;
+	std::cout << "Welcome to Prisoners Dilemma! Snitches get itches..." << std::endl;
 	// TODO: Enable disable strategy testing
 }
 
@@ -131,11 +163,152 @@ void GameManager::ResolveInput(int input) {
 			break;
 		}
 	case GENERATION:
+		std::cout << "Configure options for strategy generation:" << std::endl << std::endl;
+		std::cout << "Probability to generate an IF statement is currently " << m_ifProb << std::endl;
+		std::cout << "Would you like to change value?" << std::endl;
+		if (GetYesOrNo() == 'y') {
+			std::cout << "Enter new value (between 0 and 1):";
+			m_ifProb = GetUserFloat(); // TODO: Error checking
+			std::cout << std::endl;
+		}
+		else {
+			std::cout << std::endl;
+		}
+		std::cout << "Probability to extend an arithmetic expression is currently " << m_extendArithmeticProb << std::endl;
+		std::cout << "Would you like to change value?" << std::endl;
+		if (GetYesOrNo() == 'y') {
+			std::cout << "Enter new value (between 0 and 1):";
+			m_extendArithmeticProb = GetUserFloat(); // TODO: Error checking
+			std::cout << std::endl;
+		}
+		else {
+			std::cout << std::endl;
+		}
+		std::cout << "Probability to add a new line is currently " << m_addLineProb << std::endl;
+		std::cout << "Would you like to change value?" << std::endl;
+		if (GetYesOrNo() == 'y') {
+			std::cout << "Enter new value (between 0 and 1):";
+			m_addLineProb = GetUserFloat(); // TODO: Error checking
+			std::cout << std::endl;
+		}
+		else {
+			std::cout << std::endl;
+		}
+		std::cout << "Probability to add a goto statement is currently " << m_gotoProb << std::endl;
+		std::cout << "Would you like to change value?" << std::endl;
+		if (GetYesOrNo() == 'y') {
+			std::cout << "Enter new value (between 0 and 1):";
+			m_gotoProb = GetUserFloat(); // TODO: Error checking
+			std::cout << std::endl;
+		}
+		else {
+			std::cout << std::endl;
+		}
+		std::cout << "Probability to add a character expression is currently " << m_charExpressionProb << std::endl;
+		std::cout << "Would you like to change value?" << std::endl;
+		if (GetYesOrNo() == 'y') {
+			std::cout << "Enter new value (between 0 and 1):";
+			 m_charExpressionProb = GetUserFloat(); // TODO: Error checking
+			std::cout << std::endl;
+		}
+		else {
+			std::cout << std::endl;
+		}
+		std::cout << "Minimum number of lines is currently " << m_minimumLineNumber << std::endl;
+		std::cout << "Would you like to change value?" << std::endl;
+		if (GetYesOrNo() == 'y') {
+			std::cout << "Enter new value :";
+			m_minimumLineNumber = GetUserInt(); // TODO: Error checking
+			std::cout << std::endl;
+		}
+		else {
+			std::cout << std::endl;
+		}
+		std::cout << "Maximum number of lines is currently " << m_maximumLineNumber << std::endl;
+		std::cout << "Would you like to change value (enter 0 for no limit)?" << std::endl;
+		if (GetYesOrNo() == 'y') {
+			std::cout << "Enter new value :";
+			m_maximumLineNumber = GetUserInt(); // TODO: Error checking
+			std::cout << std::endl;
+		}
+		else {
+			std::cout << std::endl;
+		}
+		std::cout << "Number of lines a goto statement will jump ahead is currently " << m_gotoForecast << std::endl;
+		std::cout << "Would you like to change value?" << std::endl;
+		if (GetYesOrNo() == 'y') {
+			std::cout << "Enter new value :";
+			m_gotoForecast = GetUserInt(); // TODO: Error checking
+			std::cout << std::endl;
+		}
+		else {
+			std::cout << std::endl;
+		}
+
+		WriteConstantsToFile();
 		break;
+	case TOURNAMENT_OPTIONS: {
+		std::cout << "Configure options for strategy generation:" << std::endl << std::endl;
+
+		std::cout << "Would you like to use gangs?" << std::endl;
+		if (GetYesOrNo() == 'y') {
+			m_gangs = true;
+			std::cout << std::endl;
+			std::cout << "Would you like to use spies?" << std::endl;
+			if (GetYesOrNo() == 'y') {
+				m_spies = true;
+				std::cout << std::endl;
+				std::cout << "Spy probability is currently" << m_spyProb << std::endl;
+				std::cout << "Would you like to change value?" << std::endl;
+				if (GetYesOrNo() == 'y') {
+					std::cout << "Enter new value (between 0 and 1):";
+					m_charExpressionProb = GetUserFloat(); // TODO: Error checking
+					std::cout << std::endl;
+				}
+
+			}
+			else {
+				m_spies = false;
+			}
+		}
+		else {
+			m_gangs = false;
+			std::cout << std::endl;
+			std::cout << "Number of prisoners is currently " << m_numberOfPrisoners << std::endl;
+			std::cout << "Would you like to change value?" << std::endl;
+			if (GetYesOrNo() == 'y') {
+				std::cout << "Enter new value (between 0 and 1):";
+				m_ifProb = GetUserFloat(); // TODO: Error checking
+				std::cout << std::endl;
+			}
+		}
+		std::cout << "Number of iterations is currently " << m_iterationsPerGame << std::endl;
+		std::cout << "Would you like to change value?" << std::endl;
 	}
+							 // Sentences 
+							 // Number of winners
+							 // Generate new strategies 
+
+	}
+
 	std::cout << "Press enter to continue...";
 	char c;
 	c = getchar();
+}
+
+void GameManager::WriteConstantsToFile() {
+	StrategyConstants constants;
+	constants.ifProb = m_ifProb;
+	constants.addLineProb = m_addLineProb;
+	constants.charExpressionProb = m_charExpressionProb;
+	constants.extendArithmeticProb = m_extendArithmeticProb;
+	constants.gotoProb = m_gotoProb;
+	constants.gotoForecast = m_gotoForecast;
+	constants.maximumLineNumber = m_maximumLineNumber;
+	constants.minimumLineNumber = m_minimumLineNumber;
+
+	WriteConstants(constants);
+	
 }
 // Select an option (1-9)
 // 1. Run tournament // Run again

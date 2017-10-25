@@ -27,3 +27,4 @@ struct StrategyConstants {
 };
 
 StrategyConstants ReadConstants();
+void WriteConstants(StrategyConstants& constants);

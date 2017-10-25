@@ -7,11 +7,13 @@
 class GameManager
 {
 private:
-	enum Selection { TOURNAMENT = 1, CHAMPIONSHIP, GENERATION, TOURNAMENT_OPTIONS, };
+	enum Selection { TOURNAMENT = 1, CHAMPIONSHIP, GENERATION, TOURNAMENT_OPTIONS, QUIT};
 public:
 	GameManager();
 	void Run();
 	~GameManager();
+
+
 
 private:
 	const int maxUserOption = 6;
@@ -19,10 +21,16 @@ private:
 	void PrintWelcomeMessage();
 	void DisplayOptions();
 
+	void WriteConstantsToFile();
 	int GetUserInput();
+	float GetUserFloat();
+	int GetUserInt();
 	char GetYesOrNo();
 	void ResolveInput(int input);
 
+	bool m_gangs;
+	bool m_spies;
+	float m_spyProb;
 
 	int m_numberOfPrisoners;
 	int m_numberOfTournaments;

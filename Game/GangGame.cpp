@@ -74,7 +74,7 @@ void GangGame::Resolve(ActionType choiceA, ActionType choiceB) {
 
 
 }
-#include <iostream>
+
 void GangGame::Run() {
 	for (m_currentIteration = 0; m_currentIteration < m_totalIterations; ++m_currentIteration) {
 		if (m_spiesActive) {
@@ -88,7 +88,6 @@ void GangGame::Run() {
 		if (!ResolveSpies()) { // If no special spy business carry on as normal
 			Resolve(m_gangA->GetDecision(), m_gangB->GetDecision());
 		}
-		std::cout << m_gangA->GetScore() << " " << m_gangB->GetScore() << std::endl;
 	}
 }
 

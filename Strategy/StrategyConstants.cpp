@@ -35,6 +35,48 @@ StrategyConstants ReadConstants() {
 
 void WriteConstants(StrategyConstants& constants) {
 
+	std::string s = floatVariables[0];
+	s += ' ';
+	s += std::to_string(constants.charExpressionProb);
+	s += '\n';
 
-	return; //TODO: Possibly more efficient to return on the heap
+	s += floatVariables[1];
+	s += ' ';
+	s += std::to_string(constants.extendArithmeticProb);
+	s += '\n';
+
+	s += floatVariables[2];
+	s += ' ';
+	s += std::to_string(constants.gotoProb);
+	s += '\n';
+
+	s += floatVariables[3];
+	s += ' ';
+	s += std::to_string(constants.ifProb);
+	s += '\n';
+
+	s += floatVariables[4];
+	s += ' ';
+	s += std::to_string(constants.addLineProb);
+	s += '\n';
+
+	s += intVariables[0];
+	s += ' ';
+	s += std::to_string(constants.gotoForecast);
+	s += '\n';
+
+	s += intVariables[1];
+	s += ' ';
+	s += std::to_string(constants.maximumLineNumber);
+	s += '\n';
+
+	s += intVariables[2];
+	s += ' ';
+	s += std::to_string(constants.minimumLineNumber);
+	s += '\n';
+
+	std::cout << s;
+	FileManager::Instance()->WriteFile(strategyFile, s);
+
+	return;
 }

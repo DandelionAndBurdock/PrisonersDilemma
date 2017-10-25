@@ -40,7 +40,7 @@ struct GangSentence : public Sentence
 
 // Default values
 // Tournaments
-const int defaultTournaments = 2;												  // Default number of tournaments to run in a competition
+const int defaultTournaments = 3;												  // Default number of tournaments to run in a competition
 const int defaultWinners = 3;													  // Default number of strategies from each tournament which go through to the championship
 const std::string defaultInputDir = "Tournaments//";							  // Default folder to read in strategy files
 const std::string defaultOutputDir = defaultInputDir + std::string("Winners//");  // Default sub-folder to output winning tournament strategies and tournament report
