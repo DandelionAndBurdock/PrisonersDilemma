@@ -9,16 +9,16 @@
 #include "../PrisonerStrategyLanguage.h"
 class Prisoner
 {
-private:
+protected:
 	//TODO: Why can't make const?
-	static char outcomes[];			// 
+	const char outcomes[4] = { 'W', 'X', 'Y', 'Z' };			// 
 public:
 	// Constructor
 	Prisoner(int ID, const std::string& strategy); 
 	// Copy constructor
 	Prisoner(const Prisoner& prisoner);
 	// Assignment operator
-	Prisoner operator=(const Prisoner& prisoner);
+	Prisoner& operator=(const Prisoner& prisoner);
 	// Destructor
 	~Prisoner();
 
@@ -46,7 +46,7 @@ public:
 	// Set all game variables to zero
 	void Reset();
 
-private:
+protected:
 	char m_lastOutcome;		// Holds outcome of the last game (W, X, Y, Z)
 	int  m_alloutcomesW;	// Running total of W outcomes in current game 
 	int  m_alloutcomesX;	// Running total of X outcomes in current game
@@ -62,6 +62,26 @@ private:
 	
 	Strategy m_strategy;	// Current strategy applied by the prisoner //TODO: Right now is order dependent
 
-	IntMap MakeIntegerVariableMap();
-	CharMap MakeCharVariableMap(); //TODO: Should it be a char or an Outcome???
+	virtual IntMap  MakeIntegerVariableMap();
+	virtual CharMap MakeCharVariableMap(); //TODO: Should it be a char or an Outcome???
 };
+
+
+class GangPrisoner : public Prisoner {
+protected:
+	const char gangOutcomes[3] = { 'A', 'B', 'C' }; //TODO: Remove Magic Number
+
+public:
+	GangPrisoner(int ID, const std::string& strategy);
+
+protected:
+	//TOOD: Should be capital o
+	int m_alloutcomesA;	  // TODO: Comment
+	int m_alloutcomesB;
+	int m_alloutcomesC;
+
+	IntMap  MakeIntegerVariableMap() override;
+	CharMap MakeCharVariableMap()    override;
+
+};
+

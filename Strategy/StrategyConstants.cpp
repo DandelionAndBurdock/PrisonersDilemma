@@ -32,3 +32,9 @@ StrategyConstants ReadConstants() {
 
 	return constants; //TODO: Possibly more efficient to return on the heap
 }
+
+void WriteConstants(StrategyConstants& constants) {
+
+
+	return; //TODO: Possibly more efficient to return on the heap
+}

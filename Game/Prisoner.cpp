@@ -1,7 +1,6 @@
 #include "Prisoner.h"
 #include <iostream>
 
-char Prisoner::outcomes[] = { 'W', 'X', 'Y', 'Z' };
 
 Prisoner::Prisoner(int ID, const std::string& filename) :
 	m_lastOutcome('?'), 
@@ -37,7 +36,7 @@ Prisoner::Prisoner(const Prisoner& prisoner):
 	m_strategy = prisoner.m_strategy;
 }
 
-Prisoner Prisoner::operator=(const Prisoner& prisoner) 
+Prisoner& Prisoner::operator=(const Prisoner& prisoner) 
 {
 	if (this == &prisoner) {
 		return *this;
@@ -53,6 +52,7 @@ Prisoner Prisoner::operator=(const Prisoner& prisoner)
 	m_intVars = prisoner.m_intVars;
 	m_charVars = prisoner.m_charVars;
 	m_strategy = prisoner.m_strategy;
+	return *this;
 }
 
 IntMap Prisoner::MakeIntegerVariableMap() {//TODO: Make const pointers??
@@ -124,3 +124,32 @@ void Prisoner::SetValidStrategy(bool isValid) {
 	m_strategy.SetValidStrategy(false);
 }
 //TODO: Order of functions matches order of header files
+
+
+//*********** Gang Prisoner Methods ************
+GangPrisoner::GangPrisoner(int ID, const std::string& strategy)  :
+Prisoner(ID, strategy),
+m_alloutcomesA(0),
+m_alloutcomesB(0),
+m_alloutcomesC(0)
+{}
+
+IntMap  GangPrisoner::MakeIntegerVariableMap() {
+	IntMap baseMap = Prisoner::MakeIntegerVariableMap();
+	IntMap derivedMap = IntMap{  	
+			{ TokenValue::ALLOUTCOMES_A, &m_alloutcomesA },
+			{ TokenValue::ALLOUTCOMES_B, &m_alloutcomesB },
+			{ TokenValue::ALLOUTCOMES_C, &m_alloutcomesX },
+		};
+	baseMap.insert(derivedMap.begin(), derivedMap.end());
+	return baseMap;
+};
+
+CharMap GangPrisoner::MakeCharVariableMap() {
+	CharMap baseMap = Prisoner::MakeCharVariableMap();
+	CharMap derivedMap = CharMap{ { TokenValue::A, gangOutcomes + 0 },
+								  { TokenValue::B, gangOutcomes + 1 },
+								  { TokenValue::C, gangOutcomes + 2 } };
+	baseMap.insert(derivedMap.begin(), derivedMap.end());
+	return baseMap;
+}
