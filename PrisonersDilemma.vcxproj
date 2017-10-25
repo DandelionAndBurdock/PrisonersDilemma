@@ -16,6 +16,7 @@
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="Game\Gang.cpp" />
     <ClCompile Include="Game\GangGame.cpp" />
+    <ClCompile Include="Game\GangPrisoner.cpp" />
     <ClCompile Include="Game\GangTournament.cpp" />
     <ClCompile Include="Interpreter\Expression.cpp" />
     <ClCompile Include="Interpreter\Statement.cpp" />
@@ -37,6 +38,7 @@
     <ClInclude Include="Game\Competition.h" />
     <ClInclude Include="Game\GameManager.h" />
     <ClInclude Include="Game\Game.h" />
+    <ClInclude Include="Game\GangPrisoner.h" />
     <ClInclude Include="Game\PrisonersDilemmaGame.h" />
     <ClInclude Include="Game\Gang.h" />
     <ClInclude Include="Game\GangGame.h" />

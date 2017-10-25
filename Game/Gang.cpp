@@ -1,6 +1,6 @@
 #include "Gang.h"
 
-#include "Prisoner.h"
+#include "GangPrisoner.h"
 #include "../Utility/RandomNumberGenerator.h"
 
 
@@ -9,10 +9,11 @@ m_ID(ID)
 {
 	GenerateNewMembers();
 }
-Gang::Gang(int ID, std::vector<std::string> filePaths) :
-	m_ID(ID) 
+Gang::Gang(int ID, const std::vector<std::string>& filePaths) :
+	m_ID(ID), m_filePaths(filePaths)
 {
 	LoadMembers(filePaths);
+	Reset();
 }
 
 
@@ -36,9 +37,17 @@ Gang::~Gang()
 void Gang::GetVotes() {
 	
 	std::vector<ActionType> votes;
-	for (Prisoner* &prisoner : m_prisoners) {
-		votes.push_back(prisoner->GetSelection());
+	for (int i = 0; i < m_prisoners.size(); ++i) {
+		if (m_spyIndex == i) {
+			continue;
+		}
+		votes.push_back(m_prisoners[i]->GetSelection());
 	}
+	if (m_hasSpy) {
+		votes.push_back(GetSpyVote());
+	}
+	
+
 	m_numBetrays = std::count(votes.begin(), votes.end(), ActionType::BETRAY);
 	m_numSilence = std::count(votes.begin(), votes.end(), ActionType::SILENCE);
 	if (m_numBetrays != m_numSilence) {
@@ -64,6 +73,8 @@ void Gang::Reset() {
 	m_score = 0;
 	m_decision = ActionType::INVALID_ACTION;
 	m_mixedResponse = false;
+	m_hasSpy = false;
+	m_spyIndex = -1;
 }
 
 
@@ -90,4 +101,25 @@ std::string Gang::GetCode() {
 		code += '\n';
 	}
 	return code;
+}
+
+//TODO: Refactor
+bool Gang::PlantSpy(float m_prob) {
+	m_hasSpy = (RandomNumberGenerator::Instance()->GetRandFloat() < m_prob);
+	if (m_hasSpy) {
+		m_spyIndex = RandomNumberGenerator::Instance()->GetRandInt(0, m_gangSize - 1);
+	}
+	return m_hasSpy;
+}
+
+ActionType Gang::GetSpyVote() {
+	if (m_numBetrays > m_numSilence) {
+		return SILENCE;
+	}
+	else if (m_numSilence > m_numBetrays) {
+		return BETRAY;
+	}
+	else {
+		return m_prisoners[m_spyIndex]->GetSelection();
+	}
 }

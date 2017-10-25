@@ -82,7 +82,7 @@ void GangTournament::RunGame(Gang& gangA, Gang& gangB) {
 	game.Run();
  
 	int winner = game.GetWinner();
-	std::cout << gangA.GetID() << " " << gangB.GetID() << std::endl;
+
 	if (winner == gangA.GetID()) {
 		m_results.SetElement(gangA.GetID(), gangB.GetID(), WIN);
 		m_results.SetElement(gangB.GetID(), gangA.GetID(), LOSE);

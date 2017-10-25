@@ -11,13 +11,17 @@ class Gang
 public:
 	// If given only an ID will generate a new gang
 	Gang(int ID, int gangSize);//TODO: take in number of iterations
-	Gang(int ID, std::vector<std::string> filePaths);//TODO: take in number of iterations
+	Gang(int ID, const std::vector<std::string>& filePaths);//TODO: take in number of iterations
 	~Gang();
 
 	// Polls each prisoner to get his/her selection and updates gang state based on their response
 	void GetVotes();
 
 	void Reset();
+
+	// Calculates if this gang has a spy or not
+	bool PlantSpy(float m_prob); 
+	ActionType GetSpyVote();
 
 	inline ActionType GetDecision() { return m_decision; }
 	inline bool IsMixed() { return m_mixedResponse; }
@@ -44,6 +48,10 @@ private:
 
 	ActionType m_decision;
 
+	bool m_hasSpy;		// True if gang has a spy
+	int m_spyIndex;		// 
+
+	std::vector<std::string> m_filePaths;
 
 	void GenerateNewMembers();
 	void LoadMembers(std::vector<std::string> filepaths);

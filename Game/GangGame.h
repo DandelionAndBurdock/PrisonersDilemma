@@ -6,7 +6,7 @@ class Gang;
 class GangGame
 {
 public:
-	GangGame(Gang* gangA, Gang* gangB);
+	GangGame(Gang* gangA, Gang* gangB, float spyProb = 0.0f);
 	~GangGame();
 
 	//TODO: Implement: What kind of statistics?
