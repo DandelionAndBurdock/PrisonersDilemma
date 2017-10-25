@@ -71,13 +71,12 @@ void GangGame::Resolve(ActionType choiceA, ActionType choiceB) {
 
 
 }
-#include <iostream>
+
 void GangGame::Run() {
 	for (m_currentIteration = 0; m_currentIteration < m_totalIterations; ++m_currentIteration) {
 		m_gangA->GetVotes();
 		m_gangB->GetVotes();
 		Resolve(m_gangA->GetDecision(), m_gangB->GetDecision());
-		std::cout << m_gangA->GetScore() << " " << m_gangB->GetScore() << std::endl;
 	}
 }
 
@@ -87,6 +86,6 @@ int GangGame::GetWinner() {
 		return m_draw;
 	}
 	else {
-		return m_gangA->GetScore() > m_gangB->GetScore() ? m_gangA->GetID() : m_gangB->GetID();
+		return m_gangA->GetScore() < m_gangB->GetScore() ? m_gangA->GetID() : m_gangB->GetID();
 	}
 }

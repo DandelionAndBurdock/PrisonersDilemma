@@ -4,10 +4,14 @@
 #include "../Utility/RandomNumberGenerator.h"
 
 
-Gang::Gang(int ID, int gangSize) {
+Gang::Gang(int ID, int gangSize) :
+m_ID(ID)
+{
 	GenerateNewMembers();
 }
-Gang::Gang(int ID, std::vector<std::string> filePaths) {
+Gang::Gang(int ID, std::vector<std::string> filePaths) :
+	m_ID(ID) 
+{
 	LoadMembers(filePaths);
 }
 
@@ -24,9 +28,9 @@ void Gang::LoadMembers(std::vector<std::string> filepaths) {
 
 Gang::~Gang()
 {
-	for (Prisoner* ptr : m_prisoners) {
-		delete ptr;
-	}
+	//for (Prisoner* ptr : m_prisoners) {
+	//	delete ptr;
+	//}
 }
 
 void Gang::GetVotes() {
@@ -35,8 +39,8 @@ void Gang::GetVotes() {
 	for (Prisoner* &prisoner : m_prisoners) {
 		votes.push_back(prisoner->GetSelection());
 	}
-	int m_numBetrays = std::count(votes.begin(), votes.end(), ActionType::BETRAY);
-	int m_numSilence = std::count(votes.begin(), votes.end(), ActionType::SILENCE);
+	m_numBetrays = std::count(votes.begin(), votes.end(), ActionType::BETRAY);
+	m_numSilence = std::count(votes.begin(), votes.end(), ActionType::SILENCE);
 	if (m_numBetrays != m_numSilence) {
 		m_mixedResponse = true;
 		if (m_numBetrays > m_numSilence) {
@@ -73,4 +77,17 @@ void Gang::AddToScore(int x) {
 	for (Prisoner* &prisoner : m_prisoners) {
 		prisoner->AddToScore(x);
 	}
+}
+
+
+
+std::string Gang::GetCode() {
+	std::string code = std::string();
+	int i = 0;
+	for (Prisoner* &prisoner : m_prisoners) {
+		code += std::string("**********Prisoner ") + std::to_string(++i) + "*************\n"; //TODO: Ugly
+		code += prisoner->GetCode();
+		code += '\n';
+	}
+	return code;
 }

@@ -96,8 +96,10 @@ T Matrix<T>::GetElement(int x, int y) const {
 
 template <typename T>
 void Matrix<T>::SetElement(int x, int y, T elem) {
-	if (InRange(x,y))
+	if (InRange(x, y)) {
 		m_cells[x][y] = elem;
+	}
+		
 }
 
 
@@ -105,6 +107,10 @@ template <typename T>
 bool Matrix<T>::InRange(int x, int y) const {
 	if (x >= m_size || y >= m_size) {
 		std::cout << "Matrix Error: Trying to access element out of bounds" << std::endl;
+		return false;
+	}
+	else if (x< 0 || y < 0) {
+		std::cout << "Matrix Error: Trying to access element with negative index" << std::endl;
 		return false;
 	}
 	else {

@@ -117,7 +117,7 @@ void Tournament::MoveWinners() {
 }
 
 
-//TODO: Refactor
+//TODO: Refactor Also this will explode if IDs are not sequential
 void Tournament::RunGame(Prisoner& prisonerA, Prisoner& prisonerB) {
 	Game game(prisonerA, prisonerB, m_iterationsPerGame, m_payoffs);
 	int winner = game.GetWinner();

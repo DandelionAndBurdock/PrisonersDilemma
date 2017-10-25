@@ -25,6 +25,8 @@ public:
 	inline int GetNumSilence() { return m_numSilence; }
 	inline int GetID() { return m_ID; }
 	inline int GetScore() { return m_score; }
+	std::string GetCode();
+
 	// Setters
 	void SetLastOutcome(char outcome);
 	void AddToScore(int x);
@@ -45,6 +47,8 @@ private:
 
 	void GenerateNewMembers();
 	void LoadMembers(std::vector<std::string> filepaths);
+
+	
 };
 
 

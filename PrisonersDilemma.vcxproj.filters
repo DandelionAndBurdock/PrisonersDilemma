@@ -21,7 +21,7 @@
     <ClCompile Include="Strategy\StrategyConstants.cpp" />
     <ClCompile Include="Game\Gang.cpp" />
     <ClCompile Include="Game\GangGame.cpp" />
-    <ClCompile Include="GangTournament.cpp" />
+    <ClCompile Include="Game\GangTournament.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Prisoner.h" />
@@ -46,6 +46,6 @@
     <ClInclude Include="Strategy\StrategyConstants.h" />
     <ClInclude Include="Game\Gang.h" />
     <ClInclude Include="Game\GangGame.h" />
-    <ClInclude Include="GangTournament.h" />
+    <ClInclude Include="Game\GangTournament.h" />
   </ItemGroup>
 </Project>
