@@ -20,6 +20,8 @@
     <ClCompile Include="Game\Competition.cpp" />
     <ClCompile Include="Strategy\StrategyConstants.cpp" />
     <ClCompile Include="Game\Gang.cpp" />
+    <ClCompile Include="Game\GangGame.cpp" />
+    <ClCompile Include="GangTournament.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Prisoner.h" />
@@ -43,5 +45,7 @@
     <ClInclude Include="Game\Competition.h" />
     <ClInclude Include="Strategy\StrategyConstants.h" />
     <ClInclude Include="Game\Gang.h" />
+    <ClInclude Include="Game\GangGame.h" />
+    <ClInclude Include="GangTournament.h" />
   </ItemGroup>
 </Project>

@@ -23,7 +23,7 @@ public:
 	~Prisoner();
 
 	// Interprets strategy code to return a selection
-	ActionType GetSelection();
+	virtual ActionType GetSelection();
 
 	// Getters 
 	inline int  GetScore() { return m_score; }
@@ -44,9 +44,11 @@ public:
 	void ChangeStrategy(const std::string& filepath);
 
 	// Set all game variables to zero
-	void Reset();
+	virtual void Reset();
 
 protected:
+	Prisoner(int ID) : m_ID(ID) {}
+
 	char m_lastOutcome;		// Holds outcome of the last game (W, X, Y, Z)
 	int  m_alloutcomesW;	// Running total of W outcomes in current game 
 	int  m_alloutcomesX;	// Running total of X outcomes in current game
@@ -72,13 +74,15 @@ protected:
 	const char gangOutcomes[3] = { 'A', 'B', 'C' }; //TODO: Remove Magic Number
 
 public:
-	GangPrisoner(int ID, const std::string& strategy);
+	GangPrisoner(int ID, const std::string& strategy);//TODO: Strategy file path
 
 protected:
 	//TOOD: Should be capital o
 	int m_alloutcomesA;	  // TODO: Comment
 	int m_alloutcomesB;
 	int m_alloutcomesC;
+
+	void Reset() override;
 
 	IntMap  MakeIntegerVariableMap() override;
 	CharMap MakeCharVariableMap()    override;

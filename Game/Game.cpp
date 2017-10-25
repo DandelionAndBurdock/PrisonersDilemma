@@ -19,7 +19,7 @@ Game::Game(Prisoner& prisonerA, Prisoner& prisonerB, int iterationsPerGame) :
 	m_prisonerB.Reset();
 
 	//TODO: Should check which type of sentence is highest
-	m_maxSentence = m_sentence.m_punishment;
+	m_maxSentence = m_sentence.m_punishment; //TODO: Is this still necessary
 }
 
 Game::~Game()

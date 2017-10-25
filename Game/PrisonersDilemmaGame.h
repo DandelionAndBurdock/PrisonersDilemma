@@ -23,6 +23,15 @@ struct Sentence {
 	int m_sucker;		// Sentence added when a prisoner is silent and opponent betrays
 };
 
+struct GangSentence : public Sentence
+{
+	GangSentence(int mostBetrayed = 6, int leastBetrayed = 5, int sameBetrayed = 2) :
+		Sentence(8, 0, 4, 10), m_mostBetrayed(mostBetrayed), m_leastBetrayed(leastBetrayed), m_sameBetrayed(sameBetrayed)
+	{}
+	int m_mostBetrayed;
+	int m_leastBetrayed; //TODO: Make floats
+	int m_sameBetrayed;
+};
 
 // Default values
 // Tournaments

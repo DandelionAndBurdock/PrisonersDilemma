@@ -41,7 +41,11 @@ bool Token::IsAction() const{
 }
 
 bool Token::IsCharResult() const{
-	return (m_value == TokenValue::W ||
+
+	return (m_value == TokenValue::A ||
+			m_value == TokenValue::B ||
+			m_value == TokenValue::C ||
+			m_value == TokenValue::W ||
 			m_value == TokenValue::X ||
 			m_value == TokenValue::Y ||
 			m_value == TokenValue::Z);
