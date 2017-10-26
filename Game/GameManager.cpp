@@ -318,6 +318,7 @@ void GameManager::ConfigureSpies() {
 		m_spyProb = GetUserFloat(); 
 		std::cout << std::endl;
 	}
+	std::cout << std::endl;
 
 	
 
