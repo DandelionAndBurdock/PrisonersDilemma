@@ -60,15 +60,17 @@ public:
 	// Returns strategy used by the gang as a string
 	std::string GetCode(); 
 	// Returns true if the leader found the spy
-	inline bool DidFindSpy() { return m_foundSpy; }
+	inline bool DidFindSpy()const { return m_foundSpy; }
 	// Returns the leader behaviour: If true leader does not stick with original decision
-	inline bool LeaderChanges() { return m_leaderChange; }
+	inline bool LeaderChanges() const { return m_leaderChange; }
 	// Returns true if a spy is present in the gang
-	inline bool HasSpy() { return m_hasSpy; }
-
+	inline bool HasSpy() const { return m_hasSpy; }
+	// Returns true if the gang has a valid strategy
+	inline bool HasValidStrategy() const { return m_validStrategy; }
 	// Setters 
 	void SetLastOutcome(char outcome);
 	inline void SetLeaderChange(bool change) { m_leaderChange = change; }
+	inline void SetValid(bool valid) { m_validStrategy = valid; }
 	// Modify the score by x
 	void AddToScore(int x);
 
@@ -77,6 +79,7 @@ private:
 	int					   m_ID;			 // Identification number for this gang //TODO: Make unique
 	std::vector<Prisoner*> m_prisoners;		// Vector of prisoners in the gang
 	int					   m_gangSize;		 // Number of prisoners in the gang
+	bool				   m_validStrategy; // Returns true if gang holds a valid strategy
 
 	bool m_mixedResponse; // True if gang did not reach consensus
 	int m_numBetrays;	  // Number of gang members that chose betray in the last iteration

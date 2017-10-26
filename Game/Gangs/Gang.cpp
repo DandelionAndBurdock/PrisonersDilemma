@@ -63,6 +63,11 @@ void Gang::GetVotes() {
 		}
 		votes.push_back(m_prisoners[i]->GetSelection());
 	}
+	if (std::count(votes.begin(), votes.end(), ActionType::INVALID_ACTION)) {
+		SetValid(false);
+		return;
+	}
+
 	m_numBetrays = std::count(votes.begin(), votes.end(), ActionType::BETRAY);
 	m_numSilence = std::count(votes.begin(), votes.end(), ActionType::SILENCE);
 

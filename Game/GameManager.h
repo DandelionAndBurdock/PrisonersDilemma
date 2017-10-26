@@ -1,3 +1,9 @@
+// Class: GameManager
+// Description: Workhorse class that handles triggers tournaments and championships
+// based on user input
+// Author: Philip Jones
+// Date: 19/10/2017
+
 #pragma once
 
 #include <string>
@@ -12,8 +18,6 @@ public:
 	GameManager();
 	void Run();
 	~GameManager();
-
-
 
 private:
 	// User Input
@@ -55,9 +59,9 @@ private:
 	int m_maximumLineNumber;		// Negative if user does not set it	
 	int m_gotoForecast;			//  Number of lines a goto statement may jump ahead
 
-	// Helper functions for starting tournaments
-	void RunTournament();
-	void RunChampionship();
+
+	
+	// Handle parameter setting
 	void SetGenerationOptions();
 	void SetTournamentOptions();
 	
@@ -78,12 +82,24 @@ private:
 	void SetIterations();
 	void SetNumGangs();
 	void SetNumGangMembers();
+	void SetNumberTournaments();
+	void SetNumberWinners();
+	void SetSentences();
+
+	// Punishment parameters
+	void SetCooperate();
+	void SetDefect();
+	void SetBetrayed();
+	void SetTempted();
 
 	// Tournament Helper  functions
+	void RunTournament();
+	void RunChampionship();
+	void RunPrisonerChampionship();
+	void RunGangChampionship();
 	void RunPrisonerTournament();
 	void RunGangTournament();
-	void RunGangChampionship();
-	void RunGangChampionship();
+
 
 
 	const int maxUserOption = 6;		// Maximum integer a user can enter in the menu

@@ -46,7 +46,6 @@ int Game::GetWinner() const{
 	}
 }
 void Game::Run() {
-
 	for (m_currentIteration = 0; m_currentIteration < m_totalIterations; ++m_currentIteration) {
 		if (IsFinished()) {
 			break;

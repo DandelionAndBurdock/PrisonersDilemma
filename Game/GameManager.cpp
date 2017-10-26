@@ -9,6 +9,7 @@
 #include "Competition.h"
 
 #include "../Strategy/StrategyConstants.h"
+#include "Gangs\GangCompetition.h"
 
 GameManager::GameManager() :
 	 m_numberOfPrisoners(defaultPrisoners),
@@ -208,6 +209,8 @@ void GameManager::RunTournament() {
 
 }
 
+
+
 void GameManager::RunChampionship() {
 	if (!m_gangs) {
 		RunPrisonerChampionship();
@@ -233,6 +236,11 @@ void GameManager::RunPrisonerChampionship() {
 }
 
 void GameManager::RunGangChampionship() {
+
+	GangCompetition c(m_numberOfTournaments, m_numGangs, m_numberOfWinners, m_generateStrategies, m_iterationsPerGame);
+
+	c.RunCompetition();
+
 	std::cout << "Would you like to see a breakdown of the games?" << std::endl;
 
 	if (GetYesOrNo() == 'y') {
@@ -259,7 +267,35 @@ void GameManager::SetTournamentOptions() {
 		ConfigurePrisoners();
 	}
 	SetIterations();
+	SetNumberTournaments();
+	SetNumberWinners();
+	
+}
 
+void GameManager::SetNumberTournaments() {
+	std::cout << "Number of tournaments per championship is currently " << m_numberOfTournaments << std::endl;
+	std::cout << "Would you like to change value?" << std::endl;
+	if (GetYesOrNo() == 'y') {
+		std::cout << "Enter new value :";
+		m_numberOfTournaments = GetUserInt();
+		std::cout << std::endl;
+	}
+	else {
+		std::cout << std::endl;
+	}
+}
+
+void GameManager::SetNumberWinners() {
+	std::cout << "Number of strategies per tournament which go to the final of the championship is  currently" << m_numberOfWinners << std::endl;
+	std::cout << "Would you like to change value?" << std::endl;
+	if (GetYesOrNo() == 'y') {
+		std::cout << "Enter new value :";
+		m_numberOfWinners = GetUserInt();
+		std::cout << std::endl;
+	}
+	else {
+		std::cout << std::endl;
+	}
 }
 // Sentences 
 // Number of winners
@@ -312,6 +348,51 @@ void GameManager::ConfigurePrisoners() {
 	if (GetYesOrNo() == 'y') {
 		std::cout << "Enter new value:";
 		m_numberOfPrisoners = GetUserInt();
+		std::cout << std::endl;
+	}
+	SetSentences();
+}
+
+void GameManager::SetSentences() {
+	SetCooperate();
+	SetBetrayed();
+	SetDefect();
+	SetTempted();
+}
+
+void GameManager::SetCooperate() {
+	std::cout << "Punishment for cooperating (silent-silent) is currently " << m_sentences.m_silent << std::endl;
+	std::cout << "Would you like to change value?" << std::endl;
+	if (GetYesOrNo() == 'y') {
+		std::cout << "Enter new value:";
+		m_sentences.m_silent = GetUserInt();
+		std::cout << std::endl;
+	}
+}
+void GameManager::SetDefect() {
+	std::cout << "Punishment for defection (betray-betray) " << m_sentences.m_punishment << std::endl;
+	std::cout << "Would you like to change value?" << std::endl;
+	if (GetYesOrNo() == 'y') {
+		std::cout << "Enter new value:";
+		m_sentences.m_punishment = GetUserInt();
+		std::cout << std::endl;
+	}
+}
+void GameManager::SetBetrayed() {
+	std::cout << "Punishment for being betrayed is currently " << m_sentences.m_sucker << std::endl;
+	std::cout << "Would you like to change value?" << std::endl;
+	if (GetYesOrNo() == 'y') {
+		std::cout << "Enter new value:";
+		m_sentences.m_sucker = GetUserInt();
+		std::cout << std::endl;
+	}
+}
+void GameManager::SetTempted() {
+	std::cout << "Punishment for betraying the other prisoner is currently " << m_sentences.m_temptation << std::endl;
+	std::cout << "Would you like to change value?" << std::endl;
+	if (GetYesOrNo() == 'y') {
+		std::cout << "Enter new value:";
+		m_sentences.m_temptation = GetUserInt();
 		std::cout << std::endl;
 	}
 }
@@ -477,7 +558,5 @@ void GameManager::WriteConstantsToFile() {
 // 1. Run tournament // Run again
 // 2. Set Strategy Generation Options
 // 3, Set Tournament Options-> Iterations, punishments
-// 4. Set Breeding Option
-// 5. Select Strategy Language // PSL+++
+// 4. Set Breeding Options
 // 6. Lodge a complaint --> What is the nature of your complaint?
-// 7. Run gang tournament
