@@ -98,9 +98,12 @@ std::string StrategyGenerator::GenerateStrategy(){
 		buffer += GenerateLine();
 		AddEndLine(buffer);
 	} while (ShouldAddAnotherLine());
-
+	//TODO: Refactor
 	if (m_safeGeneration) {
+		buffer += std::to_string(++m_currentLineNumber);
+		AddSpace(buffer);
 		buffer += GetRandomOutcome();
+		AddEndLine(buffer);
 	}
 	return buffer;
 }

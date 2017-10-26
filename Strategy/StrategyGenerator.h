@@ -47,7 +47,7 @@ private:
 	std::string GetRandomRelOp();
 	std::string GetRandomOutcome();
 
-	RandomNumberGenerator* rng;
+	RandomNumberGenerator* rng;//TODO: Remove this
 private:
 	 // Appends a space to the end of the string
 	void AddSpace(std::string& str);
@@ -56,6 +56,7 @@ private:
 	void AddEndLine(std::string& str);
 
 	bool ShouldAddAnotherLine();
+
 };
 
 // Strategy Class: Contains number of lines

@@ -42,45 +42,49 @@ int Game::GetWinner() {
 	if (!m_prisonerB.HasValidStrategy()) {
 		return m_prisonerA.GetID();
 	}
-	for (m_currentIteration = 0; m_currentIteration < m_totalIterations; ++m_currentIteration) {
-		if (IsFinished()) {
-			break;
-		}
-		else {
-			Resolve(m_prisonerA.GetSelection(), m_prisonerB.GetSelection());
-		}
-	}
-	if (m_prisonerA.GetScore() == m_prisonerB.GetScore()) {
+	if (m_prisonerA.GetScore() == m_prisonerB.GetScore()) {  //TODO: Lock
 		return m_draw;
 	}
 	else {
 		return m_prisonerA.GetScore() < m_prisonerB.GetScore() ? m_prisonerA.GetID() : m_prisonerB.GetID();
 	}
+}
+void Game::Run() {
+
+	for (m_currentIteration = 0; m_currentIteration < m_totalIterations; ++m_currentIteration) {
+		if (IsFinished()) {
+			break;
+		}
+		else {
+			Resolve(m_prisonerA.GetSelection(), m_prisonerB.GetSelection());  //TODO: Lock?
+		}
+	}
+
 
 }
 
 void Game::Resolve(ActionType choiceA, ActionType choiceB) {  //TODO: Could do some calculation rather than brute force?
 	if (choiceA == SILENCE && choiceB == SILENCE) {
-		m_prisonerA.SetLastOutcome('W');
-		m_prisonerB.SetLastOutcome('W');
+		m_prisonerA.SetLastOutcome('W'); //TODO: Lock
+		m_prisonerB.SetLastOutcome('W'); //TODO: Lock
 		m_prisonerA.AddToScore(m_sentence.m_silent);
 		m_prisonerB.AddToScore(m_sentence.m_silent);
 	}
 	else if (choiceA == SILENCE && choiceB == BETRAY) {
-		m_prisonerA.SetLastOutcome('X');
-		m_prisonerB.SetLastOutcome('Y');
+		m_prisonerA.SetLastOutcome('X');  //TODO: Lock
+		m_prisonerB.SetLastOutcome('Y');  //TODO: Lock
 		m_prisonerA.AddToScore(m_sentence.m_sucker);
 		m_prisonerB.AddToScore(m_sentence.m_temptation);
 	}
 	else if (choiceA == BETRAY && choiceB == SILENCE) {
-		m_prisonerA.SetLastOutcome('Y');
-		m_prisonerB.SetLastOutcome('X');
+		m_prisonerA.SetLastOutcome('Y');  //TODO: Lock
+		m_prisonerB.SetLastOutcome('X');  //TODO: Lock
 		m_prisonerA.AddToScore(m_sentence.m_temptation);
 		m_prisonerB.AddToScore(m_sentence.m_sucker);
 	}
 	else if (choiceA == BETRAY && choiceB == BETRAY) {
-		m_prisonerA.SetLastOutcome('Z');
-		m_prisonerB.SetLastOutcome('Z');
+		m_prisonerA.SetLastOutcome('Z');  //TODO: Lock
+		m_prisonerB.SetLastOutcome('Z');  //TODO: Lock
 		m_prisonerA.AddToScore(m_sentence.m_punishment);
 		m_prisonerB.AddToScore(m_sentence.m_punishment);
 	}

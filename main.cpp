@@ -14,6 +14,13 @@
 
 #include <chrono>
 #include <fstream>
+#include <iostream>
+
+int main() {
+	Tournament t(1, 10, false, defaultInputDir, defaultOutputDir, std::vector<std::string>(), 3, 100); // Run Trials
+	t.RunTournament();
+}
+/*
 //Make this a profile function
 int main() {
 	// repeat the problem for various numbers of iterations
@@ -59,4 +66,4 @@ int main() {
 	//std::vector<Gang> vecG{ gang, gang2, gang3, gang4, gang5 };
 	//GangTournament gt(1, vecG, true, 0.4, 100, 2);
 	//gt.RunTournament();
-}
+}*/

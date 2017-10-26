@@ -33,12 +33,14 @@ float RandomNumberGenerator::GetRandFloat(float min, float max){
 
 
 int RandomNumberGenerator::GetRandInt(int min, int max){
+	if (max == min) return min;
 	return min + (rand() % static_cast<int>(max - min));
 }
 
 #include <iostream>
 
 int RandomNumberGenerator::GetExcludedRandInt(int min, int max, int excluded){
+	if (max == min) return min;
 	int randNo = excluded;
 	while (randNo == excluded){
 		randNo = min + (rand() % static_cast<int>(max - min));

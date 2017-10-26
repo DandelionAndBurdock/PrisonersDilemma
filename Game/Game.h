@@ -17,9 +17,11 @@ public:
 	// Destructor
 	~Game();
 
-	// Simulates the game and returns the ID of the winning prisoner or
+	//  and returns the ID of the winning prisoner or
 	// a negative number if the game is drawn
 	int GetWinner();
+	// Simulates the game between prisoner A and prisoner B
+	void Run();
 
 private:
 	

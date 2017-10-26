@@ -122,22 +122,23 @@ void Tournament::MoveWinners() {
 //TODO: Refactor Also this will explode if IDs are not sequential
 void Tournament::RunGame(Prisoner& prisonerA, Prisoner& prisonerB) {
 	Game game(prisonerA, prisonerB, m_iterationsPerGame, m_payoffs);
+	game.Run();
 	int winner = game.GetWinner();
 	if (winner == prisonerA.GetID()) {
 		m_results.SetElement(prisonerA.GetID(), prisonerB.GetID(), WIN);
 		m_results.SetElement(prisonerB.GetID(), prisonerA.GetID(), LOSE);
-		m_victories[prisonerA.GetID()]++;
+		m_victories[prisonerA.GetID()]++; // TODO: Refactor Lock
 	}
 	else if (winner == prisonerB.GetID()) {
 		m_results.SetElement(prisonerA.GetID(), prisonerB.GetID(), LOSE);
 		m_results.SetElement(prisonerB.GetID(), prisonerA.GetID(), WIN); 
-		m_victories[prisonerB.GetID()]++;
+		m_victories[prisonerB.GetID()]++; // TODO: Refactor Lock
 	}
 	else {
 		m_results.SetElement(prisonerA.GetID(), prisonerB.GetID(), DRAW);
 		m_results.SetElement(prisonerB.GetID(), prisonerA.GetID(), DRAW);
-		m_draws[prisonerA.GetID()]++;
-		m_draws[prisonerB.GetID()]++;
+		m_draws[prisonerA.GetID()]++; // TODO: Refactor Lock
+		m_draws[prisonerB.GetID()]++; // TODO: Refactor Lock
 	}
 	// Update scores
 	m_gameScores.SetElement(prisonerA.GetID(), prisonerB.GetID(), prisonerA.GetScore());
