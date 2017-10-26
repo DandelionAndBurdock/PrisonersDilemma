@@ -5,6 +5,7 @@
 
 
 #include "Tournament.h"
+#include "Gangs/GangTournament.h"
 #include "Competition.h"
 
 #include "../Strategy/StrategyConstants.h"
@@ -17,7 +18,12 @@ GameManager::GameManager() :
 	m_inputFileDirectory(defaultInputDir),
 	m_outputFileDirectory(defaultOutputDir),
 	m_numberOfWinners(defaultWinners),
-	m_sentences(Sentence())
+	m_gangs(false),
+	m_spies(false),
+	m_spyProb(defaultSpyProb),
+	m_sentences(Sentence()),
+	m_numGangMembers(defaultNumGangMembers),
+	m_numGangs(defaultNumGangs)
 {
 	StrategyConstants constants = ReadConstants();
 
@@ -163,7 +169,7 @@ void GameManager::ResolveInput(int input) {
 
 }
 
-void GameManager::RunTournament() {
+void GameManager::RunPrisonerTournament() {
 	Tournament t(0, m_numberOfPrisoners, m_generateStrategies, m_inputFileDirectory, m_outputFileDirectory,
 		std::vector<std::string>(), m_numberOfWinners, m_iterationsPerGame, m_sentences);
 
@@ -174,6 +180,32 @@ void GameManager::RunTournament() {
 	if (GetYesOrNo() == 'y') {
 		t.PrintGameResults();
 	}
+}
+
+void GameManager::RunGangTournament() {
+	std::vector<Gang> gangs;
+	for (int i = 0; i < m_numGangs; ++i) {
+		gangs.push_back(Gang(i, m_numGangMembers, false));
+	}
+	GangTournament t(1, gangs, defaultGangInDir, defaultGangOutDir, m_spies, m_spyProb);
+	t.RunTournament();
+
+	std::cout << "Would you like to see a breakdown of the games?" << std::endl;
+
+	if (GetYesOrNo() == 'y') {
+		t.PrintGameResults();
+	}
+}
+void GameManager::RunTournament() {
+	if (!m_gangs) {
+		RunPrisonerTournament();
+	}
+	else {
+		RunGangTournament();
+	}
+
+
+
 }
 
 void GameManager::RunChampionship() {
@@ -227,10 +259,36 @@ void GameManager::ConfigureGangs() {
 		std::cout << std::endl;
 		return;
 	}
-	;
+	SetNumGangs();
+	SetNumGangMembers();
 	ConfigureSpies();
 }
 
+void GameManager::SetNumGangs() {
+	std::cout << "Number of gangs per tournament is currently " << m_numGangs << std::endl;
+	std::cout << "Would you like to change value?" << std::endl;
+	if (GetYesOrNo() == 'y') {
+		std::cout << "Enter new value :";
+		m_numGangs = GetUserInt();
+		std::cout << std::endl;
+	}
+	else {
+		std::cout << std::endl;
+	}
+}
+
+void GameManager::SetNumGangMembers() {
+	std::cout << "Number of members per gang is currently " << m_numGangMembers << std::endl;
+	std::cout << "Would you like to change value?" << std::endl;
+	if (GetYesOrNo() == 'y') {
+		std::cout << "Enter new value :";
+		m_numGangMembers = GetUserInt();
+		std::cout << std::endl;
+	}
+	else {
+		std::cout << std::endl;
+	}
+}
 void GameManager::ConfigurePrisoners() {
 	std::cout << "Number of prisoners is currently " << m_numberOfPrisoners << std::endl;
 	std::cout << "Would you like to change value?" << std::endl;

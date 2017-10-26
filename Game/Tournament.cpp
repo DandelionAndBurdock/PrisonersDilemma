@@ -69,7 +69,8 @@ void Tournament::CreateNewStrategies() {
 		Prisoner p(prisonerID, strategyFile);
 		while (!m_tester.PassesTest(p)) {
 			m_generator.GenerateStrategy(strategyFile);
-			p.ChangeStrategy(strategyFile); 
+			p.ChangeStrategy(strategyFile);
+			p.SetValidStrategy(p.GetID(), true);
 		}
 		m_prisoners.push_back(p);
 	}
@@ -192,15 +193,15 @@ void Tournament::RunGame(Prisoner prisonerA, Prisoner prisonerB) {
 		IncrementDrawCount(prisonerB.GetID()); 
 	}
 	// Update scores
-	m_gameScores.SetElement(prisonerA.GetID(), prisonerB.GetID(), prisonerA.GetScore());//TODO: Lock
-	m_gameScores.SetElement(prisonerB.GetID(), prisonerA.GetID(), prisonerB.GetScore());//TODO: Lock
+	m_gameScores.SetElement(prisonerA.GetID(), prisonerB.GetID(), prisonerA.GetScore());
+	m_gameScores.SetElement(prisonerB.GetID(), prisonerA.GetID(), prisonerB.GetScore());
 }
 
 void Tournament::CalculateRankings() {
 	// Calculate scores
 
 	for (int row = 0; row < m_numberOfPrisoners; ++row) {
-		if (!m_prisoners[row].HasValidStrategy()) {
+		if (!Prisoner::HasValidStrategy(m_prisoners[row].GetID())) {
 			SetScore(row, std::numeric_limits<int>::max());
 			continue;
 		}
@@ -208,7 +209,7 @@ void Tournament::CalculateRankings() {
 			if (row == col) {
 				continue;
 			}
-			if (m_prisoners[col].HasValidStrategy()) {
+			if (Prisoner::HasValidStrategy(m_prisoners[col].GetID())) {
 				AddToScore(row, m_gameScores.GetElement(row, col));
 			}
 		}
@@ -222,7 +223,7 @@ void Tournament::CalculateRankings() {
 //TODO: Magic numbers
 void Tournament::PrintPrisonerPerformance() {
 	for (int i = 0; i < m_numberOfPrisoners; ++i) {
-		if (m_prisoners[i].HasValidStrategy()) {
+		if (Prisoner::HasValidStrategy(m_prisoners[i].GetID())) {
 			std::cout << std::setw(12) << std::left << m_prisoners[i].GetID();
 			std::cout << std::setw(12) << std::left << GetVictoryCount(i);
 			std::cout << std::setw(12) << std::left << GetDrawCount(i);

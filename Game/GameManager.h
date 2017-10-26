@@ -7,7 +7,7 @@
 class GameManager
 {
 private:
-	enum Selection { TOURNAMENT = 1, CHAMPIONSHIP, GENERATION, TOURNAMENT_OPTIONS, QUIT};
+	enum Selection { TOURNAMENT = 1, CHAMPIONSHIP, GENERATION, TOURNAMENT_OPTIONS, QUIT}; // Possible user selection options
 public:
 	GameManager();
 	void Run();
@@ -36,6 +36,13 @@ private:
 	void ConfigureSpies();
 	void ConfigurePrisoners();
 	void SetIterations();
+	void SetNumGangs();
+	void SetNumGangMembers();
+
+	// Tournament Helper  functions
+	void RunPrisonerTournament();
+	void RunGangTournament();
+
 
 	const int maxUserOption = 6;
 	const int minUserOption = 1;
@@ -50,6 +57,8 @@ private:
 	void ResolveInput(int input);
 
 	bool m_gangs;
+	int m_numGangs;
+	int m_numGangMembers;
 	bool m_spies;
 	float m_spyProb;
 
@@ -73,5 +82,3 @@ private:
 	int m_maximumLineNumber;		// Negative if user does not set it	
 	int m_gotoForecast;			// 
 };
-
-//TODO: No error reported if try to load strategy but fail

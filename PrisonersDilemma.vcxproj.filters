@@ -19,12 +19,12 @@
     <ClCompile Include="Game\GameManager.cpp" />
     <ClCompile Include="Game\Competition.cpp" />
     <ClCompile Include="Strategy\StrategyConstants.cpp" />
-    <ClCompile Include="Game\Gang.cpp" />
-    <ClCompile Include="Game\GangGame.cpp" />
-    <ClCompile Include="Game\GangTournament.cpp" />
-    <ClCompile Include="Game\GangPrisoner.cpp" />
     <ClCompile Include="Profiling\Profiling.cpp" />
-    <ClCompile Include="Game\GangCompetition.cpp" />
+    <ClCompile Include="Game\Gangs\GangTournament.cpp" />
+    <ClCompile Include="Game\Gangs\GangPrisoner.cpp" />
+    <ClCompile Include="Game\Gangs\GangGame.cpp" />
+    <ClCompile Include="Game\Gangs\GangCompetition.cpp" />
+    <ClCompile Include="Game\Gangs\Gang.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Prisoner.h" />
@@ -47,11 +47,11 @@
     <ClInclude Include="Game\GameManager.h" />
     <ClInclude Include="Game\Competition.h" />
     <ClInclude Include="Strategy\StrategyConstants.h" />
-    <ClInclude Include="Game\Gang.h" />
-    <ClInclude Include="Game\GangGame.h" />
-    <ClInclude Include="Game\GangTournament.h" />
-    <ClInclude Include="Game\GangPrisoner.h" />
     <ClInclude Include="Profiling\Profiling.h" />
-    <ClInclude Include="Game\GangCompetition.h" />
+    <ClInclude Include="Game\Gangs\GangTournament.h" />
+    <ClInclude Include="Game\Gangs\GangPrisoner.h" />
+    <ClInclude Include="Game\Gangs\GangGame.h" />
+    <ClInclude Include="Game\Gangs\GangCompetition.h" />
+    <ClInclude Include="Game\Gangs\Gang.h" />
   </ItemGroup>
 </Project>

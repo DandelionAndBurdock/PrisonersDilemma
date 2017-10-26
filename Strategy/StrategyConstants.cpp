@@ -75,7 +75,6 @@ void WriteConstants(StrategyConstants& constants) {
 	s += std::to_string(constants.minimumLineNumber);
 	s += '\n';
 
-	std::cout << s;
 	FileManager::Instance()->WriteFile(strategyFile, s);
 
 	return;

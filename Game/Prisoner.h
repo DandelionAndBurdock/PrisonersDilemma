@@ -7,6 +7,9 @@
 #include "../Strategy/Strategy.h"
 #include "PrisonersDilemmaGame.h"
 #include "../PrisonerStrategyLanguage.h"
+
+#include <mutex>
+
 class Prisoner
 {
 protected:
@@ -30,7 +33,10 @@ public:
 	inline int  GetID()    { return m_ID; }
 
 	// Returns true if strategy code compiled and has not stuck in an infinite loop
-	bool HasValidStrategy();
+	static bool HasValidStrategy(int ID);
+	static void SetValidStrategy(int ID, bool isValid);
+	static std::map<int, bool> m_validStrategies; // Holds a map from prisoner ID to valid strategies
+	static std::mutex m_validStrategyLock;
 	// Returns strategy code used by the interpreter 
 	std::string GetCode();
 
@@ -38,7 +44,7 @@ public:
 	inline void AddToScore(int x) { m_score += x; }
 
 	void SetLastOutcome(char outcome);
-	void SetValidStrategy(bool isValid);
+	
 
 	// Load new strategy at filepath
 	void ChangeStrategy(const std::string& filepath);

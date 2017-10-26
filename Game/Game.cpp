@@ -26,17 +26,16 @@ Game::~Game()
 bool Game::IsFinished() {
 	if (m_invalidStrategy)
 		return true;
-	else {
-		return false;
-	}
 
+	return (!Prisoner::HasValidStrategy(m_prisonerA.GetID()) || 
+		!Prisoner::HasValidStrategy(m_prisonerB.GetID()));
 }
 
 int Game::GetWinner() const{
-	if (!m_prisonerA.HasValidStrategy()) { // If a prisoner fails to make a selection (e.g. stuck in infinite loop) they auto lose
+	if (!Prisoner::HasValidStrategy(m_prisonerA.GetID())) { // If a prisoner fails to make a selection (e.g. stuck in infinite loop) they auto lose
 		return m_prisonerB.GetID();
 	}
-	if (!m_prisonerB.HasValidStrategy()) {
+	if (!Prisoner::HasValidStrategy(m_prisonerB.GetID())) {
 		return m_prisonerA.GetID();
 	}
 	if (m_prisonerA.GetScore() == m_prisonerB.GetScore()) {  
@@ -105,10 +104,10 @@ void Game::ResolveZZ() {
 
 void Game::ResolveInvalid(const ActionType& choiceA, const ActionType& choiceB) {
 	if (choiceA == INVALID_ACTION) {
-		m_prisonerA.SetValidStrategy(false);
+		m_prisonerA.SetValidStrategy(m_prisonerA.GetID(), false);
 	}
 	if (choiceB == INVALID_ACTION) {
-		m_prisonerB.SetValidStrategy(false);
+		m_prisonerB.SetValidStrategy(m_prisonerB.GetID(), false);
 	}
 	std::cout << "Game error: Unrecognised outcomes" << std::endl;
 	m_invalidStrategy = true;

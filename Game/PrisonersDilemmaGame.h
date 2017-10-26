@@ -52,7 +52,10 @@ const int defaultPrisoners = 10;
 const int defaultGangs = 3; // Default number of gangs per tournament
 const std::string fileFormat = ".txt";											  // File format for saving and loading strategies
 
-																				  //TODO: Replace with leaderboard class, vector and sort function
+// Gangs
+const float defaultSpyProb = 0.2;
+const int defaultNumGangs = 3;
+const int defaultNumGangMembers = 5;																			  //TODO: Replace with leaderboard class, vector and sort function
 struct Comparison
 {
 	bool operator ()(const std::pair<int, int>& a, const std::pair<int, int>& b) { // Will compare two pairs of pair<ID, Victories> want to sort in ascending order number of victories

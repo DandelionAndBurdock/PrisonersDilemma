@@ -2,6 +2,9 @@
 #include <iostream>
 
 
+std::map<int, bool> Prisoner::m_validStrategies;
+std::mutex Prisoner::m_validStrategyLock;
+
 Prisoner::Prisoner(int ID, const std::string& filename) :
 	m_lastOutcome('?'), 
 	m_alloutcomesW(0),
@@ -14,7 +17,9 @@ Prisoner::Prisoner(int ID, const std::string& filename) :
 	m_score(0),
 	m_ID(ID),
 	m_strategy(filename, m_intVars, m_charVars)
-{}
+{
+	m_validStrategies[m_ID] = true;
+}
 
 Prisoner::~Prisoner()
 {
@@ -101,8 +106,9 @@ void Prisoner::SetLastOutcome(char outcome){
 	}
 }
 
-bool Prisoner::HasValidStrategy() {
-	return m_strategy.IsValid();
+bool Prisoner::HasValidStrategy(int ID) {
+	std::lock_guard<std::mutex> guard(m_validStrategyLock);
+	return m_validStrategies.at(ID);
 }
 
 
@@ -120,8 +126,9 @@ std::string Prisoner::GetCode() {
 	return m_strategy.GetCode();
 }
 
-void Prisoner::SetValidStrategy(bool isValid) {
-	m_strategy.SetValidStrategy(false);
+void Prisoner::SetValidStrategy(int ID, bool isValid) {
+	std::lock_guard<std::mutex> guard(m_validStrategyLock);
+	m_validStrategies[ID] = isValid;
 }
 //TODO: Order of functions matches order of header files
 
