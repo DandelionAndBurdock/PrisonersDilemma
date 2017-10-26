@@ -26,7 +26,6 @@ Interpreter::~Interpreter()
 
 
 void Interpreter::LoadCodeFromFile(){
-	std::cout << "Loading " << m_filename << "..." << std::endl;
 	m_codeString = FileManager::Instance()->ReadFile(m_filename);//TODO: What if file is empty? Will give warning but crash the program
 	std::istringstream ss(m_codeString);
 	std::string line;

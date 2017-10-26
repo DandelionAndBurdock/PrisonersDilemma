@@ -80,4 +80,5 @@ private:
 	bool m_useSpies;
 	float m_spyProb;
 
+	
 };

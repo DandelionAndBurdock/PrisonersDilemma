@@ -97,8 +97,8 @@ void Tournament::PlayGames() {
 	std::vector<std::thread> threadVec;
 	for (auto prisonerA = m_prisoners.begin(); prisonerA != std::prev(m_prisoners.end()); ++prisonerA) {
 		for (auto prisonerB = prisonerA + 1; prisonerB != m_prisoners.end(); ++prisonerB) {
-			RunGame(*prisonerA, *prisonerB);
-			//threadVec.push_back(std::thread(std::bind(&Tournament::RunGame, this), pA, pB));
+			//RunGame(*prisonerA, *prisonerB);
+			threadVec.push_back(std::thread(&Tournament::RunGame, this, *prisonerA, *prisonerB));
 		}
 	}
 
@@ -120,7 +120,7 @@ void Tournament::MoveWinners() {
 	for (int i = 0; i < m_numberOfWinners; ++i, ++iter) {
 		std::string outputFile = m_outputDirectory + "Tournament_" + std::to_string(m_ID) + "_Position_" + std::to_string(i + 1) + fileFormat;
 		std::string code = m_prisoners[iter->first].GetCode();
-		FileManager::Instance()->WriteFile(outputFile, code);
+		FileManager::Instance()->WriteFile(outputFile, code);//TODO: lock?
 	}
 }
 
@@ -220,7 +220,7 @@ void Tournament::PrintPrisonerPerformance() {
 	for (int i = 0; i < m_numberOfPrisoners; ++i) {
 		if (m_prisoners[i].HasValidStrategy()) {
 			std::cout << std::setw(12) << std::left << m_prisoners[i].GetID();
-			std::cout << std::setw(12) << std::left << GetVictoryCount(i);//Lock
+			std::cout << std::setw(12) << std::left << GetVictoryCount(i);
 			std::cout << std::setw(12) << std::left << GetDrawCount(i);
 			std::cout << std::setw(12) << std::left << (m_numberOfPrisoners - 1) - GetDrawCount(i) - GetVictoryCount(i); 
 			std::cout << std::setw(12) << std::left << GetScore(i) << std::endl;
@@ -281,7 +281,7 @@ void Tournament::PrintIntro() {
 	std::cout << "Results for Tournament #" << m_ID << std::endl;
 	std::cout << "Number of Prisoners: " << m_numberOfPrisoners << std::endl;
 	std::cout << "Winner: Prisoner-" << m_prisoners[m_rankings.begin()->first].GetID()
-		<< " Score: " << m_scores[m_rankings.begin()->first] << std::endl;
+		<< " Score: " << GetScore(m_rankings.begin()->first) << std::endl;
 	std::cout << "Winning Strategy: " << std::endl;
 	std::cout << m_prisoners[m_rankings.begin()->first].GetCode();
 	std::cout << std::endl;
