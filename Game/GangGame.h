@@ -9,7 +9,6 @@ public:
 	GangGame(Gang* gangA, Gang* gangB, float spyProb = 0.0f, bool spiesActive = false, int numberIterations = 200);
 	~GangGame();
 
-	//TODO: Implement: What kind of statistics?
 	void PrintStatistics();
 
 	void Run();

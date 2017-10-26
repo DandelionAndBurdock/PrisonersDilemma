@@ -13,7 +13,7 @@ class RandomNumberGenerator;
 class StrategyGenerator
 {
 public:
-	StrategyGenerator();
+	StrategyGenerator(bool safeGeneration = false);
 	~StrategyGenerator();
 	void GenerateStrategy(const std::string& outputFile);
 	std::string GenerateStrategy();
@@ -39,7 +39,7 @@ private:
 	int m_gotoForecast;			// 
 	int m_highestGotoLine;		// Highest line number which there is a goto to
 
-
+	bool m_safeGeneration;			// If safe generation is true goto will not jump backwards and an outcome will be appended on the end
 
 	std::string GetRandomCharVariable();
 	std::string GetRandomVariable();

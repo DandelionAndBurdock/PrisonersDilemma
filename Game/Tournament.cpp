@@ -6,8 +6,10 @@
 #include <utility>
 #include <numeric> // For std::numeric_limits<int>::max()
 #include <iomanip> // For std::setw()
+#include <thread>
 
 #include "../Utility/FileManager.h"
+
 
 Tournament::Tournament(int ID, int numberOfPrisoners, bool generateStrategies,
 	const std::string& inputFileDirectory, const std::string& outputFileDirectory, std::vector<std::string>& strategyFileNames,

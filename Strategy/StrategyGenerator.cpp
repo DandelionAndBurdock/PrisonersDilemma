@@ -3,9 +3,10 @@
 #include "../Utility/RandomNumberGenerator.h"
 #include "../Utility/FileManager.h"
 #include "StrategyConstants.h"
-StrategyGenerator::StrategyGenerator() : // TODO: Make a real constructor
+StrategyGenerator::StrategyGenerator(bool safeGeneration) : // TODO: Make a real constructor
 m_currentLineNumber(0),
-m_highestGotoLine(0)
+m_highestGotoLine(0),
+m_safeGeneration(safeGeneration)
 {
 	if (m_maximumLineNumber && m_maximumLineNumber < m_minimumLineNumber) {
 		std::cout << "Error: Trying to generate strategies with max line number smaller than min line number" << std::endl;
@@ -21,7 +22,13 @@ m_highestGotoLine(0)
 	m_ifProb = constants.ifProb;				
 
 	m_minimumLineNumber = constants.minimumLineNumber;
-	m_maximumLineNumber = constants.maximumLineNumber;
+	if (safeGeneration) {
+		m_maximumLineNumber = constants.maximumLineNumber - 1; // Save a line to add an outcome on the end
+	}
+	else {
+		m_maximumLineNumber = constants.maximumLineNumber;
+	}
+
 	m_gotoForecast = constants.gotoForecast;
 
 }
@@ -92,7 +99,9 @@ std::string StrategyGenerator::GenerateStrategy(){
 		AddEndLine(buffer);
 	} while (ShouldAddAnotherLine());
 
-
+	if (m_safeGeneration) {
+		buffer += GetRandomOutcome();
+	}
 	return buffer;
 }
 
@@ -122,6 +131,15 @@ std::string StrategyGenerator::GenerateGoto(){
 	std::string buffer = "GOTO";
 	AddSpace(buffer);
 	int upperLimit;
+	int lowerLimit;
+
+	if (m_safeGeneration) {
+		lowerLimit = m_currentLineNumber;
+	}
+	else {
+		lowerLimit = 1;
+	}
+
 	if (m_maximumLineNumber && m_maximumLineNumber < m_currentLineNumber + m_gotoForecast){
 		upperLimit = m_maximumLineNumber;
 	}
@@ -129,7 +147,7 @@ std::string StrategyGenerator::GenerateGoto(){
 		upperLimit = m_currentLineNumber + m_gotoForecast;
 	}
 
-	int gotoLine = RandomNumberGenerator::Instance()->GetExcludedRandInt(1, upperLimit, m_currentLineNumber); //typedef instance
+	int gotoLine = RandomNumberGenerator::Instance()->GetExcludedRandInt(lowerLimit, upperLimit, m_currentLineNumber); //typedef instance
 	if (gotoLine > m_highestGotoLine){
 		m_highestGotoLine = gotoLine;
 	}
