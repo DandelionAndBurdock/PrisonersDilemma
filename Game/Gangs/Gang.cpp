@@ -1,9 +1,9 @@
 #include "Gang.h"
 
 #include "GangPrisoner.h"
-#include "../Utility/RandomNumberGenerator.h"
-#include "../Strategy/StrategyGenerator.h"
-#include "../Strategy/StrategyTester.h"
+#include "../../Utility/RandomNumberGenerator.h"
+#include "../../Strategy/StrategyGenerator.h"
+#include "../../Strategy/StrategyTester.h"
 
 Gang::Gang(int ID, int gangSize, bool leaderChange) :
 m_ID(ID), m_leaderChange(false)

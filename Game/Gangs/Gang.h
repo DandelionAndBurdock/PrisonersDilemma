@@ -1,6 +1,6 @@
 #pragma once
 
-#include "PrisonersDilemmaGame.h"
+#include "../PrisonersDilemmaGame.h"
 
 #include <vector>
 

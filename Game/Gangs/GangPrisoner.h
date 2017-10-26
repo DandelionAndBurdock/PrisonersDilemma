@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Prisoner.h"
+#include "../Prisoner.h"
 
 class GangPrisoner : public Prisoner {
 protected:

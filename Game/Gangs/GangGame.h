@@ -1,7 +1,7 @@
 #pragma once
 
 class Gang;
-#include "PrisonersDilemmaGame.h"
+#include "../PrisonersDilemmaGame.h"
 
 class GangGame
 {

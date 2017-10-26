@@ -2,9 +2,9 @@
 
 #include "Gang.h"
 #include "GangTournament.h"
-#include "PrisonersDilemmaGame.h"
+#include "../PrisonersDilemmaGame.h"
 
-#include "../Utility/FileManager.h"
+#include "../../Utility/FileManager.h"
 #include <sstream>
 
 GangCompetition::GangCompetition(int numberOfTournaments, int numberOfGangs, int numberOfWinners,

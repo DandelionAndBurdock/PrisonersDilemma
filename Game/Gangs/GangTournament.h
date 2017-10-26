@@ -3,9 +3,9 @@
 #include <set>
 #include <vector>
 
-#include "../Utility/Matrix.h"
+#include "../../Utility/Matrix.h"
 
-#include "PrisonersDilemmaGame.h"
+#include "../PrisonersDilemmaGame.h"
 #include <memory>
 
 //TODO: Derive from tournament

@@ -8,7 +8,7 @@
 
 class GangTournament;
 
-#include "PrisonersDilemmaGame.h"
+#include "../PrisonersDilemmaGame.h"
 
 class GangCompetition
 {
