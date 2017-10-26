@@ -26,7 +26,7 @@ public:
 	void RunCompetition();
 
 	// Displays results to the console
-	void PrintGameResults();
+	void PrintGameResults() const;
 private:
 	// Vector of pointers to the initial first round tournaments
 	std::vector<Tournament*> m_tournaments;
@@ -43,5 +43,7 @@ private:
 	Sentence m_sentence;				// Contains punishment parameters for the game
 
 	Tournament* m_championTournament;	 // Pointer to the final "super" tournament
+
+
 };
 

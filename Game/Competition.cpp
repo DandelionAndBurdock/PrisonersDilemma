@@ -13,6 +13,7 @@ Competition::Competition(int numberOfTournaments, int numberOfPrisoners, int num
 	m_outputDirectory(outputDirectory),
 	m_championTournament(nullptr)
 {
+	// Create tournaments for first round
 	for (int ID = 1; ID <= numberOfTournaments; ++ID) {
 		m_tournaments.push_back(new Tournament(ID, m_numberOfPrisoners, generateStrategies, m_inputDirectory, m_outputDirectory,
 			std::vector<std::string>(), m_numberOfWinners, m_iterationsPerGame, m_sentence));
@@ -59,7 +60,7 @@ void Competition::RunCompetition() {
 
 }
 
-void Competition::PrintGameResults() {
+void Competition::PrintGameResults() const {
 	if (m_championTournament) {
 		m_championTournament->PrintGameResults();
 	}

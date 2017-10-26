@@ -19,7 +19,7 @@ public:
 
 	//  and returns the ID of the winning prisoner or
 	// a negative number if the game is drawn
-	int GetWinner();
+	int GetWinner() const;
 	// Simulates the game between prisoner A and prisoner B
 	void Run();
 
@@ -39,8 +39,14 @@ private:
 	const int m_draw = -1;		// Negative number signifies draw
 
 	// Updates prisoner data after one round of the game
-	void Resolve(ActionType choiceA, ActionType choiceB);
-	
+	void Resolve(const ActionType& choiceA, const ActionType& choiceB);
+
+	// Helper functions that set variables correctly for different outcomes
+	void ResolveWW();
+	void ResolveXY();
+	void ResolveYX();
+	void ResolveZZ();
+	void ResolveInvalid(const ActionType& choiceA, const ActionType& choiceB);
 
 	// Returns true if a prisoner can no longer lose with the iterations 
 	// remaining or has an invalid strategy (and so automatically loses)

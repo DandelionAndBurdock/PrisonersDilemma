@@ -2,7 +2,7 @@
 #include <iostream>
 
 Game::Game(Prisoner& prisonerA, Prisoner& prisonerB, int iterationsPerGame, Sentence& sentence) :
-Game(prisonerA, prisonerB, iterationsPerGame) //TODO: This constructor overloading is not correct
+Game(prisonerA, prisonerB, iterationsPerGame)
 {
 	m_maxSentence = m_sentence.m_punishment;
 }
@@ -17,9 +17,6 @@ Game::Game(Prisoner& prisonerA, Prisoner& prisonerB, int iterationsPerGame) :
 	// Ensure prisoners start clean
 	m_prisonerA.Reset();
 	m_prisonerB.Reset();
-
-	//TODO: Should check which type of sentence is highest
-	m_maxSentence = m_sentence.m_punishment; //TODO: Is this still necessary
 }
 
 Game::~Game()
@@ -35,8 +32,8 @@ bool Game::IsFinished() {
 
 }
 
-int Game::GetWinner() {
-	if (!m_prisonerA.HasValidStrategy()) {
+int Game::GetWinner() const{
+	if (!m_prisonerA.HasValidStrategy()) { // If a prisoner fails to make a selection (e.g. stuck in infinite loop) they auto lose
 		return m_prisonerB.GetID();
 	}
 	if (!m_prisonerB.HasValidStrategy()) {
@@ -63,39 +60,56 @@ void Game::Run() {
 
 }
 
-void Game::Resolve(ActionType choiceA, ActionType choiceB) {  //TODO: Could do some calculation rather than brute force?
+void Game::Resolve(const ActionType& choiceA, const ActionType& choiceB) { 
 	if (choiceA == SILENCE && choiceB == SILENCE) {
-		m_prisonerA.SetLastOutcome('W'); 
-		m_prisonerB.SetLastOutcome('W'); 
-		m_prisonerA.AddToScore(m_sentence.m_silent);
-		m_prisonerB.AddToScore(m_sentence.m_silent);
+		ResolveWW();
 	}
 	else if (choiceA == SILENCE && choiceB == BETRAY) {
-		m_prisonerA.SetLastOutcome('X');  
-		m_prisonerB.SetLastOutcome('Y');  
-		m_prisonerA.AddToScore(m_sentence.m_sucker);
-		m_prisonerB.AddToScore(m_sentence.m_temptation);
+		ResolveXY();
 	}
 	else if (choiceA == BETRAY && choiceB == SILENCE) {
-		m_prisonerA.SetLastOutcome('Y');  
-		m_prisonerB.SetLastOutcome('X');  
-		m_prisonerA.AddToScore(m_sentence.m_temptation);
-		m_prisonerB.AddToScore(m_sentence.m_sucker);
+		ResolveYX();
 	}
 	else if (choiceA == BETRAY && choiceB == BETRAY) {
-		m_prisonerA.SetLastOutcome('Z');  
-		m_prisonerB.SetLastOutcome('Z');  
-		m_prisonerA.AddToScore(m_sentence.m_punishment);
-		m_prisonerB.AddToScore(m_sentence.m_punishment);
+		ResolveZZ();
 	}
 	else {
-		if (choiceA == INVALID_ACTION) {
-			m_prisonerA.SetValidStrategy(false);
-		}
-		if (choiceB == INVALID_ACTION) {
-			m_prisonerB.SetValidStrategy(false);
-		}
-		std::cout << "Game error: Unrecognised outcomes" << std::endl;
-		m_invalidStrategy = true;
+		ResolveInvalid(choiceA, choiceB);
 	}
+}
+
+void Game::ResolveWW() {
+	m_prisonerA.SetLastOutcome('W');
+	m_prisonerB.SetLastOutcome('W');
+	m_prisonerA.AddToScore(m_sentence.m_silent);
+	m_prisonerB.AddToScore(m_sentence.m_silent);
+}
+void Game::ResolveXY() {
+	m_prisonerA.SetLastOutcome('X');
+	m_prisonerB.SetLastOutcome('Y');
+	m_prisonerA.AddToScore(m_sentence.m_sucker);
+	m_prisonerB.AddToScore(m_sentence.m_temptation);
+}
+void Game::ResolveYX() {
+	m_prisonerA.SetLastOutcome('Y');
+	m_prisonerB.SetLastOutcome('X');
+	m_prisonerA.AddToScore(m_sentence.m_temptation);
+	m_prisonerB.AddToScore(m_sentence.m_sucker);
+}
+void Game::ResolveZZ() {
+	m_prisonerA.SetLastOutcome('Z');
+	m_prisonerB.SetLastOutcome('Z');
+	m_prisonerA.AddToScore(m_sentence.m_punishment);
+	m_prisonerB.AddToScore(m_sentence.m_punishment);
+}
+
+void Game::ResolveInvalid(const ActionType& choiceA, const ActionType& choiceB) {
+	if (choiceA == INVALID_ACTION) {
+		m_prisonerA.SetValidStrategy(false);
+	}
+	if (choiceB == INVALID_ACTION) {
+		m_prisonerB.SetValidStrategy(false);
+	}
+	std::cout << "Game error: Unrecognised outcomes" << std::endl;
+	m_invalidStrategy = true;
 }
