@@ -7,14 +7,19 @@
 #include <iostream>
 #include <iomanip>
 
-GangTournament::GangTournament(int ID, std::vector<Gang>& gangs) :
-     m_scores(std::vector<int>(gangs.size(), 0)),	    // Keeps track of cumulative score
- m_victories(std::vector<int>(gangs.size(), 0)),  // Keeps track of number of victories for each prisoner
- m_draws(std::vector<int>(gangs.size(), 0)),      // Keeps track of number of draws for each prisoner
+GangTournament::GangTournament(int ID, std::vector<Gang>& gangs, bool useSpies,
+	float spyProb, int numberIterations, int numberOfWinners) :
+	m_scores(std::vector<int>(gangs.size(), 0)),	    // Keeps track of cumulative score
+	m_victories(std::vector<int>(gangs.size(), 0)),  // Keeps track of number of victories for each prisoner
+	m_draws(std::vector<int>(gangs.size(), 0)),      // Keeps track of number of draws for each prisoner
 	m_ID(ID),
 	m_results(Matrix<Result>(gangs.size())),
 	m_gameScores(Matrix<int>(gangs.size())),
-	m_gangs(gangs)
+	m_gangs(gangs),
+	m_numberOfWinners(numberOfWinners),
+	m_numberOfIterations(numberIterations),
+	m_useSpies(useSpies),
+	m_spyProb(spyProb)
 {
 	int numGangs = gangs.size();
 
@@ -36,12 +41,7 @@ GangTournament::GangTournament(int ID, std::vector<Gang>& gangs) :
 
 	m_inputDirectory = "GangTournaments//";
 	m_outputDirectory = "GangTournaments//Winners//";
-	GangSentence m_payoffs = GangSentence();	
-
-	m_numberOfWinners = 2;
-
-
-
+	GangSentence m_payoffs = GangSentence();
 }
 
 
@@ -78,7 +78,7 @@ void GangTournament::MoveWinners() {
 
 //TODO: Refactor also this will blow up -- quick fix add a check
 void GangTournament::RunGame(Gang& gangA, Gang& gangB) {
-	GangGame game(&gangA, &gangB);
+	GangGame game(&gangA, &gangB, m_spyProb, m_useSpies, m_numberOfIterations);
 	game.Run();
  
 	int winner = game.GetWinner();

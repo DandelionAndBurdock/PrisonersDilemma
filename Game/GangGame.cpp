@@ -2,18 +2,13 @@
 
 #include "Gang.h"
 
-GangGame::GangGame(Gang* gangA, Gang* gangB, float spyProb, bool spiesActive) :
-	m_gangA(gangA), m_gangB(gangB), m_spyProb(spyProb), m_spiesActive(spiesActive)
+GangGame::GangGame(Gang* gangA, Gang* gangB, float spyProb, bool spiesActive, int numberIterations) :
+	m_gangA(gangA), m_gangB(gangB), m_spyProb(spyProb), m_spiesActive(spiesActive), m_totalIterations(numberIterations)
 	
 {
 	// Ensure gangs start clean
 	m_gangA->Reset();
 	m_gangB->Reset();
-
-
-
-
-	m_totalIterations = 200;
 }	 
 
 

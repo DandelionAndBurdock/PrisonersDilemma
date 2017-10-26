@@ -15,7 +15,8 @@ class GangTournament
 {
 	enum Result { WIN, LOSE, DRAW, UNFINISHED };
 public:
-	GangTournament(int ID, std::vector<Gang>& gangs);
+	GangTournament(int ID, std::vector<Gang>& gangs, bool useSpies = false,
+		float spyProb = 0.0f, int numberIterations = 200, int numberOfWinners = 2);
 	~GangTournament();
 
 	// Plays games of tournament, saves winning strategies and generates output
@@ -74,5 +75,9 @@ private:
 	std::vector<std::string> m_strategyFileNames; //TODO: Is this used?
 
 	std::set<std::pair<int, int>, Comparison> m_rankings; // Will hold pair of victories/ ID 
+
+	int m_numberOfIterations;
+	bool m_useSpies;
+	float m_spyProb;
 
 };
