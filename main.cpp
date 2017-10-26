@@ -23,7 +23,7 @@ int main() {
 		"GangTournaments//Strat3.txt" ,
 		"GangTournaments//Strat3.txt",
 		"GangTournaments//Strat3.txt" };
-	Gang gang(0, vec);
+	Gang gang(0, 5);
 	Gang gang2(1, vec);
 	Gang gang3(2, vec);
 	Gang gang4(3, vec, false);

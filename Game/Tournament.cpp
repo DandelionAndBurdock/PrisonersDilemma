@@ -103,8 +103,6 @@ void Tournament::PlayGames() {
 			else {
 				RunGame(*prisonerA, *prisonerB);
 			}
-			
-		
 		}
 	}
 

@@ -4,6 +4,8 @@
 
 #include <vector>
 
+
+
 class Prisoner;
 
 class Gang
@@ -66,10 +68,10 @@ private:
 
 	std::vector<std::string> m_filePaths;
 
-	void GenerateNewMembers();
+	void GenerateNewMembers(int gangSize);
 	void LoadMembers(std::vector<std::string> filepaths);
 
-	
+	std::string m_directory;
 };
 
 

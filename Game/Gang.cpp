@@ -2,18 +2,25 @@
 
 #include "GangPrisoner.h"
 #include "../Utility/RandomNumberGenerator.h"
-
+#include "../Strategy/StrategyGenerator.h"
 
 Gang::Gang(int ID, int gangSize) :
 m_ID(ID)
 {
-	GenerateNewMembers();
+	m_gangSize = gangSize;
+	m_directory = "GangTournaments//";
+	GenerateNewMembers(gangSize);
+	Reset();
+
+
 }
 Gang::Gang(int ID, const std::vector<std::string>& filePaths) :
 	m_ID(ID), m_filePaths(filePaths), m_leaderChange(true)
 {
 	LoadMembers(filePaths);
 	Reset();
+
+	m_directory = "GangTournaments//";
 }
 
 Gang::Gang(int ID, const std::vector<std::string>& filePaths, bool leaderChange) :
@@ -23,8 +30,14 @@ Gang(ID, filePaths)
 }
 
 
-void Gang::GenerateNewMembers() {
-	return; //TODO: Implement necessary changes to the strategy generator
+void Gang::GenerateNewMembers(int gangSize) {
+	StrategyGenerator generator(true, true);
+	for (int i = 0; i < gangSize; ++i) {
+		std::string strategyFile = m_directory + std::to_string(m_ID) + "-" + std::to_string(i) + fileFormat;
+		generator.GenerateStrategy(strategyFile);
+		m_prisoners.push_back(new GangPrisoner(i, strategyFile));
+	}
+	int x = 2;
 }
 void Gang::LoadMembers(std::vector<std::string> filepaths) {
 	for (int i = 0; i < filepaths.size(); ++i) {

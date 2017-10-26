@@ -6,6 +6,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 class RandomNumberGenerator;
 
@@ -13,7 +14,7 @@ class RandomNumberGenerator;
 class StrategyGenerator
 {
 public:
-	StrategyGenerator(bool safeGeneration = false);
+	StrategyGenerator(bool safeGeneration = false, bool gangs = false);
 	~StrategyGenerator();
 	void GenerateStrategy(const std::string& outputFile);
 	std::string GenerateStrategy();
@@ -57,6 +58,8 @@ private:
 
 	bool ShouldAddAnotherLine();
 
+	std::vector<std::string> charVariables;
+	std::vector<std::string> variables;
 };
 
 // Strategy Class: Contains number of lines

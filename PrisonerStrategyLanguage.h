@@ -69,13 +69,13 @@ namespace PSL
 
 	// Dictionaries used by the strategy generator //TODO: Move to a seperate header file
 #ifndef GANG //TODO: Refactor Defining these variable outcomes twice
-	const std::vector<std::string> charVariables = { "W", "X", "Y", "Z" };
+	//const std::vector<std::string> charVariables = { "W", "X", "Y", "Z" };
 #else
 	const std::vector<std::string> charVariables = { "A", "B", "C", "W", "X", "Y", "Z" };
 #endif
 
 #ifndef GANG 
-	const std::vector<std::string> variables = { "ALLOUTCOMES_W", "ALLOUTCOMES_X", "ALLOUTCOMES_Y", "ALLOUTCOMES_Z", "ITERATIONS", "MYSCORE" };
+	//const std::vector<std::string> variables = { "ALLOUTCOMES_W", "ALLOUTCOMES_X", "ALLOUTCOMES_Y", "ALLOUTCOMES_Z", "ITERATIONS", "MYSCORE" };
 #else
 	const std::vector<std::string> variables = { "ALLOUTCOMES_W", "ALLOUTCOMES_X", "ALLOUTCOMES_Y",
 												  "ALLOUTCOMES_Z", "ITERATIONS", "MYSCORE",  

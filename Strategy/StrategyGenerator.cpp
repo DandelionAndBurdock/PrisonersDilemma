@@ -3,7 +3,7 @@
 #include "../Utility/RandomNumberGenerator.h"
 #include "../Utility/FileManager.h"
 #include "StrategyConstants.h"
-StrategyGenerator::StrategyGenerator(bool safeGeneration) : // TODO: Make a real constructor
+StrategyGenerator::StrategyGenerator(bool safeGeneration, bool gangs) : // TODO: Make a real constructor
 m_currentLineNumber(0),
 m_highestGotoLine(0),
 m_safeGeneration(safeGeneration)
@@ -31,6 +31,17 @@ m_safeGeneration(safeGeneration)
 
 	m_gotoForecast = constants.gotoForecast;
 
+	if (gangs) {
+		variables = { "ALLOUTCOMES_W", "ALLOUTCOMES_X", "ALLOUTCOMES_Y",
+			"ALLOUTCOMES_Z", "ITERATIONS", "MYSCORE",
+			"ALLOUTCOMES_A", "ALLOUTCOMES_B", "ALLOUTCOMES_C", };
+		charVariables = { "A", "B", "C", "W", "X", "Y", "Z" };
+	}
+	else {
+		charVariables = { "W", "X", "Y", "Z" };
+		variables = { "ALLOUTCOMES_W", "ALLOUTCOMES_X", "ALLOUTCOMES_Y", "ALLOUTCOMES_Z", "ITERATIONS", "MYSCORE" };
+	}
+
 }
 
 
@@ -39,12 +50,14 @@ StrategyGenerator::~StrategyGenerator()
 }
 
 std::string StrategyGenerator::GenerateExpression(){
+	std::cout << "Gen Exp" << std::endl;
 	if (rng->GetRandFloat() < m_charExpressionProb){
 		return  GenerateCharExpression();
 	}
 	else{
 		return GenerateArithExpression();
 	}
+
 }
 
 std::string StrategyGenerator::GenerateCharExpression(){
@@ -149,10 +162,15 @@ std::string StrategyGenerator::GenerateGoto(){
 	else{
 		upperLimit = m_currentLineNumber + m_gotoForecast;
 	}
-
-	int gotoLine = RandomNumberGenerator::Instance()->GetExcludedRandInt(lowerLimit, upperLimit, m_currentLineNumber); //typedef instance
-	if (gotoLine > m_highestGotoLine){
-		m_highestGotoLine = gotoLine;
+	int gotoLine;
+	if (m_safeGeneration && (lowerLimit + 1 == upperLimit)) {
+		gotoLine = upperLimit + 1;
+	}
+	else {
+		gotoLine = RandomNumberGenerator::Instance()->GetExcludedRandInt(lowerLimit, upperLimit, m_currentLineNumber); //typedef instance
+		if (gotoLine > m_highestGotoLine) {
+			m_highestGotoLine = gotoLine;
+		}
 	}
 	return buffer += std::to_string(gotoLine);
 }
@@ -183,10 +201,10 @@ void StrategyGenerator::AddEndLine(std::string& str){
 }
 
 std::string StrategyGenerator::GetRandomCharVariable(){
-	return PSL::charVariables[rng->GetRandInt(0, PSL::charVariables.size())];
+	return charVariables[rng->GetRandInt(0, charVariables.size())];
 }
 std::string StrategyGenerator::GetRandomVariable(){ //TODO: What about ints?
-	return PSL::variables[rng->GetRandInt(0, PSL::variables.size())];
+	return variables[rng->GetRandInt(0, variables.size())];
 }
 
 std::string StrategyGenerator::GetRandomArithOp(){
