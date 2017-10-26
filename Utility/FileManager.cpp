@@ -28,7 +28,16 @@ FileManager* FileManager::Instance()
 
 std::string FileManager::ReadFile(const std::string& path) const{
 
-	std::ifstream inFile(path);
+	//std::ifstream inFile(path);
+	std::ifstream inFile;
+	inFile.exceptions(std::ifstream::failbit);
+	try {
+		inFile.open(path);
+	}
+	catch (const std::exception& e) {
+		std::cout << "Fiddlesticks: Exception thrown opening file" << std::endl;
+	}
+
 
 	if (inFile){
 		return std::string((std::istreambuf_iterator<char>(inFile)),

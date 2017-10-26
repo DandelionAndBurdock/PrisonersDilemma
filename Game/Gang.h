@@ -12,7 +12,7 @@ class Gang
 {
 public:
 	// If given only an ID will generate a new gang
-	Gang(int ID, int gangSize);
+	Gang(int ID, int gangSize, bool leaderChange = false);
 	Gang(int ID, const std::vector<std::string>& filePaths);
 	Gang(int ID, const std::vector<std::string>& filePaths, bool leaderChange);
 	~Gang();

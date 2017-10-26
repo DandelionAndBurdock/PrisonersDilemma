@@ -27,6 +27,8 @@ public:
 	void PrintGameResults();
 
 	void PrintSpyStatistics();
+
+	int GetScore(int gandID);
 private:
 	//TODO: Generates statistics and tournament information to the console and the file /
 	void CalculateRankings();

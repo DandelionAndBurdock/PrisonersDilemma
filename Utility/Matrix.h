@@ -1,7 +1,8 @@
 // Class: Matrix
 // Description: Template class for a square matrix
 // Note: Does not include mathematical matrix operations
-// Author: Philip Jones
+// Author: Newcastle University Game Lab https://research.ncl.ac.uk/game/mastersdegree/programmingforgames/templates/templates.cpp
+// Modifications: Philip Jones
 // Date: 19/10/2017
 #pragma once
 

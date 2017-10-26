@@ -75,6 +75,10 @@ void GangTournament::MoveWinners() {
 	}
 }
 
+int GangTournament::GetScore(int gangID) {
+	return m_scores[gangID];
+}
+
 
 //TODO: Refactor also this will blow up -- quick fix add a check
 void GangTournament::RunGame(Gang& gangA, Gang& gangB) {

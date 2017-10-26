@@ -5,8 +5,8 @@
 #include "../Strategy/StrategyGenerator.h"
 #include "../Strategy/StrategyTester.h"
 
-Gang::Gang(int ID, int gangSize) :
-m_ID(ID)
+Gang::Gang(int ID, int gangSize, bool leaderChange) :
+m_ID(ID), m_leaderChange(false)
 {
 	m_gangSize = gangSize;
 	m_directory = "GangTournaments//";
@@ -16,7 +16,7 @@ m_ID(ID)
 
 }
 Gang::Gang(int ID, const std::vector<std::string>& filePaths) :
-	m_ID(ID), m_filePaths(filePaths), m_leaderChange(true)
+	m_ID(ID), m_filePaths(filePaths), m_leaderChange(false)
 {
 	LoadMembers(filePaths);
 	Reset();
