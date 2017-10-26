@@ -16,6 +16,27 @@ public:
 
 
 private:
+	void RunTournament();
+	void RunChampionship();
+	void SetGenerationOptions();
+	void SetTournamentOptions();
+	
+	// Strategy Generation
+	void SetIf();
+	void SetCharExpression();
+	void SetArithExpression();
+	void SetAddNewLine();
+	void SetGoto();
+	void SetMinLines();
+	void SetMaxLines();
+	void SetGotoJump();
+
+	// Tournament Options
+	void ConfigureGangs();
+	void ConfigureSpies();
+	void ConfigurePrisoners();
+	void SetIterations();
+
 	const int maxUserOption = 6;
 	const int minUserOption = 1;
 	void PrintWelcomeMessage();

@@ -14,6 +14,12 @@ public:
 	void Run();
 
 	int GetWinner(); 
+
+
+	inline int GetSpyMisses() { return m_spyPresentNotFound; }
+	inline int GetSpyChange() { return m_spyFoundLeaderChange; }
+	inline int GetSpyStick() { return m_spyFoundLeaderStick; }
+
 private:
 	void CheckForSpies();
 	bool ResolveSpies();

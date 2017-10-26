@@ -6,7 +6,7 @@
 
 #include <iostream>
 #include <iomanip>
-
+//TODO: Rename number of winners, to winnersPerTournament
 GangTournament::GangTournament(int ID, std::vector<Gang>& gangs, bool useSpies,
 	float spyProb, int numberIterations, int numberOfWinners) :
 	m_scores(std::vector<int>(gangs.size(), 0)),	    // Keeps track of cumulative score
@@ -17,7 +17,7 @@ GangTournament::GangTournament(int ID, std::vector<Gang>& gangs, bool useSpies,
 	m_gameScores(Matrix<int>(gangs.size())),
 	m_gangs(gangs),
 	m_numberOfWinners(numberOfWinners),
-	m_numberOfIterations(numberIterations),
+	m_iterationsPerGame(numberIterations),
 	m_useSpies(useSpies),
 	m_spyProb(spyProb)
 {
@@ -78,7 +78,7 @@ void GangTournament::MoveWinners() {
 
 //TODO: Refactor also this will blow up -- quick fix add a check
 void GangTournament::RunGame(Gang& gangA, Gang& gangB) {
-	GangGame game(&gangA, &gangB, m_spyProb, m_useSpies, m_numberOfIterations);
+	GangGame game(&gangA, &gangB, m_spyProb, m_useSpies, m_iterationsPerGame);
 	game.Run();
  
 	int winner = game.GetWinner();
@@ -102,6 +102,11 @@ void GangTournament::RunGame(Gang& gangA, Gang& gangB) {
 	// Update scores
 	m_gameScores.SetElement(gangA.GetID(), gangB.GetID(), gangA.GetScore());
 	m_gameScores.SetElement(gangB.GetID(), gangA.GetID(), gangB.GetScore());
+
+	// Update spy statistics
+	m_spyPresentNotFound += game.GetSpyMisses();
+	m_spyFoundLeaderChange += game.GetSpyChange();
+	m_spyFoundLeaderStick += game.GetSpyStick();
 }
 
 void GangTournament::CalculateRankings() {
@@ -188,3 +193,22 @@ void GangTournament::PrintReport() {
 	PrintStarLine(true);
 }
 
+//TODO: Move to utility function
+int factorial(int n) {
+	if (n == 1) {
+		return 1;
+	}
+	else {
+		return n * factorial(n- 1);
+	}
+}
+
+void GangTournament::PrintSpyStatistics() {
+	std::cout << "Tournament " << m_ID << " Spy Statistics" << std::endl;
+	std::cout << "Rounds Played: " << m_iterationsPerGame * factorial(m_gangs.size()) << std::endl;
+	std::cout << "Spy Probability: " << m_spyProb << std::endl;
+	std::cout << "Spies Found: " << m_spyFoundLeaderChange + m_spyFoundLeaderStick << std::endl;
+	std::cout << "Spies Missed:" << m_spyPresentNotFound << std::endl;
+	std::cout << "Spies Found After Leader Switch: " << m_spyFoundLeaderChange << std::endl;
+	std::cout << "Spies Found After Leader Stick: " << m_spyFoundLeaderStick << std::endl;
+}

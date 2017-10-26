@@ -24,6 +24,8 @@ public:
 
 	// Displays which prisoner beat which other prisoner
 	void PrintGameResults();
+
+	void PrintSpyStatistics();
 private:
 	//TODO: Generates statistics and tournament information to the console and the file /
 	void CalculateRankings();
@@ -76,9 +78,11 @@ private:
 
 	std::set<std::pair<int, int>, Comparison> m_rankings; // Will hold pair of victories/ ID 
 
-	int m_numberOfIterations;
+
 	bool m_useSpies;
 	float m_spyProb;
 
-	
+	int m_spyPresentNotFound = 0;
+	int m_spyFoundLeaderChange = 0;
+	int m_spyFoundLeaderStick = 0;
 };

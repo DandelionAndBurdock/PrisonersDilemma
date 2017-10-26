@@ -97,8 +97,14 @@ void Tournament::PlayGames() {
 	std::vector<std::thread> threadVec;
 	for (auto prisonerA = m_prisoners.begin(); prisonerA != std::prev(m_prisoners.end()); ++prisonerA) {
 		for (auto prisonerB = prisonerA + 1; prisonerB != m_prisoners.end(); ++prisonerB) {
-			//RunGame(*prisonerA, *prisonerB);
-			threadVec.push_back(std::thread(&Tournament::RunGame, this, *prisonerA, *prisonerB));
+			if (m_threading) {
+				threadVec.push_back(std::thread(&Tournament::RunGame, this, *prisonerA, *prisonerB));
+			}
+			else {
+				RunGame(*prisonerA, *prisonerB);
+			}
+			
+		
 		}
 	}
 

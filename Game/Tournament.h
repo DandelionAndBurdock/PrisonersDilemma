@@ -38,6 +38,7 @@ public:
 	// Displays which prisoner beat which other prisoner
 	void PrintGameResults();
 
+	inline void SetThreading(bool threading) { m_threading = threading; }
 private:
 	//TODO: Generates statistics and tournament information to the console and the file /
 	void CalculateRankings();
@@ -82,6 +83,8 @@ private:
 	// Add one victory for prisoner ID
 	int GetVictoryCount(int ID);
 
+	
+
 	//Helper functions for PrintReport()
 	void PrintIntro();
 	void PrintHeader();
@@ -115,7 +118,7 @@ private:
 
 	std::set<std::pair<int, int>, Comparison> m_rankings; // Will hold pair of victories/ ID 
 
-
+	bool m_threading;			// True if threading is active
 	std::mutex m_scoresMutex;
 	std::mutex m_victoriesMutex;
 	std::mutex m_drawsMutex;
