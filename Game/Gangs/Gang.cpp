@@ -37,11 +37,6 @@ void Gang::GenerateNewMembers(int gangSize) {
 	for (int i = 0; i < gangSize; ++i) {
 		std::string strategyFile = m_directory + std::to_string(m_ID) + "-" + std::to_string(i) + fileFormat;
 		generator.GenerateStrategy(strategyFile);
-		Prisoner p(0, strategyFile);
-		while (!tester.PassesTest(p)) {
-			generator.GenerateStrategy(strategyFile);
-			p.ChangeStrategy(strategyFile);
-		}
 		m_prisoners.push_back(new GangPrisoner(i, strategyFile));
 	}
 }
@@ -89,8 +84,6 @@ void Gang::GetVotes() {
 
 }
 
-
-//TODO: Can use reset in constructor (also of prisoner)
 void Gang::Reset() {
 	m_numBetrays = 0;
 	m_numSilence = 0;

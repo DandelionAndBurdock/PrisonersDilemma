@@ -209,6 +209,15 @@ void GameManager::RunTournament() {
 }
 
 void GameManager::RunChampionship() {
+	if (!m_gangs) {
+		RunPrisonerChampionship();
+	}
+	else {
+		RunGangChampionship();
+	}
+}
+
+void GameManager::RunPrisonerChampionship() {
 	Competition c(m_numberOfTournaments, m_numberOfPrisoners,
 		m_numberOfWinners, m_generateStrategies,
 		m_iterationsPerGame, m_inputFileDirectory,
@@ -216,6 +225,14 @@ void GameManager::RunChampionship() {
 
 	c.RunCompetition();
 
+	std::cout << "Would you like to see a breakdown of the games?" << std::endl;
+
+	if (GetYesOrNo() == 'y') {
+		c.PrintGameResults();
+	}
+}
+
+void GameManager::RunGangChampionship() {
 	std::cout << "Would you like to see a breakdown of the games?" << std::endl;
 
 	if (GetYesOrNo() == 'y') {

@@ -6,18 +6,12 @@ std::map<int, bool> Prisoner::m_validStrategies;
 std::mutex Prisoner::m_validStrategyLock;
 
 Prisoner::Prisoner(int ID, const std::string& filename) :
-	m_lastOutcome('?'), 
-	m_alloutcomesW(0),
-	m_alloutcomesX(0),
-	m_alloutcomesY(0),
-	m_alloutcomesZ(0),
-	m_iterations(0),
 	m_intVars(MakeIntegerVariableMap()),
 	m_charVars(MakeCharVariableMap()),
-	m_score(0),
 	m_ID(ID),
 	m_strategy(filename, m_intVars, m_charVars)
 {
+	Reset();
 	m_validStrategies[m_ID] = true;
 }
 
@@ -25,7 +19,6 @@ Prisoner::~Prisoner()
 {
 }
 
-// TODO: Check
 Prisoner::Prisoner(const Prisoner& prisoner):
 	m_intVars(MakeIntegerVariableMap()),
 	m_charVars(MakeCharVariableMap())
@@ -60,8 +53,8 @@ Prisoner& Prisoner::operator=(const Prisoner& prisoner)
 	return *this;
 }
 
-IntMap Prisoner::MakeIntegerVariableMap() {//TODO: Make const pointers??
-	return IntMap {  	//TODO: Would be bettter if the outcomes were in an array/vector
+IntMap Prisoner::MakeIntegerVariableMap() {
+	return IntMap {  	
 										{ TokenValue::ALLOUTCOMES_W, &m_alloutcomesW }, 
 										{ TokenValue::ALLOUTCOMES_X, &m_alloutcomesX },
 										{ TokenValue::ALLOUTCOMES_Y, &m_alloutcomesY },
@@ -89,7 +82,6 @@ ActionType Prisoner::GetSelection() {
 
 void Prisoner::SetLastOutcome(char outcome){	
 	m_lastOutcome = outcome; 
-	//TODO: Would be bettter if the outcomes were in an array/vector
 	switch (outcome) {
 	case 'W':
 		++m_alloutcomesW;
@@ -111,7 +103,6 @@ bool Prisoner::HasValidStrategy(int ID) {
 	return m_validStrategies.at(ID);
 }
 
-
 void Prisoner::Reset() {
 	m_alloutcomesW = 0;
 	m_alloutcomesX = 0;
@@ -119,6 +110,7 @@ void Prisoner::Reset() {
 	m_alloutcomesZ = 0;
 	m_iterations = 0;
 	m_score = 0;
+	m_lastOutcome = '?';
 }
 
 

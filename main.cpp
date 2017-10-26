@@ -21,17 +21,18 @@ int main()
 //		"GangTournaments//Win3.txt" ,
 //		"GangTournaments//Win4.txt",
 //		"GangTournaments//Win5.txt" };
-//	
-//	
+//
+//
 //	std::vector<float> averagesStickStick;
 //
-//		std::vector<Gang> gangs;
-//		Gang champs(0, winners, false);
-//		gangs.push_back(champs);
-//		for (int j = 0; j < 4; ++j) {
-//			gangs.push_back(Gang(j + 1, 5, false));
-//		}
-//
+//	std::vector<Gang> gangs;
+//	Gang champs(0, winners, false);
+//	gangs.push_back(champs);
+//	for (int j = 0; j < 4; ++j) {
+//		gangs.push_back(Gang(j + 1, 5, false));
+//	}
+//	GangTournament tournament(1, gangs, defaultGangInDir, defaultGangOutDir, true, 0.2);
+//}
 //		int numberOfReps = 10;
 //			
 //	for (float prob = 0.0f; prob <= 1.0001f; prob += 0.05f) {
