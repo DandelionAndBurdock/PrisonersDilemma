@@ -30,13 +30,17 @@ void Interpreter::LoadCodeFromFile(){
 	std::istringstream ss(m_codeString);
 	std::string line;
 	while (std::getline(ss, line)){
-		std::unique_ptr<Statement> linePtr = lexer.Construct(line);
+		if (line.size()) {
+			std::unique_ptr<Statement> linePtr = lexer.Construct(line);
+		
+		
 		if (linePtr) {
 			m_code.push_back(std::move(linePtr));
 		}
 		else {
 			m_valid = false;
 			return;
+		}
 		}
 	}
 	m_valid = true;

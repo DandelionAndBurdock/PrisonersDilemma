@@ -50,7 +50,6 @@ StrategyGenerator::~StrategyGenerator()
 }
 
 std::string StrategyGenerator::GenerateExpression(){
-	std::cout << "Gen Exp" << std::endl;
 	if (rng->GetRandFloat() < m_charExpressionProb){
 		return  GenerateCharExpression();
 	}
@@ -162,9 +161,12 @@ std::string StrategyGenerator::GenerateGoto(){
 	else{
 		upperLimit = m_currentLineNumber + m_gotoForecast;
 	}
+
+
+
 	int gotoLine;
 	if (m_safeGeneration && (lowerLimit + 1 == upperLimit)) {
-		gotoLine = upperLimit + 1;
+		gotoLine = upperLimit;
 	}
 	else {
 		gotoLine = RandomNumberGenerator::Instance()->GetExcludedRandInt(lowerLimit, upperLimit, m_currentLineNumber); //typedef instance

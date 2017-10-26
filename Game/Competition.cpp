@@ -26,7 +26,10 @@ Competition::~Competition()
 	for (Tournament* ptr : m_tournaments) {
 		delete ptr;
 	}
-	delete m_championTournament;
+	if (m_championTournament) {
+		delete m_championTournament;
+	}
+
 }
 
 void Competition::RunCompetition() {

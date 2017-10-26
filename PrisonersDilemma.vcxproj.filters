@@ -24,6 +24,7 @@
     <ClCompile Include="Game\GangTournament.cpp" />
     <ClCompile Include="Game\GangPrisoner.cpp" />
     <ClCompile Include="Profiling\Profiling.cpp" />
+    <ClCompile Include="Game\GangCompetition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Prisoner.h" />
@@ -51,5 +52,6 @@
     <ClInclude Include="Game\GangTournament.h" />
     <ClInclude Include="Game\GangPrisoner.h" />
     <ClInclude Include="Profiling\Profiling.h" />
+    <ClInclude Include="Game\GangCompetition.h" />
   </ItemGroup>
 </Project>

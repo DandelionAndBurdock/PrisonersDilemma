@@ -3,6 +3,7 @@
 #include "GangPrisoner.h"
 #include "../Utility/RandomNumberGenerator.h"
 #include "../Strategy/StrategyGenerator.h"
+#include "../Strategy/StrategyTester.h"
 
 Gang::Gang(int ID, int gangSize) :
 m_ID(ID)
@@ -32,12 +33,17 @@ Gang(ID, filePaths)
 
 void Gang::GenerateNewMembers(int gangSize) {
 	StrategyGenerator generator(true, true);
+	StrategyTester tester;
 	for (int i = 0; i < gangSize; ++i) {
 		std::string strategyFile = m_directory + std::to_string(m_ID) + "-" + std::to_string(i) + fileFormat;
 		generator.GenerateStrategy(strategyFile);
+		Prisoner p(0, strategyFile);
+		while (!tester.PassesTest(p)) {
+			generator.GenerateStrategy(strategyFile);
+			p.ChangeStrategy(strategyFile);
+		}
 		m_prisoners.push_back(new GangPrisoner(i, strategyFile));
 	}
-	int x = 2;
 }
 void Gang::LoadMembers(std::vector<std::string> filepaths) {
 	for (int i = 0; i < filepaths.size(); ++i) {

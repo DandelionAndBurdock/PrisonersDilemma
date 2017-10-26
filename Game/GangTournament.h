@@ -15,7 +15,8 @@ class GangTournament
 {
 	enum Result { WIN, LOSE, DRAW, UNFINISHED };
 public:
-	GangTournament(int ID, std::vector<Gang>& gangs, bool useSpies = false,
+	GangTournament(int ID, std::vector<Gang>& gangs, const std::string& inputDirectory = defaultGangInDir, 
+		const std::string& outputDirectory = defaultGangOutDir, bool useSpies = false,
 		float spyProb = 0.0f, int numberIterations = 200, int numberOfWinners = 2);
 	~GangTournament();
 

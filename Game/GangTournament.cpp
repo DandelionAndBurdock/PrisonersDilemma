@@ -7,7 +7,7 @@
 #include <iostream>
 #include <iomanip>
 //TODO: Rename number of winners, to winnersPerTournament
-GangTournament::GangTournament(int ID, std::vector<Gang>& gangs, bool useSpies,
+GangTournament::GangTournament(int ID, std::vector<Gang>& gangs, const std::string& inputDirectory, const std::string& outputDirectory,  bool useSpies,
 	float spyProb, int numberIterations, int numberOfWinners) :
 	m_scores(std::vector<int>(gangs.size(), 0)),	    // Keeps track of cumulative score
 	m_victories(std::vector<int>(gangs.size(), 0)),  // Keeps track of number of victories for each prisoner
@@ -39,8 +39,8 @@ GangTournament::GangTournament(int ID, std::vector<Gang>& gangs, bool useSpies,
 		m_numberOfWinners = numGangs;
 	}
 
-	m_inputDirectory = "GangTournaments//";
-	m_outputDirectory = "GangTournaments//Winners//";
+	m_inputDirectory = inputDirectory;
+	m_outputDirectory = outputDirectory;
 	GangSentence m_payoffs = GangSentence();
 }
 

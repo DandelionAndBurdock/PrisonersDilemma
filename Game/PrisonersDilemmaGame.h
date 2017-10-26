@@ -44,9 +44,12 @@ const int defaultTournaments = 3;												  // Default number of tournaments 
 const int defaultWinners = 3;													  // Default number of strategies from each tournament which go through to the championship
 const std::string defaultInputDir = "Tournaments//";							  // Default folder to read in strategy files
 const std::string defaultOutputDir = defaultInputDir + std::string("Winners//");  // Default sub-folder to output winning tournament strategies and tournament report
+const std::string defaultGangInDir = "GangTournaments//";							  // Default folder to read in strategy files
+const std::string defaultGangOutDir = defaultGangInDir + std::string("Winners//");  // Default sub-folder to output winning tournament strategies and tournament report
 const bool defaultGenStrategies = true;										  // Default behaviour for generating strategies
 const int defaultIterations = 200;												  // Default number of iterations per game
-const int defaultPrisoners = 10;												  // Default number of prisoners per game
+const int defaultPrisoners = 10;	
+const int defaultGangs = 3; // Default number of gangs per tournament
 const std::string fileFormat = ".txt";											  // File format for saving and loading strategies
 
 																				  //TODO: Replace with leaderboard class, vector and sort function

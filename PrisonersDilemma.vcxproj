@@ -18,6 +18,7 @@
     <ClCompile Include="Game\GangGame.cpp" />
     <ClCompile Include="Game\GangPrisoner.cpp" />
     <ClCompile Include="Game\GangTournament.cpp" />
+    <ClCompile Include="Game\GangCompetition.cpp" />
     <ClCompile Include="Interpreter\Expression.cpp" />
     <ClCompile Include="Interpreter\Statement.cpp" />
     <ClCompile Include="Profiling\Profiling.cpp" />
@@ -44,6 +45,7 @@
     <ClInclude Include="Game\Gang.h" />
     <ClInclude Include="Game\GangGame.h" />
     <ClInclude Include="Game\GangTournament.h" />
+    <ClInclude Include="Game\GangCompetition.h" />
     <ClInclude Include="Interpreter\Expression.h" />
     <ClInclude Include="Interpreter\Statement.h" />
     <ClInclude Include="Profiling\Profiling.h" />
