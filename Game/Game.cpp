@@ -42,7 +42,7 @@ int Game::GetWinner() {
 	if (!m_prisonerB.HasValidStrategy()) {
 		return m_prisonerA.GetID();
 	}
-	if (m_prisonerA.GetScore() == m_prisonerB.GetScore()) {  //TODO: Lock
+	if (m_prisonerA.GetScore() == m_prisonerB.GetScore()) {  
 		return m_draw;
 	}
 	else {
@@ -56,7 +56,7 @@ void Game::Run() {
 			break;
 		}
 		else {
-			Resolve(m_prisonerA.GetSelection(), m_prisonerB.GetSelection());  //TODO: Lock?
+			Resolve(m_prisonerA.GetSelection(), m_prisonerB.GetSelection());  
 		}
 	}
 
@@ -65,26 +65,26 @@ void Game::Run() {
 
 void Game::Resolve(ActionType choiceA, ActionType choiceB) {  //TODO: Could do some calculation rather than brute force?
 	if (choiceA == SILENCE && choiceB == SILENCE) {
-		m_prisonerA.SetLastOutcome('W'); //TODO: Lock
-		m_prisonerB.SetLastOutcome('W'); //TODO: Lock
+		m_prisonerA.SetLastOutcome('W'); 
+		m_prisonerB.SetLastOutcome('W'); 
 		m_prisonerA.AddToScore(m_sentence.m_silent);
 		m_prisonerB.AddToScore(m_sentence.m_silent);
 	}
 	else if (choiceA == SILENCE && choiceB == BETRAY) {
-		m_prisonerA.SetLastOutcome('X');  //TODO: Lock
-		m_prisonerB.SetLastOutcome('Y');  //TODO: Lock
+		m_prisonerA.SetLastOutcome('X');  
+		m_prisonerB.SetLastOutcome('Y');  
 		m_prisonerA.AddToScore(m_sentence.m_sucker);
 		m_prisonerB.AddToScore(m_sentence.m_temptation);
 	}
 	else if (choiceA == BETRAY && choiceB == SILENCE) {
-		m_prisonerA.SetLastOutcome('Y');  //TODO: Lock
-		m_prisonerB.SetLastOutcome('X');  //TODO: Lock
+		m_prisonerA.SetLastOutcome('Y');  
+		m_prisonerB.SetLastOutcome('X');  
 		m_prisonerA.AddToScore(m_sentence.m_temptation);
 		m_prisonerB.AddToScore(m_sentence.m_sucker);
 	}
 	else if (choiceA == BETRAY && choiceB == BETRAY) {
-		m_prisonerA.SetLastOutcome('Z');  //TODO: Lock
-		m_prisonerB.SetLastOutcome('Z');  //TODO: Lock
+		m_prisonerA.SetLastOutcome('Z');  
+		m_prisonerB.SetLastOutcome('Z');  
 		m_prisonerA.AddToScore(m_sentence.m_punishment);
 		m_prisonerB.AddToScore(m_sentence.m_punishment);
 	}

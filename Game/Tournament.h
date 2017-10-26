@@ -11,6 +11,11 @@
 #include <set>
 #include <vector>
 
+
+#include <thread>
+#include <mutex>
+
+
 #include "../Strategy/StrategyGenerator.h" 
 #include "../Strategy/StrategyTester.h"
 #include "../Utility/Matrix.h"
@@ -50,13 +55,32 @@ private:
 	void PlayGames();
 
 	// Simulates a game for prisoner A and prisoner B and returns the ID of the winner
-	void RunGame(Prisoner& prisonerA, Prisoner& prisonerB);
+	void RunGame(Prisoner prisonerA, Prisoner prisonerB);
 
 	// Copies top m_numberOfWinners strategies to the output directory 
 	void MoveWinners();
 
 	// Generate statistics for the user about the tournament
 	void PrintReport();
+
+	// Add one victory for prisoner ID
+	void IncrementVictoryCount(int ID);
+
+	// Add one draw for prisoner ID
+	void IncrementDrawCount(int ID);
+
+	// Add one victory for prisoner ID
+	void AddToScore(int ID, int deltaScore);
+
+	// Add one victory for prisoner ID
+	int GetScore(int ID);
+
+	void SetScore(int ID, int score);
+	// Add one victory for prisoner ID
+	int GetDrawCount(int ID);
+
+	// Add one victory for prisoner ID
+	int GetVictoryCount(int ID);
 
 	//Helper functions for PrintReport()
 	void PrintIntro();
@@ -91,6 +115,10 @@ private:
 
 	std::set<std::pair<int, int>, Comparison> m_rankings; // Will hold pair of victories/ ID 
 
+
+	std::mutex m_scoresMutex;
+	std::mutex m_victoriesMutex;
+	std::mutex m_drawsMutex;
 };
 
 //TODO: Rule of 3

@@ -10,10 +10,16 @@ m_ID(ID)
 	GenerateNewMembers();
 }
 Gang::Gang(int ID, const std::vector<std::string>& filePaths) :
-	m_ID(ID), m_filePaths(filePaths)
+	m_ID(ID), m_filePaths(filePaths), m_leaderChange(true)
 {
 	LoadMembers(filePaths);
 	Reset();
+}
+
+Gang::Gang(int ID, const std::vector<std::string>& filePaths, bool leaderChange) :
+Gang(ID, filePaths)
+{
+	m_leaderChange = leaderChange;
 }
 
 
@@ -126,6 +132,11 @@ ActionType Gang::GetSpyVote() {
 }
 
 bool Gang::FindSpy() {
+	if (!m_hasSpy) {
+		m_foundSpy = false;
+		return false;
+	}
+		
 	// Guess a spy at random (not the leader)
 	int initalGuess = RandomNumberGenerator::Instance()->GetExcludedRandInt(0, m_gangSize - 1, m_leaderIndex);
 

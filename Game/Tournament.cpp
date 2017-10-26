@@ -6,7 +6,7 @@
 #include <utility>
 #include <numeric> // For std::numeric_limits<int>::max()
 #include <iomanip> // For std::setw()
-#include <thread>
+
 
 #include "../Utility/FileManager.h"
 
@@ -94,10 +94,16 @@ Tournament::~Tournament()
 }
 
 void Tournament::PlayGames() {
+	std::vector<std::thread> threadVec;
 	for (auto prisonerA = m_prisoners.begin(); prisonerA != std::prev(m_prisoners.end()); ++prisonerA) {
 		for (auto prisonerB = prisonerA + 1; prisonerB != m_prisoners.end(); ++prisonerB) {
 			RunGame(*prisonerA, *prisonerB);
+			//threadVec.push_back(std::thread(std::bind(&Tournament::RunGame, this), pA, pB));
 		}
+	}
+
+	for (auto& t : threadVec) {
+		t.join();
 	}
 }
 
@@ -119,30 +125,71 @@ void Tournament::MoveWinners() {
 }
 
 
+
+// Add one draw for prisoner ID
+void Tournament::IncrementDrawCount(int ID) {
+	std::lock_guard<std::mutex> guard(m_drawsMutex);
+	++m_draws[ID];
+}
+
+// Add one victory for prisoner ID
+void Tournament::AddToScore(int ID, int deltaScore) {
+	std::lock_guard<std::mutex> guard(m_scoresMutex);
+	m_scores[ID] += deltaScore;
+}
+
+// Add one victory for prisoner ID
+int Tournament::GetScore(int ID) {
+	std::lock_guard<std::mutex> guard(m_scoresMutex);
+	return m_scores[ID];
+}
+
+// Add one victory for prisoner ID
+int Tournament::GetDrawCount(int ID) {
+	std::lock_guard<std::mutex> guard(m_drawsMutex);
+	return m_draws[ID];
+}
+
+
+int Tournament::GetVictoryCount(int ID) {
+	std::lock_guard<std::mutex> guard(m_victoriesMutex);
+	return m_victories[ID];
+}
+
+void Tournament::IncrementVictoryCount(int ID) {
+	std::lock_guard<std::mutex> guard(m_victoriesMutex);
+	++m_victories[ID];
+}
+
+void Tournament::SetScore(int ID, int score) {
+	std::lock_guard<std::mutex> guard(m_scoresMutex);
+	m_scores[ID] = score;
+}
+
 //TODO: Refactor Also this will explode if IDs are not sequential
-void Tournament::RunGame(Prisoner& prisonerA, Prisoner& prisonerB) {
+void Tournament::RunGame(Prisoner prisonerA, Prisoner prisonerB) {
 	Game game(prisonerA, prisonerB, m_iterationsPerGame, m_payoffs);
 	game.Run();
 	int winner = game.GetWinner();
 	if (winner == prisonerA.GetID()) {
 		m_results.SetElement(prisonerA.GetID(), prisonerB.GetID(), WIN);
 		m_results.SetElement(prisonerB.GetID(), prisonerA.GetID(), LOSE);
-		m_victories[prisonerA.GetID()]++; // TODO: Refactor Lock
+		IncrementVictoryCount(prisonerA.GetID()); 
 	}
 	else if (winner == prisonerB.GetID()) {
 		m_results.SetElement(prisonerA.GetID(), prisonerB.GetID(), LOSE);
 		m_results.SetElement(prisonerB.GetID(), prisonerA.GetID(), WIN); 
-		m_victories[prisonerB.GetID()]++; // TODO: Refactor Lock
+		IncrementVictoryCount(prisonerB.GetID());
 	}
 	else {
 		m_results.SetElement(prisonerA.GetID(), prisonerB.GetID(), DRAW);
 		m_results.SetElement(prisonerB.GetID(), prisonerA.GetID(), DRAW);
-		m_draws[prisonerA.GetID()]++; // TODO: Refactor Lock
-		m_draws[prisonerB.GetID()]++; // TODO: Refactor Lock
+		IncrementDrawCount(prisonerA.GetID()); 
+		IncrementDrawCount(prisonerB.GetID()); 
 	}
 	// Update scores
-	m_gameScores.SetElement(prisonerA.GetID(), prisonerB.GetID(), prisonerA.GetScore());
-	m_gameScores.SetElement(prisonerB.GetID(), prisonerA.GetID(), prisonerB.GetScore());
+	m_gameScores.SetElement(prisonerA.GetID(), prisonerB.GetID(), prisonerA.GetScore());//TODO: Lock
+	m_gameScores.SetElement(prisonerB.GetID(), prisonerA.GetID(), prisonerB.GetScore());//TODO: Lock
 }
 
 void Tournament::CalculateRankings() {
@@ -150,7 +197,7 @@ void Tournament::CalculateRankings() {
 
 	for (int row = 0; row < m_numberOfPrisoners; ++row) {
 		if (!m_prisoners[row].HasValidStrategy()) {
-			m_scores[row] = std::numeric_limits<int>::max();
+			SetScore(row, std::numeric_limits<int>::max());
 			continue;
 		}
 		for (int col = 0; col < m_numberOfPrisoners; ++col) {
@@ -158,13 +205,13 @@ void Tournament::CalculateRankings() {
 				continue;
 			}
 			if (m_prisoners[col].HasValidStrategy()) {
-				m_scores[row] += m_gameScores.GetElement(row, col);
+				AddToScore(row, m_gameScores.GetElement(row, col));
 			}
 		}
 	}
 
 	for (int i = 0; i < m_numberOfPrisoners; ++i) {
-		m_rankings.insert(std::make_pair(i, m_scores[i]));
+		m_rankings.insert(std::make_pair(i, GetScore(i)));
 	}
 }
 
@@ -173,10 +220,10 @@ void Tournament::PrintPrisonerPerformance() {
 	for (int i = 0; i < m_numberOfPrisoners; ++i) {
 		if (m_prisoners[i].HasValidStrategy()) {
 			std::cout << std::setw(12) << std::left << m_prisoners[i].GetID();
-			std::cout << std::setw(12) << std::left << m_victories[i];
-			std::cout << std::setw(12) << std::left << m_draws[i];
-			std::cout << std::setw(12) << std::left << (m_numberOfPrisoners - 1) - m_draws[i] - m_victories[i];
-			std::cout << std::setw(12) << std::left << m_scores[i] << std::endl;
+			std::cout << std::setw(12) << std::left << GetVictoryCount(i);//Lock
+			std::cout << std::setw(12) << std::left << GetDrawCount(i);
+			std::cout << std::setw(12) << std::left << (m_numberOfPrisoners - 1) - GetDrawCount(i) - GetVictoryCount(i); 
+			std::cout << std::setw(12) << std::left << GetScore(i) << std::endl;
 		}
 		else {
 			std::cout << std::setw(12) << std::left << m_prisoners[i].GetID();

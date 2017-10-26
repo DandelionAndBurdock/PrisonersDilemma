@@ -10,8 +10,9 @@ class Gang
 {
 public:
 	// If given only an ID will generate a new gang
-	Gang(int ID, int gangSize);//TODO: take in number of iterations
-	Gang(int ID, const std::vector<std::string>& filePaths);//TODO: take in number of iterations
+	Gang(int ID, int gangSize);
+	Gang(int ID, const std::vector<std::string>& filePaths);
+	Gang(int ID, const std::vector<std::string>& filePaths, bool leaderChange);
 	~Gang();
 
 	// Polls each prisoner to get his/her selection and updates gang state based on their response
@@ -33,6 +34,7 @@ public:
 	std::string GetCode();
 	inline bool DidFindSpy() { return m_foundSpy; }
 	inline bool LeaderChanges() { return m_leaderChange; }
+	inline bool HasSpy() { return m_hasSpy; }
 	// Setters 
 	void SetLastOutcome(char outcome);
 	void AddToScore(int x);
@@ -57,7 +59,7 @@ private:
 	bool m_hasSpy;		// True if gang has a spy
 	int m_spyIndex;		// 
 	int m_leaderIndex;
-	bool				   m_leaderChange;	// True if leader always changes false if leader never changes spy pick
+	bool m_leaderChange;	// True if leader always changes false if leader never changes spy pick
 	bool m_foundSpy;	// True if discovered a spy in this gang
 	
 

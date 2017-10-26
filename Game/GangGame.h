@@ -34,5 +34,14 @@ private:
 	const int m_draw = -1;
 
 	float m_spyProb;
+
+	void BothFindSpy();
+	void GangAFindSpy();
+	void GangBFindSpy();
+	void NoSpyFound();
+
+	int m_spyPresentNotFound = 0;
+	int m_spyFoundLeaderChange = 0;
+	int m_spyFoundLeaderStick = 0;
 };
 //TODO: Should inherit from common game class
