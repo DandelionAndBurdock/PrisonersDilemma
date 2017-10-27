@@ -11,6 +11,8 @@
 #include <memory>	// For unique_ptr
 #include <string>
 
+#define FileMgr FileManager::Instance()
+
 class FileManager {
 public:
 	// Returns pointer to single instance of FileManager class.

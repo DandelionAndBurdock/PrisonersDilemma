@@ -78,7 +78,7 @@ void GangTournament::MoveWinners() {
 	for (int i = 0; i < m_numberOfWinners; ++i, ++iter) {
 		std::string outputFile = m_outputDirectory + "Tournament_" + std::to_string(m_ID) + "_Position_" + std::to_string(i + 1) + fileFormat;
 		std::string code = m_gangs[iter->first].GetCode();
-		FileManager::Instance()->WriteFile(outputFile, code);
+		FileMgr->WriteFile(outputFile, code);
 	}
 }
 

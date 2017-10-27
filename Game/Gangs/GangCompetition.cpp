@@ -81,7 +81,7 @@ void GangCompetition::SplitGangStrategy() {
 
 	int id = 0;
 	for (auto& file : m_filenames) {
-		std::string source = FileManager::Instance()->ReadFile(file);
+		std::string source = FileMgr->ReadFile(file);
 		std::istringstream ss(source);
 		while (std::getline(ss, temp)) {
 			if (temp[0] != '*') {
@@ -108,7 +108,7 @@ void GangCompetition::SplitGangStrategy() {
 
 			// Write out strategies to individual files
 			std::string outputFile = m_outputDirectory + std::to_string(i) + "Winner.txt";
-			FileManager::Instance()->WriteFile(outputFile, gangCode);
+			FileMgr->WriteFile(outputFile, gangCode);
 
 			gangFiles.push_back(outputFile);
 		}

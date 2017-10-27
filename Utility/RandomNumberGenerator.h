@@ -5,6 +5,8 @@
 // Date: 17/10/2017
 
 
+#define RNG RandomNumberGenerator::Instance()
+
 #pragma once
 class RandomNumberGenerator
 {

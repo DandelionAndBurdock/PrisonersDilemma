@@ -11,20 +11,6 @@ FileManager* FileManager::Instance()
 	return &instance;
 }
 
-//std::unique_ptr<std::string> FileManager::ReadFile(const std::string& path) const{
-//
-//	std::ifstream inFile(path);
-//
-//	if (inFile){
-//		return std::unique_ptr<std::string>(
-//			new std::string((std::istreambuf_iterator<char>(inFile)),
-//						   (std::istreambuf_iterator<char>())));
-//	}
-//	else{
-//		std::cout << "Warning: Failed to read file at " << path << std::endl;
-//		return std::unique_ptr<std::string>(nullptr);
-//	}
-//}
 
 std::string FileManager::ReadFile(const std::string& path) const{
 
@@ -39,28 +25,15 @@ std::string FileManager::ReadFile(const std::string& path) const{
 	}
 
 
-	if (inFile){
+	if (inFile) {
 		return std::string((std::istreambuf_iterator<char>(inFile)),
-						   (std::istreambuf_iterator<char>()));
+			(std::istreambuf_iterator<char>()));
 	}
-	else{
+	else {
 		std::cout << "Warning: Failed to read file at " << path << std::endl;
 		return std::string("");
 	}
 }
-
-//bool FileManager::PrintFile(const std::string& path, std::ostream& os) const{
-//	std::unique_ptr<std::string> contents = ReadFile(path);
-//	if (contents && os){
-//		os << *contents;
-//		return true;
-//	}
-//	else{
-//		std::cout << "Warning: Failed to print file at " << path << std::endl;
-//	}
-//		
-//	return true;
-//}
 
 bool FileManager::PrintFile(const std::string& path, std::ostream& os) const{
 	std::string contents = ReadFile(path);
@@ -112,10 +85,7 @@ bool FileManager::DeleteFile(const std::string& path) const{
 		std::cout << "Warning: Failed to delete file at " << path << std::endl;
 		return false;
 	}
-}
-
-
-												
+}									
 
 FileManager::FileManager()
 {}

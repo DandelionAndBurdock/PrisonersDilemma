@@ -62,7 +62,7 @@ Action StatementOutcome::Execute(const IntMap& intVars, CharMap& charVars){
 	case TokenValue::SILENCE:
 		return Action(ActionType::SILENCE);
 	case TokenValue::RANDOM:
-		if (RandomNumberGenerator::Instance()->TrueOrFalse()) 
+		if (RNG->TrueOrFalse()) 
 			return Action(ActionType::BETRAY);
 		else
 			return Action(ActionType::SILENCE);

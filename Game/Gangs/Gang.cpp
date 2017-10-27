@@ -125,10 +125,10 @@ std::string Gang::GetCode() {
 }
 
 bool Gang::PlantSpy(float m_prob) {
-	m_hasSpy = (RandomNumberGenerator::Instance()->GetRandFloat() < m_prob);
+	m_hasSpy = (RNG->GetRandFloat() < m_prob);
 	if (m_hasSpy) {
-		m_spyIndex = RandomNumberGenerator::Instance()->GetRandInt(0, m_gangSize - 1);
-		m_leaderIndex = RandomNumberGenerator::Instance()->GetRandInt(0, m_gangSize - 1);
+		m_spyIndex = RNG->GetRandInt(0, m_gangSize - 1);
+		m_leaderIndex = RNG->GetRandInt(0, m_gangSize - 1);
 	}
 	return m_hasSpy;
 }
@@ -153,7 +153,7 @@ bool Gang::FindSpy() {
 	}
 		
 	// Guess a spy at random (not the leader)
-	int initalGuess = RandomNumberGenerator::Instance()->GetExcludedRandInt(0, m_gangSize - 1, m_leaderIndex);
+	int initalGuess = RNG->GetExcludedRandInt(0, m_gangSize - 1, m_leaderIndex);
 
 	// Reveal non-spy (other than the leader)
 	std::vector<int> remainingIndices; //TODO: This method will not be efficient for large gang sizes
@@ -163,7 +163,7 @@ bool Gang::FindSpy() {
 		}
 	}
 
-	int innocentIndex = remainingIndices[RandomNumberGenerator::Instance()->GetRandInt(0, remainingIndices.size() -1)];
+	int innocentIndex = remainingIndices[RNG->GetRandInt(0, remainingIndices.size() -1)];
 	
 
 	// Depending on leader characteristics stick with original guess or try a new one
@@ -175,7 +175,7 @@ bool Gang::FindSpy() {
 				remainingIndices.push_back(i);
 			}
 		}
-		finalGuess = remainingIndices[RandomNumberGenerator::Instance()->GetRandInt(0, remainingIndices.size() - 1)];
+		finalGuess = remainingIndices[RNG->GetRandInt(0, remainingIndices.size() - 1)];
 	}
 	else {
 		finalGuess = initalGuess;

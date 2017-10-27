@@ -4,7 +4,7 @@
 
 #include "../Utility/FileManager.h"
 StrategyConstants ReadConstants() {
-	std::string file = FileManager::Instance()->ReadFile(strategyFile);
+	std::string file = FileMgr->ReadFile(strategyFile);
 
 	std::istringstream ss(file);
 	std::string name;
@@ -75,7 +75,7 @@ void WriteConstants(StrategyConstants& constants) {
 	s += std::to_string(constants.minimumLineNumber);
 	s += '\n';
 
-	FileManager::Instance()->WriteFile(strategyFile, s);
+	FileMgr->WriteFile(strategyFile, s);
 
 	return;
 }

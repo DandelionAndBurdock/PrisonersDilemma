@@ -37,7 +37,7 @@ void SetupDirectories() {
 }
 
 void CreateRobot() {
-	FileManager::Instance()->WriteFile(".//RobotTester.txt", std::string("10 RANDOM"));
+	FileMgr->WriteFile(".//RobotTester.txt", std::string("10 RANDOM"));
 }
 
 // TODO: Refactor -> Remove magic numbers define defaults in Strategy header

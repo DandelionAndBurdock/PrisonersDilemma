@@ -22,14 +22,12 @@
 
 class Tournament
 {
-	enum Result { WIN, LOSE, DRAW, UNFINISHED }; 
+	enum Result { WIN, LOSE, DRAW, UNFINISHED }; // Possible results of each tournament game
 public:
 	Tournament(int ID, int numberOfPrisoners = defaultPrisoners, bool generateStrategies = defaultGenStrategies,
 		const std::string& inputFileDirectory = defaultInputDir, const std::string& outputFileDirectory = defaultOutputDir,
 		std::vector<std::string>& strategyFileNames = std::vector<std::string>(), int numberOfWinners = defaultWinners, int iterationsPerGame = defaultIterations,
 		Sentence sentences = Sentence());
-
-	
 	~Tournament();
 
 	// Plays games of tournament, saves winning strategies and generates output
@@ -38,9 +36,10 @@ public:
 	// Displays which prisoner beat which other prisoner
 	void PrintGameResults(std::ostream& os);
 
+	// Turns threading on and off (Note: RunGame function performs better with reference parameters in non-threaded mode)
 	inline void SetThreading(bool threading) { m_threading = threading; }
 private:
-	//TODO: Generates statistics and tournament information to the console and the file /
+	// Creates a map from the gang ID to score ordered by highest score
 	void CalculateRankings();
 
 	 // Loads m_numberOfPrisoners into m_prisoners vector
@@ -83,8 +82,6 @@ private:
 	// Add one victory for prisoner ID
 	int GetVictoryCount(int ID);
 
-	
-
 	//Helper functions for PrintReport()
 	void PrintIntro(std::ostream& os);
 	void PrintHeader(std::ostream& os);
@@ -114,14 +111,14 @@ private:
 	StrategyGenerator m_generator;		// Generates new strategies
 	StrategyTester	  m_tester;			// Tests new strategies to catch infinite loops
 
-	std::vector<std::string> m_strategyFileNames; // Contains file
+	std::vector<std::string> m_strategyFileNames; // Contains filepaths
 
 	std::set<std::pair<int, int>, Comparison> m_rankings; // Will hold pair of victories/ ID 
 
-	bool m_threading;			// True if threading is active
-	std::mutex m_scoresMutex;
-	std::mutex m_victoriesMutex;
-	std::mutex m_drawsMutex;
+	bool m_threading;				// True if threading is active
+	std::mutex m_scoresMutex;		// Used for locking m_scores
+	std::mutex m_victoriesMutex;	// Used for locking m_victories
+	std::mutex m_drawsMutex;		// Used for locking m_draws
 };
 
 //TODO: Rule of 3

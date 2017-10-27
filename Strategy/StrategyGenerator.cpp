@@ -11,7 +11,7 @@ m_safeGeneration(safeGeneration)
 	if (m_maximumLineNumber && m_maximumLineNumber < m_minimumLineNumber) {
 		std::cout << "Error: Trying to generate strategies with max line number smaller than min line number" << std::endl;
 	}
-	rng = RandomNumberGenerator::Instance(); //TODO: Fix this and make the typedef
+	rng = RNG; //TODO: Fix this and make the typedef
 
 	StrategyConstants constants = ReadConstants();
 
@@ -121,7 +121,7 @@ std::string StrategyGenerator::GenerateStrategy(){
 }
 
 void StrategyGenerator::GenerateStrategy(const std::string& outputFile) {
-	FileManager::Instance()->WriteFile(outputFile, GenerateStrategy());
+	FileMgr->WriteFile(outputFile, GenerateStrategy());
 }
 
 std::string StrategyGenerator::GenerateIfLine(){
@@ -169,7 +169,7 @@ std::string StrategyGenerator::GenerateGoto(){
 		gotoLine = upperLimit;
 	}
 	else {
-		gotoLine = RandomNumberGenerator::Instance()->GetExcludedRandInt(lowerLimit, upperLimit, m_currentLineNumber); //typedef instance
+		gotoLine = RNG->GetExcludedRandInt(lowerLimit, upperLimit, m_currentLineNumber); //typedef instance
 		if (gotoLine > m_highestGotoLine) {
 			m_highestGotoLine = gotoLine;
 		}

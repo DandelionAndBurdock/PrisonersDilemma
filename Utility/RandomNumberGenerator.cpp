@@ -19,7 +19,7 @@ RandomNumberGenerator::~RandomNumberGenerator()
 }
 
 
-RandomNumberGenerator* RandomNumberGenerator::Instance()
+RandomNumberGenerator* RNG
 {
 	static RandomNumberGenerator instance;
 	return &instance;
