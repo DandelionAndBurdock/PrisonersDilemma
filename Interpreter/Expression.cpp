@@ -14,7 +14,6 @@ Expression::~Expression()
 }
 
 int Expression::Parse(const IntMap& intVars, const CharMap& charVars){
-
 	if (m_tokens.begin()->IsCharVariable()){
 		return ParseCharExpression(charVars);
 	}
@@ -28,22 +27,21 @@ int Expression::ParseCharExpression(const CharMap& charVars){
 	return *(charVars.at(variable));
 }
 int Expression::ParseNonCharExpression(const IntMap& intVars){
-	// Int expressions
 	int position = 0;		// Position in the expression
-	int runningSum = 0;		// 
+	int runningSum = 0;		// Running total for extended expressions of form a + b + c - d +....
 	
 	runningSum += GetIntegerValue(intVars, position);
 
 	while (m_tokens.size() > 1 && position < (m_tokens.size() - 2)){
 		switch (m_tokens[position + 1].GetValue()){
-		case TokenValue::PLUS:	//TODO: Need to update this bit if define PSL++
+		case TokenValue::PLUS:	
 			runningSum += GetIntegerValue(intVars, position);
 			break;
 		case TokenValue::MINUS:
 			runningSum -= GetIntegerValue(intVars, position);
 			break;
 		}
-		position += 2; //TODO: Magic numbers
+		position += 2; //TODO: Remove Magic numbers
 	}
 	return runningSum;
 }

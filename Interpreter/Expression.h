@@ -17,13 +17,17 @@ public:
 	Expression(const std::vector<Token>& vec); 
 	~Expression();
 
+	// Evaluates an expression and returns the result as an integer
 	int Parse(const IntMap& intVars, const CharMap& charVars);
 private:
+	// Vector of tokens making up the expression
 	std::vector<Token> m_tokens;
 
+	// Helper Functions for parts
 	int ParseCharExpression(const CharMap& charVars);
 	int ParseNonCharExpression(const IntMap& intVars);
 
+	// Returns the integer value of the token at index position in m_tokens
 	int GetIntegerValue(const IntMap& intVars, int position);
 };
 

@@ -3,51 +3,57 @@
 // and input strategy string
 // Author: Philip Jones
 // Date: 17/10/2017
-//TODO: Make comments look nice
+
 #include <string>
 #include <map>
+#include <memory>	// For unique_ptr
 #include <vector>
 
 #include "Token.h"
 #include "../PrisonerStrategyLanguage.h"
-#include "../Game/PrisonersDilemmaGame.h" //TODO: Including this file just to get enum Slection
 #include "Lexer.h"
-#include <memory>
+
 #pragma once
 class Interpreter
 {
 public:
+	// Constructors
 	Interpreter(const std::string& fileName, const IntMap& intVars, const CharMap& charVars);
 	Interpreter() {}
-	~Interpreter();
 	Interpreter& operator=(const Interpreter& rhs);
+	~Interpreter();
 
-	bool IsValid();
-	void SetValidStrategy(bool isValid);
+	// Getters
+	inline bool IsValid() const { return m_valid; }
+	inline std::string GetCode() const { return m_codeString; }
+
+	// Recursively parse the expressions in the statement to get an action
 	ActionType GetSelection();
-
-	std::string GetCode();
+	
+	// Setters
+	void SetValidStrategy(bool isValid);
 private:
-	Lexer lexer;
-
+	Lexer m_lexer;
+	// Load string from file and pass to the lexer for processing into tokens and then expressions
 	void LoadCodeFromFile();
-	std::vector<std::unique_ptr<Statement>> m_code; // Maps line number to code
+	
+	// Each Statement in m_code corresponds to one line
+	std::vector<std::unique_ptr<Statement>> m_code;
+
+	// Filename of strategy
 	std::string m_filename;
-	std::string m_codeString; // What happens if code length exceeds maximum size of the string?
+
+	// Code stored in string form
+	std::string m_codeString; 
 
 	// Returns iterator of m_code corresponding to line number lineNum
 	std::vector<std::unique_ptr<Statement>>::iterator GetIterator(int lineNum);//TODO: Probably should be size_t
 
-
-	// Debug function
-	void PrintToScreen(); 
-	
+	// Maps between Token enums and pointers to the variables
 	IntMap intVars; 
 	CharMap charVars;
 
+	// True if code compiles correctle and no infinite loops have been detected
 	bool m_valid = false;
-
-
-
 };
 

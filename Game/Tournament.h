@@ -1,5 +1,6 @@
 // Class: Tournament
-// Description: 
+// Description: Runs a tournament between individual prisoners 
+// and prints the top strategies to a specified output directory
 // Author: Philip Jones
 // Date: 19/10/2017
 #pragma once

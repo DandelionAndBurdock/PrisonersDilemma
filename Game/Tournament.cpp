@@ -128,7 +128,7 @@ void Tournament::MoveWinners() {
 	for (int i = 0; i < m_numberOfWinners; ++i, ++iter) {
 		std::string outputFile = m_outputDirectory + "Tournament_" + std::to_string(m_ID) + "_Position_" + std::to_string(i + 1) + fileFormat;
 		std::string code = m_prisoners[iter->first].GetCode();
-		FileMgr->WriteFile(outputFile, code);//TODO: lock?
+		FileMgr->WriteFile(outputFile, code);
 	}
 }
 
