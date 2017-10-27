@@ -26,6 +26,7 @@ public:
 	// Displays which prisoner beat which other prisoner
 	void PrintGameResults();
 
+	// Displays statistics related to spies
 	void PrintSpyStatistics();
 
 	int GetScore(int gandID);

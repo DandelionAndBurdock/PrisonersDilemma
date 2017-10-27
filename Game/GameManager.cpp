@@ -237,14 +237,19 @@ void GameManager::RunPrisonerChampionship() {
 
 void GameManager::RunGangChampionship() {
 
-	GangCompetition c(m_numberOfTournaments, m_numGangs, m_numberOfWinners, m_generateStrategies, m_iterationsPerGame);
+	GangCompetition c(m_numberOfTournaments, m_numGangs, m_spies, m_spyProb, 
+		m_numberOfWinners, m_generateStrategies, m_iterationsPerGame);
 
 	c.RunCompetition();
 
 	std::cout << "Would you like to see a breakdown of the games?" << std::endl;
-
 	if (GetYesOrNo() == 'y') {
 		c.PrintGameResults();
+	}
+
+	std::cout << "Would you like to see spy statistics?" << std::endl;
+	if (GetYesOrNo() == 'y') {
+		c.PrintSpyStatistics();
 	}
 }
 

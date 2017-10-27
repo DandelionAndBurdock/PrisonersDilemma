@@ -108,6 +108,5 @@ void Game::ResolveInvalid(const ActionType& choiceA, const ActionType& choiceB) 
 	if (choiceB == INVALID_ACTION) {
 		m_prisonerB.SetValidStrategy(m_prisonerB.GetID(), false);
 	}
-	std::cout << "Game error: Unrecognised outcomes" << std::endl;
 	m_invalidStrategy = true;
 }

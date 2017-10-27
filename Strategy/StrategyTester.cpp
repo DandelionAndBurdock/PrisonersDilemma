@@ -20,6 +20,7 @@ bool StrategyTester::PassesTest(Prisoner& testSubject) { //TODO: This should acc
 		return false;
 
 	int numberOfTests = 5; //TODO: Accept this as a parameter
+	std::cout << "Testing Prisoner " << testSubject.GetID() << " for infinite loops" << std::endl;
 	for (int i = 0; i < numberOfTests; ++i){
 		Game gameA(testSubject, m_robot, 200); //TODO: Magic Numbers
 		gameA.Run();

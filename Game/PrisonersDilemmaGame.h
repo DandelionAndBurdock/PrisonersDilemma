@@ -53,7 +53,7 @@ const int defaultGangs = 3; // Default number of gangs per tournament
 const std::string fileFormat = ".txt";											  // File format for saving and loading strategies
 
 // Gangs
-const float defaultSpyProb = 0.2;
+const float defaultSpyProb = 0.2f;
 const int defaultNumGangs = 3;
 const int defaultNumGangMembers = 5;																			  //TODO: Replace with leaderboard class, vector and sort function
 struct Comparison

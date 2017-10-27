@@ -28,9 +28,18 @@ public:
 	// Displays results to the console
 	void PrintGameResults() const;
 private:
+	// Runs first round of tournaments
+	void RunFirstRound();
+	// Create vector of strings containing strategy filepaths for finalists
+	void GetFileNames();
+	// Run final tournament of first round winners
+	void RunFinalRound();
+
 	// Vector of pointers to the initial first round tournaments
 	std::vector<Tournament*> m_tournaments;
 
+	// Holds filenames of first round winners
+	std::vector<std::string> m_filenames;
 
 	int m_numberOfTournaments;			// Number of first round tournaments to run
 	int m_numberOfPrisoners;			// Number of prisoners in each first round tournament

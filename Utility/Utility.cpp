@@ -45,3 +45,4 @@ void CreateStrategyGenFile() {
 	WriteConstants(parameters);
 
 }
+
