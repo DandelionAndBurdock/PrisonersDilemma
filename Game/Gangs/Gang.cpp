@@ -11,12 +11,13 @@
 #include "../../Strategy/StrategyTester.h"
 
 Gang::Gang(int ID, int gangSize, bool leaderChange) :
-m_ID(ID), m_leaderChange(false)
+m_ID(ID), m_leaderChange(leaderChange)
 {
 	m_gangSize = gangSize;
 	m_directory = "GangTournaments//";
 	GenerateNewMembers(gangSize);
 	Reset();
+	m_validStrategy = true;
 
 
 }
@@ -123,12 +124,15 @@ std::string Gang::GetCode() {
 	}
 	return code;
 }
-
+#include <iostream>
 bool Gang::PlantSpy(float m_prob) {
 	m_hasSpy = (RNG->GetRandFloat() < m_prob);
 	if (m_hasSpy) {
 		m_spyIndex = RNG->GetRandInt(0, m_gangSize - 1);
 		m_leaderIndex = RNG->GetRandInt(0, m_gangSize - 1);
+	}
+	if (!m_hasSpy) {
+		std::cout << "Failed to plant spy" << std::endl;
 	}
 	return m_hasSpy;
 }

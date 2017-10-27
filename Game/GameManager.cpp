@@ -132,9 +132,7 @@ void GameManager::DisplayOptions() {
 	std::cout << "2. Run tournament of tournaments" << std::endl;
 	std::cout << "3. Configure strategy generation options" << std::endl;
 	std::cout << "4. Configure tournament options" << std::endl;
-	std::cout << "5. Configure breeding settings" << std::endl;
-	std::cout << "6. Lodge a complaint" << std::endl;
-	std::cout << "7. Quit" << std::endl;
+	std::cout << "5. Quit" << std::endl;
 }
 
 //TODO: Refactor
@@ -181,7 +179,6 @@ void GameManager::RunPrisonerTournament() {
 	t.RunTournament();
 
 	std::cout << "Would you like to see a breakdown of the games?" << std::endl;
-
 	if (GetYesOrNo() == 'y') {
 		t.PrintGameResults(std::cout);
 	}
@@ -190,15 +187,19 @@ void GameManager::RunPrisonerTournament() {
 void GameManager::RunGangTournament() {
 	std::vector<Gang> gangs;
 	for (int i = 0; i < m_numGangs; ++i) {
-		gangs.push_back(Gang(i, m_numGangMembers, false));
+		gangs.push_back(Gang(i, m_numGangMembers, m_leaderChange));
 	}
 	GangTournament t(1, gangs, defaultGangInDir, defaultGangOutDir, m_spies, m_spyProb);
 	t.RunTournament();
 
 	std::cout << "Would you like to see a breakdown of the games?" << std::endl;
-
 	if (GetYesOrNo() == 'y') {
 		t.PrintGameResults(std::cout);
+	}
+
+	std::cout << "Would you like to see spy statistics?" << std::endl;
+	if (GetYesOrNo() == 'y') {
+		t.PrintSpyStatistics(std::cout);
 	}
 }
 void GameManager::RunTournament() {
@@ -278,7 +279,7 @@ void GameManager::SetTournamentOptions() {
 	SetIterations();
 	SetNumberTournaments();
 	SetNumberWinners();
-	
+		
 }
 
 void GameManager::SetNumberTournaments() {
@@ -321,6 +322,7 @@ void GameManager::ConfigureGangs() {
 	SetNumGangs();
 	SetNumGangMembers();
 	ConfigureSpies();
+	
 }
 
 void GameManager::SetNumGangs() {
@@ -424,8 +426,19 @@ void GameManager::ConfigureSpies() {
 	}
 	std::cout << std::endl;
 
-	
+	SetLeaderChange();
 
+}
+
+void GameManager::SetLeaderChange() {
+	std::cout << "Would you like leader to change decision?" << std::endl;
+	if (GetYesOrNo() == 'y') {
+		m_leaderChange = true;
+		std::cout << std::endl;
+	}
+	else {
+		m_leaderChange = false;
+	}
 }
 
 void GameManager::SetIterations() {
@@ -560,9 +573,4 @@ void GameManager::WriteConstantsToFile() {
 	WriteConstants(constants);
 	
 }
-// Select an option (1-9)
-// 1. Run tournament // Run again
-// 2. Set Strategy Generation Options
-// 3, Set Tournament Options-> Iterations, punishments
-// 4. Set Breeding Options
-// 6. Lodge a complaint --> What is the nature of your complaint?
+

@@ -34,6 +34,7 @@ private:
 	int m_numGangMembers;				// Number of prisoners in a gang
 	bool m_spies;						// True if spies are active
 	float m_spyProb;					// Probability for a spy to be selected
+	bool m_leaderChange;				// True if leader changes initial guess
 
 										// Tournament Parameters
 
@@ -79,6 +80,7 @@ private:
 	void ConfigureGangs();
 	void ConfigureSpies();
 	void ConfigurePrisoners();
+	void SetLeaderChange();
 	void SetIterations();
 	void SetNumGangs();
 	void SetNumGangMembers();
@@ -102,7 +104,7 @@ private:
 
 
 
-	const int maxUserOption = 6;		// Maximum integer a user can enter in the menu
+	const int maxUserOption = 5;		// Maximum integer a user can enter in the menu
 	const int minUserOption = 1;		// Minimum integer a user can enter in the menu
 	void PrintWelcomeMessage();			// Prints an intro message
 	void DisplayOptions();				// Prints list of options user can select on menu screen

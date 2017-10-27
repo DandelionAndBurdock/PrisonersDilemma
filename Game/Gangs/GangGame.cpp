@@ -102,8 +102,8 @@ void GangGame::Run() {
 			return;
 		}
 		if (m_spiesActive) {
-			 m_gangA->PlantSpy(m_spyProb / 2.0f);
-			 m_gangB->PlantSpy(m_spyProb / 2.0f);
+			 m_gangA->PlantSpy(m_spyProb);
+			 m_gangB->PlantSpy(m_spyProb);
 		}
 		m_gangA->GetVotes();
 		m_gangB->GetVotes();
@@ -221,10 +221,12 @@ void GangGame::GangBFindSpy() {
 	if (m_gangB->LeaderChanges()) {
 		m_gangB->AddToScore(m_sentence.m_changeDiscoverSpy);
 		m_gangA->AddToScore(m_sentence.m_spyUnmasked);
+		++m_spyFoundLeaderChange;
 	}
 	else {
 		m_gangB->AddToScore(m_sentence.m_stickDiscoverSpy);
 		m_gangA->AddToScore(m_sentence.m_spyUnmasked);
+		++m_spyFoundLeaderStick;
 	}
 	if (m_gangA->HasSpy()) {
 		++m_spyPresentNotFound;

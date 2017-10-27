@@ -8,9 +8,7 @@ m_currentLineNumber(0),
 m_highestGotoLine(0),
 m_safeGeneration(safeGeneration)
 {
-	if (m_maximumLineNumber && m_maximumLineNumber < m_minimumLineNumber) {
-		std::cout << "Error: Trying to generate strategies with max line number smaller than min line number" << std::endl;
-	}
+	
 	StrategyConstants constants = ReadConstants();
 
 	m_charExpressionProb = constants.charExpressionProb;
@@ -39,6 +37,9 @@ m_safeGeneration(safeGeneration)
 	else {
 		charVariables = { "W", "X", "Y", "Z" };
 		variables = { "ALLOUTCOMES_W", "ALLOUTCOMES_X", "ALLOUTCOMES_Y", "ALLOUTCOMES_Z", "ITERATIONS", "MYSCORE" };
+	}
+	if (m_maximumLineNumber && m_maximumLineNumber < m_minimumLineNumber) {
+		std::cout << "Error: Trying to generate strategies with max line number smaller than min line number" << std::endl;
 	}
 
 }

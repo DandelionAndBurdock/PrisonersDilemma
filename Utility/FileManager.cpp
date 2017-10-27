@@ -24,7 +24,6 @@ std::string FileManager::ReadFile(const std::string& path) const{
 		std::cout << "Fiddlesticks: Exception thrown opening file" << std::endl;
 	}
 
-
 	if (inFile) {
 		return std::string((std::istreambuf_iterator<char>(inFile)),
 			(std::istreambuf_iterator<char>()));

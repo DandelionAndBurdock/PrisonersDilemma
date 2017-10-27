@@ -10,9 +10,9 @@ template <typename T>
 class Matrix
 {
 public:
-	Matrix(int size = defaultSize); //TODO: Set defaults in other classes
+	Matrix(int size = defaultSize); 
 	~Matrix();
-	Matrix(const Matrix<T>& src); //TODO: Think about this
+	Matrix(const Matrix<T>& src); 
 	Matrix<T>& operator=(const Matrix<T>& rhs);
 	int GetDimension() const { return m_size; }
 	T GetElement(int x, int y) const;
@@ -76,7 +76,7 @@ Matrix<T>& Matrix<T>::operator=(const Matrix<T>& rhs)
 
 
 
-template <typename T> //TODO: Think about this
+template <typename T> 
 Matrix<T>::~Matrix() {
 	for (int i = 0; i < m_size; ++i) {
 		delete[] m_cells[i];
@@ -85,14 +85,12 @@ Matrix<T>::~Matrix() {
 }
 
 
-
-//TODO: Check does not cause access error
 template <typename T>
 T Matrix<T>::GetElement(int x, int y) const {
 	if (InRange(x, y))
 		return (m_cells[x][y]);
 	else
-		return m_cells[-1][-1]; //TODO: Don't do this!
+		return m_cells[-1][-1]; 
 }
 
 template <typename T>
