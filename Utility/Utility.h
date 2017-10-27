@@ -1,5 +1,11 @@
 #pragma once
 
+
+// Maths Functions
+// Calculates factorial of n (n!)
+int factorial(int n);
+
+// Setup Functions
 // Creates necessary files and folders
 void Setup();
 
@@ -11,3 +17,8 @@ void CreateRobot();
 
 // Creates file for storing strategy generation parameters
 void CreateStrategyGenFile();
+
+// Other Useful Functions
+// Prints n asertisk characters to the console
+// If endLine is true also prints a new line
+void PrintStarLine(bool endLine = false, int n = 40);

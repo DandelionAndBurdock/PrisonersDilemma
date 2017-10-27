@@ -1,6 +1,5 @@
 #include "GangPrisoner.h"
 
-//*********** Gang Prisoner Methods ************
 GangPrisoner::GangPrisoner(int ID, const std::string& strategy) :
 	Prisoner(ID)
 {
@@ -38,7 +37,3 @@ void GangPrisoner::Reset() {
 	m_alloutcomesB = 0;
 	m_alloutcomesC = 0;
 }
-
-
-//TODO: Put in seperate classes
-//TODO: Using invalid action is a bit dirty

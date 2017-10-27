@@ -51,7 +51,7 @@ void GameManager::Run() {
 		DisplayOptions();
 		input = GetUserInput();
 		ResolveInput(input);
-	} while (input != 6);//TODO: UseEnum
+	} while (input != QUIT);//TODO: UseEnum
 
 
 }
@@ -162,6 +162,10 @@ void GameManager::ResolveInput(int input) {
 			SetTournamentOptions();
 			break;
 		}
+		case QUIT: {
+			std::cout << "Goodbye" << std::endl;
+		}
+							
 	}
 
 	std::cout << "Press enter to continue...";
@@ -302,9 +306,6 @@ void GameManager::SetNumberWinners() {
 		std::cout << std::endl;
 	}
 }
-// Sentences 
-// Number of winners
-// Generate new strategies
 
 void GameManager::ConfigureGangs() {
 	std::cout << "Would you like to use gangs?" << std::endl;

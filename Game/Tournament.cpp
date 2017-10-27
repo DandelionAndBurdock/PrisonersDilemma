@@ -7,7 +7,7 @@
 #include <numeric> // For std::numeric_limits<int>::max()
 #include <iomanip> // For std::setw()
 
-
+#include "../Utility/Utility.h"
 #include "../Utility/FileManager.h"
 
 
@@ -241,17 +241,7 @@ void Tournament::PrintPrisonerPerformance() {
 	}
 }
 
-//Helper function: Prints n asertisk characters to the console
-void PrintStarLine(bool endLine = false, int n = 40) {
-	std::cout << std::endl;
-	for (int i = 0; i < n; ++i) {
-		std::cout << '*';
-	}
-	if (endLine) {
-		std::cout << std::endl;
-	}
 
-}
 
 void Tournament::PrintGameResults() {
 	PrintStarLine();

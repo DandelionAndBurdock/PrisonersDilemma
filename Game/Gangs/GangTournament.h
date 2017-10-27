@@ -1,20 +1,20 @@
 #pragma once
 
+// Standard Includes
 #include <set>
 #include <vector>
 
 #include "../../Utility/Matrix.h"
 
 #include "../PrisonersDilemmaGame.h"
-#include <memory>
 
-//TODO: Derive from tournament
 #include "Gang.h"
 
 class GangTournament
 {
-	enum Result { WIN, LOSE, DRAW, UNFINISHED };
+	enum Result { WIN, LOSE, DRAW, UNFINISHED }; // Possible game outcomes
 public:
+	// Constructor
 	GangTournament(int ID, std::vector<Gang>& gangs, const std::string& inputDirectory = defaultGangInDir, 
 		const std::string& outputDirectory = defaultGangOutDir, bool useSpies = false,
 		float spyProb = 0.0f, int numberIterations = 200, int numberOfWinners = 2);
@@ -31,12 +31,8 @@ public:
 
 	int GetScore(int gandID);
 private:
-	//TODO: Generates statistics and tournament information to the console and the file /
+	// Creates a map from the gang ID to score ordered by highest score
 	void CalculateRankings();
-
-
-	// Creates prisoners with strategies loaded from m_inputDirector
-	void LoadStrategies();
 
 	// Runs all games in the tournament
 	void PlayGames();
@@ -63,11 +59,8 @@ private:
 	std::vector<int>      m_victories;  // Keeps track of number of victories for each prisoner
 	std::vector<int>      m_draws;      // Keeps track of number of draws for each prisoner
 
-
-
 	int  m_iterationsPerGame;			// Number of iterations for each game in the tournament
 	int  m_numberOfWinners;				// Number of winning strategies to save in the output directory
-	//bool m_createNewStrategies;			// Should generate new strategies
 
 	int m_ID;							// Identifaction number for this tournament
 
@@ -75,13 +68,7 @@ private:
 	std::string m_outputDirectory;		// Folder to write winning strategies and statistics
 	GangSentence    m_payoffs;			    // Contains the score changes for all possible game outcomes
 
-	//StrategyGenerator m_generator;		// Generates new strategies
-	//StrategyTester	  m_tester;			// Tests new strategies to catch infinite loops
-
-	std::vector<std::string> m_strategyFileNames; //TODO: Is this used?
-
 	std::set<std::pair<int, int>, Comparison> m_rankings; // Will hold pair of victories/ ID 
-
 
 	bool m_useSpies;
 	float m_spyProb;

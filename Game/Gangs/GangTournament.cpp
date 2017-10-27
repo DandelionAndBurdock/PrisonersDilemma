@@ -3,6 +3,7 @@
 #include "Gang.h"
 #include "GangGame.h"
 #include "../../Utility/FileManager.h"
+#include "../../Utility/Utility.h"
 
 #include <iostream>
 #include <iomanip>
@@ -114,8 +115,6 @@ void GangTournament::RunGame(Gang& gangA, Gang& gangB) {
 }
 
 void GangTournament::CalculateRankings() {
-	// Calculate scores
-
 	for (int row = 0; row < m_gangs.size(); ++row) {
 		for (int col = 0; col < m_gangs.size(); ++col) {
 			if (row == col) {
@@ -141,10 +140,6 @@ void GangTournament::PrintPrisonerPerformance() {
 			std::cout << std::setw(12) << std::left << m_scores[i] << std::endl;
 		}
 }
-
-//TODO: Move this to a header
-void PrintStarLine(bool endLine = false, int n = 40);
-
 
 // TODO: Says prisoner i but should say prisoner[i].GetID()
 void GangTournament::PrintGameResults() {
@@ -195,16 +190,6 @@ void GangTournament::PrintReport() {
 
 	PrintStarLine();
 	PrintStarLine(true);
-}
-
-//TODO: Move to utility function
-int factorial(int n) {
-	if (n == 1) {
-		return 1;
-	}
-	else {
-		return n * factorial(n- 1);
-	}
 }
 
 void GangTournament::PrintSpyStatistics() {

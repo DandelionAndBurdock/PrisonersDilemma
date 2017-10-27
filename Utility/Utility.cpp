@@ -11,6 +11,15 @@
 
 #include "FileManager.h"
 
+int factorial(int n) {
+	if (n == 1) {
+		return 1;
+	}
+	else {
+		return n * factorial(n - 1);
+	}
+}
+
 void Setup() {
 	SetupDirectories();
 	CreateRobot();
@@ -46,3 +55,13 @@ void CreateStrategyGenFile() {
 
 }
 
+void PrintStarLine(bool endLine, int n) {
+	std::cout << std::endl;
+	for (int i = 0; i < n; ++i) {
+		std::cout << '*';
+	}
+	if (endLine) {
+		std::cout << std::endl;
+	}
+
+}
