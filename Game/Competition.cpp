@@ -1,5 +1,6 @@
 #include "Competition.h"
 
+#include <iostream>
 
 Competition::Competition(int numberOfTournaments, int numberOfPrisoners, int numberOfWinners,
 	bool generateStrategies, int iterationsPerGame, std::string inputDirectory, std::string outputDirectory,
@@ -67,6 +68,6 @@ void Competition::RunFinalRound() {
 
 void Competition::PrintGameResults() const {
 	if (m_championTournament) {
-		m_championTournament->PrintGameResults();
+		m_championTournament->PrintGameResults(std::cout);
 	}
 }

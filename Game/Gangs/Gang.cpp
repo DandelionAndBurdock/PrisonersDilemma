@@ -35,35 +35,6 @@ Gang(ID, filePaths)
 	m_leaderChange = leaderChange;
 }
 
-Gang::Gang(const Gang& gang) {
-	for (Prisoner* ptr : m_prisoners) {
-		delete ptr;
-	}
-	m_prisoners.clear();
-	
-
-	for (int i = 0; i < m_gangSize; ++i) {
-		m_prisoners[i] = new GangPrisoner(gang.m_prisoners[i]->GetID(), gang.m_filePaths[i]);
-	}
-	
-	m_ID = gang.m_ID;
-	
- m_gangSize = gang.m_gangSize;
- m_validStrategy = gang.m_validStrategy;
- m_mixedResponse = gang.m_mixedResponse;
- m_numBetrays = gang.m_numBetrays;
- m_numSilence = gang.m_numSilence;
-
- m_score = gang.m_score;		 
- m_decision = gang.m_decision;
- m_hasSpy = gang.m_hasSpy;
- m_spyIndex = gang.m_spyIndex;
- m_leaderIndex = gang.m_leaderIndex;
- m_foundSpy = gang.m_foundSpy;
- m_leaderChange = gang.m_leaderChange;
- m_filePaths = gang.m_filePaths;
-}
-
 
 void Gang::GenerateNewMembers(int gangSize) {
 	StrategyGenerator generator(true, true);
@@ -83,10 +54,6 @@ void Gang::LoadMembers(std::vector<std::string> filepaths) {
 
 Gang::~Gang()
 {
-	for (Prisoner* ptr : m_prisoners) {
-		delete ptr;
-		ptr = nullptr;
-	}
 }
 
 void Gang::GetVotes() {

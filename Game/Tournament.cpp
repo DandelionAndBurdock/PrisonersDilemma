@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include <fstream>
 #include <set>
 #include <utility>
 #include <numeric> // For std::numeric_limits<int>::max()
@@ -116,7 +117,9 @@ void Tournament::RunTournament() {
 	PlayGames();
 	CalculateRankings();
 	MoveWinners(); 
-	PrintReport();
+	PrintReport(std::cout);
+	std::ofstream outFile("TournamentReport.txt");
+	PrintReport(outFile);
 }
 
 
@@ -221,21 +224,21 @@ void Tournament::CalculateRankings() {
 }
 
 //TODO: Magic numbers
-void Tournament::PrintPrisonerPerformance() {
+void Tournament::PrintPrisonerPerformance(std::ostream& os) {
 	for (int i = 0; i < m_numberOfPrisoners; ++i) {
 		if (Prisoner::HasValidStrategy(m_prisoners[i].GetID())) {
-			std::cout << std::setw(12) << std::left << m_prisoners[i].GetID();
-			std::cout << std::setw(12) << std::left << GetVictoryCount(i);
-			std::cout << std::setw(12) << std::left << GetDrawCount(i);
-			std::cout << std::setw(12) << std::left << (m_numberOfPrisoners - 1) - GetDrawCount(i) - GetVictoryCount(i); 
-			std::cout << std::setw(12) << std::left << GetScore(i) << std::endl;
+			os << std::setw(12) << std::left << m_prisoners[i].GetID();
+			os << std::setw(12) << std::left << GetVictoryCount(i);
+			os << std::setw(12) << std::left << GetDrawCount(i);
+			os << std::setw(12) << std::left << (m_numberOfPrisoners - 1) - GetDrawCount(i) - GetVictoryCount(i); 
+			os << std::setw(12) << std::left << GetScore(i) << std::endl;
 		}
 		else {
-			std::cout << std::setw(12) << std::left << m_prisoners[i].GetID();
-			std::cout << std::setw(12) << std::left << "DQ";
-			std::cout << std::setw(12) << std::left << "DQ";
-			std::cout << std::setw(12) << std::left << "DQ";
-			std::cout << std::setw(12) << std::left << "DQ" << std::endl;
+			os << std::setw(12) << std::left << m_prisoners[i].GetID();
+			os << std::setw(12) << std::left << "DQ";
+			os << std::setw(12) << std::left << "DQ";
+			os << std::setw(12) << std::left << "DQ";
+			os << std::setw(12) << std::left << "DQ" << std::endl;
 		}
 
 	}
@@ -243,52 +246,52 @@ void Tournament::PrintPrisonerPerformance() {
 
 
 
-void Tournament::PrintGameResults() {
-	PrintStarLine();
-	PrintStarLine(true);
+void Tournament::PrintGameResults(std::ostream& os) {
+	PrintStarLine(os);
+	PrintStarLine(os, true);
 	for (int i = 0; i < m_numberOfPrisoners; ++i) {
 		for (int j = 0; j < m_numberOfPrisoners; ++j) {
 			if (m_results.GetElement(i, j) == WIN) {
-				std::cout << "Prisoner " << i << " beat " << "Prisoner " << j << std::endl;
+				os << "Prisoner " << i << " beat " << "Prisoner " << j << std::endl;
 			}
 			else if (m_results.GetElement(i, j) == LOSE) {
-				std::cout << "Prisoner " << i << " lost to  " << "Prisoner " << j << std::endl;
+				os << "Prisoner " << i << " lost to  " << "Prisoner " << j << std::endl;
 			}
 			else if (m_results.GetElement(i, j) == DRAW) {
-				std::cout << "Prisoner " << i << " drew with  " << "Prisoner " << j << std::endl;
+				os << "Prisoner " << i << " drew with  " << "Prisoner " << j << std::endl;
 			}
 		}
 	}
-	PrintStarLine();
-	PrintStarLine(true);
+	PrintStarLine(os);
+	PrintStarLine(os, true);
 }
 
-void Tournament::PrintHeader() {
-	std::cout << std::setw(12) << std::left << "Prisoner";
-	std::cout << std::setw(12) << std::left << "Victories";
-	std::cout << std::setw(12) << std::left << "Draws";
-	std::cout << std::setw(12) << std::left << "Losses";
-	std::cout << std::setw(12) << std::left << "Score" << std::endl;
+void Tournament::PrintHeader(std::ostream& os) {
+	os << std::setw(12) << std::left << "Prisoner";
+	os << std::setw(12) << std::left << "Victories";
+	os << std::setw(12) << std::left << "Draws";
+	os << std::setw(12) << std::left << "Losses";
+	os << std::setw(12) << std::left << "Score" << std::endl;
 }
 
 
-void Tournament::PrintIntro() {
-	std::cout << "Results for Tournament #" << m_ID << std::endl;
-	std::cout << "Number of Prisoners: " << m_numberOfPrisoners << std::endl;
-	std::cout << "Winner: Prisoner-" << m_prisoners[m_rankings.begin()->first].GetID()
+void Tournament::PrintIntro(std::ostream& os) {
+	os << "Results for Tournament #" << m_ID << std::endl;
+	os << "Number of Prisoners: " << m_numberOfPrisoners << std::endl;
+	os << "Winner: Prisoner-" << m_prisoners[m_rankings.begin()->first].GetID()
 		<< " Score: " << GetScore(m_rankings.begin()->first) << std::endl;
-	std::cout << "Winning Strategy: " << std::endl;
-	std::cout << m_prisoners[m_rankings.begin()->first].GetCode();
-	std::cout << std::endl;
+	os << "Winning Strategy: " << std::endl;
+	os << m_prisoners[m_rankings.begin()->first].GetCode();
+	os << std::endl;
 }
 
-void Tournament::PrintReport() {
-	PrintStarLine();
-	PrintStarLine(true);
-	PrintIntro();
-	PrintHeader();
-	PrintPrisonerPerformance();
+void Tournament::PrintReport(std::ostream& os) {
+	PrintStarLine(os);
+	PrintStarLine(os, true);
+	PrintIntro(os);
+	PrintHeader(os);
+	PrintPrisonerPerformance(os);
 
-	PrintStarLine();
-	PrintStarLine(true);
+	PrintStarLine(os);
+	PrintStarLine(os, true);
 }

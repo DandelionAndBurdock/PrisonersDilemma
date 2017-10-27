@@ -55,13 +55,13 @@ void CreateStrategyGenFile() {
 
 }
 
-void PrintStarLine(bool endLine, int n) {
-	std::cout << std::endl;
+void PrintStarLine(std::ostream& os, bool endLine, int n) {
+	os << std::endl;
 	for (int i = 0; i < n; ++i) {
 		std::cout << '*';
 	}
 	if (endLine) {
-		std::cout << std::endl;
+		os << std::endl;
 	}
 
 }

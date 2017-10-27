@@ -13,8 +13,8 @@
 class Prisoner
 {
 protected:
-	//TODO: Why can't make const?
-	const char outcomes[4] = { 'W', 'X', 'Y', 'Z' };			// 
+	// Possible outcomes of one round for a prisoner
+	const char outcomes[4] = { 'W', 'X', 'Y', 'Z' }; // W - Both silent, X - Betrayed, Y - Betrays, Z - Both betray
 public:
 	// Constructor
 	Prisoner(int ID, const std::string& strategy); 
@@ -29,23 +29,24 @@ public:
 	virtual ActionType GetSelection();
 
 	// Getters 
-	inline int  GetScore() { return m_score; }
-	inline int  GetID()    { return m_ID; }
+	inline int  GetScore() const { return m_score; }
+	inline int  GetID()    const { return m_ID; }
 
-	// Returns true if strategy code compiled and has not stuck in an infinite loop
+	// Returns true if strategy code for prisoner ID has compiled and has not stuck in an infinite loop
 	static bool HasValidStrategy(int ID);
+	// Sets valid strategy for prisoner with ID
 	static void SetValidStrategy(int ID, bool isValid);
-	static std::map<int, bool> m_validStrategies; // Holds a map from prisoner ID to valid strategies
+	// Holds a map from prisoner ID to valid strategy status
+	static std::map<int, bool> m_validStrategies; 
+	// Lock for valid strategies map
 	static std::mutex m_validStrategyLock;
 	// Returns strategy code used by the interpreter 
 	std::string GetCode();
 
 	// Setters
 	inline void AddToScore(int x) { m_score += x; }
-
 	void SetLastOutcome(char outcome);
 	
-
 	// Load new strategy at filepath
 	void ChangeStrategy(const std::string& filepath);
 

@@ -36,7 +36,7 @@ public:
 	void RunTournament();
 
 	// Displays which prisoner beat which other prisoner
-	void PrintGameResults();
+	void PrintGameResults(std::ostream& os);
 
 	inline void SetThreading(bool threading) { m_threading = threading; }
 private:
@@ -62,7 +62,7 @@ private:
 	void MoveWinners();
 
 	// Generate statistics for the user about the tournament
-	void PrintReport();
+	void PrintReport(std::ostream& os);
 
 	// Add one victory for prisoner ID
 	void IncrementVictoryCount(int ID);
@@ -86,9 +86,9 @@ private:
 	
 
 	//Helper functions for PrintReport()
-	void PrintIntro();
-	void PrintHeader();
-	void PrintPrisonerPerformance();
+	void PrintIntro(std::ostream& os);
+	void PrintHeader(std::ostream& os);
+	void PrintPrisonerPerformance(std::ostream& os);
 
 
 	std::vector<Prisoner> m_prisoners;  // List or prisoners in the tournament

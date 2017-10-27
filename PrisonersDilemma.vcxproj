@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Breeding\Breeder.cpp" />
     <ClCompile Include="Game\Competition.cpp" />
     <ClCompile Include="Game\GameManager.cpp" />
     <ClCompile Include="Game\Game.cpp" />
@@ -38,6 +39,7 @@
     <ClCompile Include="Interpreter\Token.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Breeding\Breeder.h" />
     <ClInclude Include="Game\Competition.h" />
     <ClInclude Include="Game\GameManager.h" />
     <ClInclude Include="Game\Game.h" />

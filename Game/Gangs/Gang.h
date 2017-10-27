@@ -21,8 +21,6 @@ public:
 	// leaderChange specifies if the leader sticks or changes intial spy guess
 	Gang(int ID, const std::vector<std::string>& filePaths, bool leaderChange);
 	
-	// Copy Constructor
-	Gang(const Gang& gang);
 	// Destructor
 	~Gang();
 

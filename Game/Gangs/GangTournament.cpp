@@ -6,6 +6,7 @@
 #include "../../Utility/Utility.h"
 
 #include <iostream>
+#include <fstream>
 #include <iomanip>
 //TODO: Rename number of winners, to winnersPerTournament
 GangTournament::GangTournament(int ID, std::vector<Gang>& gangs, const std::string& inputDirectory, const std::string& outputDirectory,  bool useSpies,
@@ -63,7 +64,12 @@ void GangTournament::RunTournament() {
 	PlayGames();
 	CalculateRankings();
 	MoveWinners();
-	PrintReport();
+	PrintReport(std::cout);
+
+	std::ofstream outFile("GangTournamentReport.txt");
+	PrintReport(outFile);
+	PrintSpyStatistics(outFile);
+
 }
 
 
@@ -81,7 +87,8 @@ int GangTournament::GetScore(int gangID) {
 }
 
 
-//TODO: Refactor also this will blow up -- quick fix add a check
+//TODO: Refactor -> Break into smaller functions
+//TODO: Refactor -> This will blow up if ID's are not in order from 0
 void GangTournament::RunGame(Gang& gangA, Gang& gangB) {
 	GangGame game(&gangA, &gangB, m_spyProb, m_useSpies, m_iterationsPerGame);
 	game.Run();
@@ -129,75 +136,75 @@ void GangTournament::CalculateRankings() {
 	}
 }
 
-//TODO: Magic numbers
-void GangTournament::PrintPrisonerPerformance() {
+//TODO: Refactor -> Remove magic numbers
+void GangTournament::PrintPrisonerPerformance(std::ostream& os) {
 	for (int i = 0; i < m_gangs.size(); ++i) {
 		
-			std::cout << std::setw(12) << std::left << m_gangs[i].GetID();
-			std::cout << std::setw(12) << std::left << m_victories[i];
-			std::cout << std::setw(12) << std::left << m_draws[i];
-			std::cout << std::setw(12) << std::left << (m_gangs.size() - 1) - m_draws[i] - m_victories[i];
-			std::cout << std::setw(12) << std::left << m_scores[i] << std::endl;
+			os << std::setw(12) << std::left << m_gangs[i].GetID();
+			os << std::setw(12) << std::left << m_victories[i];
+			os << std::setw(12) << std::left << m_draws[i];
+			os << std::setw(12) << std::left << (m_gangs.size() - 1) - m_draws[i] - m_victories[i];
+			os << std::setw(12) << std::left << m_scores[i] << std::endl;
 		}
 }
 
-// TODO: Says prisoner i but should say prisoner[i].GetID()
-void GangTournament::PrintGameResults() {
-	PrintStarLine();
-	PrintStarLine(true);
+//TODO: Refactor -> Will print incorrectly if ID's are not sequential
+void GangTournament::PrintGameResults(std::ostream& os) {
+	PrintStarLine(os);
+	PrintStarLine(os, true);
 	for (int i = 0; i <m_gangs.size(); ++i) {
 		for (int j = 0; j <m_gangs.size(); ++j) {
 			if (m_results.GetElement(i, j) == WIN) {
-				std::cout << "Gang " << i << " beat " << "Gang " << j << std::endl;
+				os << "Gang " << i << " beat " << "Gang " << j << std::endl;
 			}
 			else if (m_results.GetElement(i, j) == LOSE) {
-				std::cout << "Gang " << i << " lost to  " << "Gang " << j << std::endl;
+				os << "Gang " << i << " lost to  " << "Gang " << j << std::endl;
 			}
 			else if (m_results.GetElement(i, j) == DRAW) {
-				std::cout << "Gang " << i << " drew with  " << "Gang " << j << std::endl;
+				os << "Gang " << i << " drew with  " << "Gang " << j << std::endl;
 			}
 		}
 	}
-	PrintStarLine();
-	PrintStarLine(true);
+	PrintStarLine(os);
+	PrintStarLine(os, true);
 }
 
-void GangTournament::PrintHeader() {
-	std::cout << std::setw(12) << std::left << "Gang";
-	std::cout << std::setw(12) << std::left << "Victories";
-	std::cout << std::setw(12) << std::left << "Draws";
-	std::cout << std::setw(12) << std::left << "Losses";
-	std::cout << std::setw(12) << std::left << "Score" << std::endl;
+void GangTournament::PrintHeader(std::ostream& os) {
+	os << std::setw(12) << std::left << "Gang";
+	os << std::setw(12) << std::left << "Victories";
+	os << std::setw(12) << std::left << "Draws";
+	os << std::setw(12) << std::left << "Losses";
+	os << std::setw(12) << std::left << "Score" << std::endl;
 }
 
 
-void GangTournament::PrintIntro() {
-	std::cout << "Results for Tournament #" << m_ID << std::endl;
-	std::cout << "Number of Gangs: " <<m_gangs.size() << std::endl;
-	std::cout << "Winner: Gang-" << m_gangs[m_rankings.begin()->first].GetID()
+void GangTournament::PrintIntro(std::ostream& os) {
+	os << "Results for Tournament #" << m_ID << std::endl;
+	os << "Number of Gangs: " <<m_gangs.size() << std::endl;
+	os << "Winner: Gang-" << m_gangs[m_rankings.begin()->first].GetID()
 		<< " Score: " << m_scores[m_rankings.begin()->first] << std::endl;
-	std::cout << "Winning Strategy: " << std::endl;
-	std::cout << m_gangs[m_rankings.begin()->first].GetCode();
-	std::cout << std::endl;
+	os << "Winning Strategy: " << std::endl;
+	os << m_gangs[m_rankings.begin()->first].GetCode();
+	os << std::endl;
 }
 
-void GangTournament::PrintReport() {
-	PrintStarLine();
-	PrintStarLine(true);
-	PrintIntro();
-	PrintHeader();
-	PrintPrisonerPerformance();
+void GangTournament::PrintReport(std::ostream& os) {
+	PrintStarLine(os);
+	PrintStarLine(os, true);
+	PrintIntro(os);
+	PrintHeader(os);
+	PrintPrisonerPerformance(os);
 
-	PrintStarLine();
-	PrintStarLine(true);
+	PrintStarLine(os);
+	PrintStarLine(os, true);
 }
 
-void GangTournament::PrintSpyStatistics() {
-	std::cout << "Tournament " << m_ID << " Spy Statistics" << std::endl;
-	std::cout << "Rounds Played: " << m_iterationsPerGame * factorial(m_gangs.size()) << std::endl;
-	std::cout << "Spy Probability: " << m_spyProb << std::endl;
-	std::cout << "Spies Found: " << m_spyFoundLeaderChange + m_spyFoundLeaderStick << std::endl;
-	std::cout << "Spies Missed:" << m_spyPresentNotFound << std::endl;
-	std::cout << "Spies Found After Leader Switch: " << m_spyFoundLeaderChange << std::endl;
-	std::cout << "Spies Found After Leader Stick: " << m_spyFoundLeaderStick << std::endl;
+void GangTournament::PrintSpyStatistics(std::ostream& os) {
+	os << "Tournament " << m_ID << " Spy Statistics" << std::endl;
+	os << "Rounds Played: " << m_iterationsPerGame * factorial(m_gangs.size()) << std::endl;
+	os << "Spy Probability: " << m_spyProb << std::endl;
+	os << "Spies Found: " << m_spyFoundLeaderChange + m_spyFoundLeaderStick << std::endl;
+	os << "Spies Missed:" << m_spyPresentNotFound << std::endl;
+	os << "Spies Found After Leader Switch: " << m_spyFoundLeaderChange << std::endl;
+	os << "Spies Found After Leader Stick: " << m_spyFoundLeaderStick << std::endl;
 }

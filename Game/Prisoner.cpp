@@ -122,6 +122,5 @@ void Prisoner::SetValidStrategy(int ID, bool isValid) {
 	std::lock_guard<std::mutex> guard(m_validStrategyLock);
 	m_validStrategies[ID] = isValid;
 }
-//TODO: Order of functions matches order of header files
 
 

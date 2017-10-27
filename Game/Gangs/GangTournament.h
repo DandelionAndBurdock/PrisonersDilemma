@@ -24,10 +24,10 @@ public:
 	void RunTournament();
 
 	// Displays which prisoner beat which other prisoner
-	void PrintGameResults();
+	void PrintGameResults(std::ostream& os);
 
 	// Displays statistics related to spies
-	void PrintSpyStatistics();
+	void PrintSpyStatistics(std::ostream& os);
 
 	int GetScore(int gandID);
 private:
@@ -44,12 +44,12 @@ private:
 	void MoveWinners();
 
 	// Generate statistics for the user about the tournament
-	void PrintReport();
+	void PrintReport(std::ostream& os);
 
 	//Helper functions for PrintReport()
-	void PrintIntro();
-	void PrintHeader();
-	void PrintPrisonerPerformance();
+	void PrintIntro(std::ostream& os);
+	void PrintHeader(std::ostream& os);
+	void PrintPrisonerPerformance(std::ostream& os);
 
 
 	std::vector<Gang>	  m_gangs;		// List or prisoners in the tournament
@@ -70,10 +70,10 @@ private:
 
 	std::set<std::pair<int, int>, Comparison> m_rankings; // Will hold pair of victories/ ID 
 
-	bool m_useSpies;
-	float m_spyProb;
+	bool m_useSpies;				// True if spies are active in this tournament
+	float m_spyProb;				// Probability for a spy to be present in a game iteration
 
-	int m_spyPresentNotFound = 0;
-	int m_spyFoundLeaderChange = 0;
-	int m_spyFoundLeaderStick = 0;
+	int m_spyPresentNotFound = 0;		// number of times a spy was present but not detected
+	int m_spyFoundLeaderChange = 0;		// number of times a spy was present and detected by a leader who changed initial guess
+	int m_spyFoundLeaderStick = 0;		// number of times a spy was present and detected by a leader who stuck to initial guess
 };

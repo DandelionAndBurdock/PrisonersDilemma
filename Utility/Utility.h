@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 
 // Maths Functions
 // Calculates factorial of n (n!)
@@ -19,6 +20,6 @@ void CreateRobot();
 void CreateStrategyGenFile();
 
 // Other Useful Functions
-// Prints n asertisk characters to the console
+// Prints n asertisk characters to the output stream
 // If endLine is true also prints a new line
-void PrintStarLine(bool endLine = false, int n = 40);
+void PrintStarLine(std::ostream& os, bool endLine = false, int n = 40);

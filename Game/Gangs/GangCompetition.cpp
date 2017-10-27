@@ -6,6 +6,7 @@
 
 #include "../../Utility/FileManager.h"
 #include <sstream>
+#include <iostream>
 
 GangCompetition::GangCompetition(int numberOfTournaments, int numberOfGangs, bool useSpies, float spyProb, int numberOfWinners,
 	bool generateStrategies, int iterationsPerGames, std::string inputDirectory,
@@ -127,12 +128,12 @@ void GangCompetition::RunFinalRound() {
 
 void GangCompetition::PrintGameResults() {
 	if (m_championTournament) {
-		m_championTournament->PrintGameResults();
+		m_championTournament->PrintGameResults(std::cout);
 	}
 }
 
 void GangCompetition::PrintSpyStatistics() {
 	if (m_championTournament) {
-		m_championTournament->PrintSpyStatistics();
+		m_championTournament->PrintSpyStatistics(std::cout);
 	}
 }

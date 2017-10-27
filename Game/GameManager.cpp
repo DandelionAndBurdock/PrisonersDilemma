@@ -183,7 +183,7 @@ void GameManager::RunPrisonerTournament() {
 	std::cout << "Would you like to see a breakdown of the games?" << std::endl;
 
 	if (GetYesOrNo() == 'y') {
-		t.PrintGameResults();
+		t.PrintGameResults(std::cout);
 	}
 }
 
@@ -198,7 +198,7 @@ void GameManager::RunGangTournament() {
 	std::cout << "Would you like to see a breakdown of the games?" << std::endl;
 
 	if (GetYesOrNo() == 'y') {
-		t.PrintGameResults();
+		t.PrintGameResults(std::cout);
 	}
 }
 void GameManager::RunTournament() {
