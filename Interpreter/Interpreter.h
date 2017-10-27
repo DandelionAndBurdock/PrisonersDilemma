@@ -47,7 +47,7 @@ private:
 	std::string m_codeString; 
 
 	// Returns iterator of m_code corresponding to line number lineNum
-	std::vector<std::unique_ptr<Statement>>::iterator GetIterator(int lineNum);//TODO: Probably should be size_t
+	std::vector<std::unique_ptr<Statement>>::iterator GetIterator(int lineNum);
 
 	// Maps between Token enums and pointers to the variables
 	IntMap intVars; 

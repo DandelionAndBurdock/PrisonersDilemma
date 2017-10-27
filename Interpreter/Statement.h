@@ -6,15 +6,17 @@
 #pragma once
 
 #include "Expression.h"
-#include "../Game/PrisonersDilemmaGame.h" //TODO: Fix include paths to be relative
+#include "../Game/PrisonersDilemmaGame.h" 
 #include "../PrisonerStrategyLanguage.h"
-//TODO: Consider typedef
-class Statement{ //TODO: Access specifier
+
+
+class Statement{ 
 public:
-	virtual Action Execute(const IntMap& intVars, CharMap& charVars) = 0;
+	// Evaluate statement and return an action
+	virtual Action Execute(const IntMap& intVars, CharMap& charVars) = 0; 
 	Statement(int linenumber) : m_linenumber(linenumber){}
-	virtual ~Statement() {} // TODO: Is this okay?
-	int m_linenumber;
+	virtual ~Statement() {} 
+	int m_linenumber; // Line number associated with this statement
 };
 
 
@@ -24,11 +26,11 @@ public:
 	~StatementIf();
 	Action Execute(const IntMap& intVars, CharMap& charVars) override;
 
-	Expression* m_left;
-	Expression* m_right;
+	Expression* m_left;		// Expression to the left of the relational operator in the IF statement 
+	Expression* m_right;    // Expression to the right of the relational operator in the IF statement
 
-	PSL::TokenValue m_relOp;
-	Statement* m_action;
+	PSL::TokenValue m_relOp; // Relational operator
+	Statement* m_action;	 // Statement to execute if condition evaluates to true (GOTO or an OUTCOME)
 };
 
 class StatementGoto : public Statement{
@@ -36,7 +38,7 @@ public:
 	StatementGoto(int jumpLine);
 	Action Execute(const IntMap& intVars, CharMap& charVars) override;
 
-	int m_jumpLine; 
+	int m_jumpLine;		// Line to jumpto
 };
 
 class StatementOutcome : public Statement{
@@ -44,8 +46,5 @@ public:
 	StatementOutcome(int lineNum, TokenValue val);
 	Action Execute(const IntMap& intVars, CharMap& charVars) override;
 
-	TokenValue m_value;
+	TokenValue m_value;  //Type of outcome (BETRAY, SILENCE, RANDOM)
 };
-
-//TODO: Add m_ prefix to this class
-//TODO: Check variable alignment

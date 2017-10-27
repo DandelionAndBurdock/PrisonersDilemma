@@ -16,8 +16,9 @@ SyntaxAnalyser::~SyntaxAnalyser()
 {
 }
 
+//TODO: Define Magic Numbers
 bool SyntaxAnalyser::IsArithmeticSubExpression(const std::vector<Token>& provisional){
-	//TODO: Define Magic Numbers
+	
 	if (provisional.size() == 3){
 		if (!provisional[0].IsRValue() || !provisional[2].IsRValue())
 			return false;
@@ -29,8 +30,8 @@ bool SyntaxAnalyser::IsArithmeticSubExpression(const std::vector<Token>& provisi
 	}
 }
 
+//TODO: Define Magic Numbers
 bool SyntaxAnalyser::IsConditionalSubExpression(const std::vector<Token>& provisional){
-	//TODO: Define Magic Numbers
 	if (provisional.size() == 3){
 		if (!provisional[0].IsRValue() || !provisional[2].IsRValue())
 			return false;
@@ -56,7 +57,7 @@ bool SyntaxAnalyser::TestNonCharExpressionFormat(const std::vector<Token>& provi
 	auto iter = provisional.cbegin();
 	while (iter != provisional.cend()){
 		//  A valid expression flip-flops between an variable and then a binary operation
-		if (!(*iter++).IsRValue()){ //TODO: Variable or RVAlue?
+		if (!(*iter++).IsRValue()){ 
 			return false;
 		}
 		if (iter != provisional.cend()){
@@ -172,7 +173,7 @@ bool SyntaxAnalyser::IsValidOutcome(const std::vector<Token>& provisional){
 	
 }
 
-//TODO: Check lines which are too long
+
 bool SyntaxAnalyser::IsValidIf(const std::vector<Token>& provisional){
 	std::vector<Token>::const_iterator ifIter = std::find_if(provisional.cbegin(), provisional.cend(), [](const Token& t){ return t.GetValue() == TokenValue::IF; });
 	if (ifIter == provisional.cend()){
@@ -226,9 +227,3 @@ void SyntaxAnalyser::PrintError(const ErrorCode& error){
 
 	}
 }
-// IF EXPRESSION ACTION JUNK
-//TODO: Refactor this class
-//TODO: Need a token type for char variables and a token type for LASTOUTCOMES
-//TODO: RValue does not detect last outcome slipping through the net
-
-//TODO: Check all const

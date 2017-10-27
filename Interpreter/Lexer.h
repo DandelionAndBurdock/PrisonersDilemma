@@ -39,15 +39,22 @@ public:
 	// Returns true if word corresponds to an integer constant
 	bool IsInteger(const std::string& word) const;
 
-	int m_lastLineNumber; // 
+	// Last line number read into the lexer
+	int m_lastLineNumber;
 
+	// Returns true if linenumber is higher than previously encountered line
 	bool IsValidLineNumber(int linenumber);
+
+	// Get the next line number from the input stream
 	bool GetLineNumber(std::istringstream& input, int& linenumber);
 
 	// Creates token with the correct type and value based on string input
 	Token CreateToken(const std::string& word) const;
 
 private:
+	// Splits line into tokens
 	std::vector<Token> MakeTokens(const std::string& line);
+
+	// Groups tokens into statements
 	std::unique_ptr<Statement>  MakeStatement(const std::vector<Token>&);
 };

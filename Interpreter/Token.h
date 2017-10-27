@@ -37,7 +37,7 @@ struct Token {
 	inline std::string GetError() const { return m_error; }
 private:
 	TokenType   m_type;			// Type of Token e.g. LESS_THAN, VARIABLE
-	int			m_value;
+	int			m_value;		// Value associated with token, useful for INTEGER types
 	std::string m_error;		// Used to hold error messages for invalid tokens	
 };
 

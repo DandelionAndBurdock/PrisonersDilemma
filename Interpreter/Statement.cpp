@@ -15,10 +15,10 @@ StatementIf::~StatementIf(){
 	delete m_right;
 	delete m_action;
 }
-//TODO: Use a typedef for Selection 
+
 Action  StatementIf::Execute(const IntMap& intVars, CharMap& charVars){
 	switch (m_relOp){
-	case TokenValue::EQUAL_TO: //TODO: Lambda/Function Array
+	case TokenValue::EQUAL_TO:
 		if (m_left->Parse(intVars, charVars) == m_right->Parse(intVars, charVars)){
 			return m_action->Execute(intVars, charVars);
 		}
@@ -70,4 +70,3 @@ Action StatementOutcome::Execute(const IntMap& intVars, CharMap& charVars){
 		std::cout << "Interpreter Error: Error interpreting outcome statement" << std::endl;
 	}
 }
-//TODO: Urgent use RNG

@@ -173,7 +173,7 @@ std::vector<Token> Lexer::MakeTokens(const std::string& line){
 	return splitLine;
 }
 
-//TODO: Refactor + typedef PSL
+//TODO: Refacto-> Restructure for clarity
 std::unique_ptr<Statement>  Lexer::MakeStatement(const std::vector<Token>& vec){
 	// First token after line number will either be outcome or if
 	auto start = vec.begin();
