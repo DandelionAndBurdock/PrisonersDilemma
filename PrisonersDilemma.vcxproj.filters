@@ -25,6 +25,7 @@
     <ClCompile Include="Game\Gangs\GangGame.cpp" />
     <ClCompile Include="Game\Gangs\GangCompetition.cpp" />
     <ClCompile Include="Game\Gangs\Gang.cpp" />
+    <ClCompile Include="Utility\Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Prisoner.h" />
@@ -53,5 +54,6 @@
     <ClInclude Include="Game\Gangs\GangGame.h" />
     <ClInclude Include="Game\Gangs\GangCompetition.h" />
     <ClInclude Include="Game\Gangs\Gang.h" />
+    <ClInclude Include="Utility\Utility.h" />
   </ItemGroup>
 </Project>

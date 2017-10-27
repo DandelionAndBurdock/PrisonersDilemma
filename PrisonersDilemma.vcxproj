@@ -25,6 +25,7 @@
     <ClCompile Include="Strategy\StrategyConstants.cpp" />
     <ClCompile Include="Strategy\StrategyTester.cpp" />
     <ClCompile Include="Game\Tournament.cpp" />
+    <ClCompile Include="Utility\Utility.cpp" />
     <ClCompile Include="Utility\FileManager.cpp" />
     <ClCompile Include="Interpreter\Interpreter.cpp" />
     <ClCompile Include="Interpreter\Lexer.cpp" />
@@ -50,6 +51,7 @@
     <ClInclude Include="Interpreter\Statement.h" />
     <ClInclude Include="Profiling\Profiling.h" />
     <ClInclude Include="Strategy\StrategyConstants.h" />
+    <ClInclude Include="Utility\Utility.h" />
     <ClInclude Include="Utility\Matrix.h" />
     <ClInclude Include="Strategy\StrategyTester.h" />
     <ClInclude Include="Game\Tournament.h" />

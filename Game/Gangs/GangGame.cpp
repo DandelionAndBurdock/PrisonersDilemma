@@ -17,8 +17,6 @@ GangGame::~GangGame()
 {
 }
 
-
-
 void GangGame::Resolve(ActionType choiceA, ActionType choiceB) {
 
 	if (!m_gangA->IsMixed() && !m_gangB->IsMixed()) {
@@ -47,10 +45,7 @@ void GangGame::Resolve(ActionType choiceA, ActionType choiceB) {
 			ResolveCC();
 		}
 	}
-
-
 }
-
 
 void GangGame::ResolveWW() {
 	m_gangA->SetLastOutcome('W');
@@ -58,6 +53,7 @@ void GangGame::ResolveWW() {
 	m_gangA->AddToScore(m_sentence.m_silent);
 	m_gangB->AddToScore(m_sentence.m_silent);
 }
+
 void GangGame::ResolveXY() {
 	m_gangA->SetLastOutcome('X');
 	m_gangB->SetLastOutcome('Y');
@@ -71,24 +67,28 @@ void GangGame::ResolveYX() {
 	m_gangA->AddToScore(m_sentence.m_temptation);
 	m_gangB->AddToScore(m_sentence.m_sucker);
 }
+
 void GangGame::ResolveZZ() {
 	m_gangA->SetLastOutcome('Z');
 	m_gangB->SetLastOutcome('Z');
 	m_gangA->AddToScore(m_sentence.m_punishment);
 	m_gangB->AddToScore(m_sentence.m_punishment);
 }
+
 void GangGame::ResolveAB() {
 	m_gangA->SetLastOutcome('A');
 	m_gangB->SetLastOutcome('B');
 	m_gangA->AddToScore(m_sentence.m_leastBetrayed);
 	m_gangB->AddToScore(m_sentence.m_mostBetrayed);
 }
+
 void GangGame::ResolveBA() {
 	m_gangA->SetLastOutcome('B');
 	m_gangB->SetLastOutcome('A');
 	m_gangA->AddToScore(m_sentence.m_mostBetrayed);
 	m_gangB->AddToScore(m_sentence.m_leastBetrayed);
 }
+
 void GangGame::ResolveCC() {
 	m_gangA->SetLastOutcome('C');
 	m_gangB->SetLastOutcome('C');
