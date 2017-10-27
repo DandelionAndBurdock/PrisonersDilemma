@@ -8,24 +8,30 @@
 #include <string>
 #include <vector>
 
-class RandomNumberGenerator;
-
-
 class StrategyGenerator
 {
 public:
 	StrategyGenerator(bool safeGeneration = false, bool gangs = false);
 	~StrategyGenerator();
+	// Creates a random stategy and writes it to the outputFile 
 	void GenerateStrategy(const std::string& outputFile);
+
+	// Generates a strategy and returns it as a string
 	std::string GenerateStrategy();
-public: //TODO: private
+private:
 	// Generate a valid Prisoner Strategy Language expression
 	std::string GenerateExpression();
+	// Generates a valid expression with character variables
 	std::string GenerateCharExpression();
+	// Generates a valid arithmetic expresion
 	std::string GenerateArithExpression();
+	// Generates an IF statement
 	std::string GenerateIfLine();
+	// Generates an outcome action
 	std::string GenerateAction();
+	// Generates a GOTO statement
 	std::string GenerateGoto();
+	// Generates a valid line of code
 	std::string GenerateLine();
 private:
 	float m_charExpressionProb;	// Probability to generate a character variable expression
@@ -42,13 +48,12 @@ private:
 
 	bool m_safeGeneration;			// If safe generation is true goto will not jump backwards and an outcome will be appended on the end
 
-	std::string GetRandomCharVariable();
-	std::string GetRandomVariable();
-	std::string GetRandomArithOp();
-	std::string GetRandomRelOp();
-	std::string GetRandomOutcome();
+	std::string GetRandomCharVariable(); // Returns a random character variable from the dictionary
+	std::string GetRandomVariable();	//  Returns a random variable from the dictionary
+	std::string GetRandomArithOp();		// Returns a random arithmetic operator
+	std::string GetRandomRelOp();		// Returns a random relational operator
+	std::string GetRandomOutcome();		// Returns a random outcome
 
-	RandomNumberGenerator* rng;//TODO: Remove this
 private:
 	 // Appends a space to the end of the string
 	void AddSpace(std::string& str);
@@ -56,11 +61,10 @@ private:
 	// Appends a space to the end of the string
 	void AddEndLine(std::string& str);
 
+	// Returns true if the generator should add another line of code
 	bool ShouldAddAnotherLine();
 
+	// Dictionaries of variable words
 	std::vector<std::string> charVariables;
 	std::vector<std::string> variables;
 };
-
-// Strategy Class: Contains number of lines
-//TODO: Const

@@ -10,13 +10,17 @@
 #pragma once
 class StrategyTester
 {
-	const std::string robotFile = "RobotTester.txt"; //TODO: What if doesn't exist? Is file manager doing job?
+	// Simple strategy for testing strategies
+	const std::string robotFile = "RobotTester.txt";
 public:
 	StrategyTester();
 	~StrategyTester();
+
+	// Returns true if the testSubject can play a game against a robot 
+	// without getting stuck in infinite loops
 	bool PassesTest(Prisoner& testSubject);
 
 private:
-	Prisoner m_robot; // Will just give random selections
+	Prisoner m_robot; // Robot prisoner for testSubject to play games against
 
 };

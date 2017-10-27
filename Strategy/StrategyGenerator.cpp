@@ -3,7 +3,7 @@
 #include "../Utility/RandomNumberGenerator.h"
 #include "../Utility/FileManager.h"
 #include "StrategyConstants.h"
-StrategyGenerator::StrategyGenerator(bool safeGeneration, bool gangs) : // TODO: Make a real constructor
+StrategyGenerator::StrategyGenerator(bool safeGeneration, bool gangs) :
 m_currentLineNumber(0),
 m_highestGotoLine(0),
 m_safeGeneration(safeGeneration)
@@ -11,8 +11,6 @@ m_safeGeneration(safeGeneration)
 	if (m_maximumLineNumber && m_maximumLineNumber < m_minimumLineNumber) {
 		std::cout << "Error: Trying to generate strategies with max line number smaller than min line number" << std::endl;
 	}
-	rng = RNG; //TODO: Fix this and make the typedef
-
 	StrategyConstants constants = ReadConstants();
 
 	m_charExpressionProb = constants.charExpressionProb;
@@ -31,6 +29,7 @@ m_safeGeneration(safeGeneration)
 
 	m_gotoForecast = constants.gotoForecast;
 
+	 // Dictionary of valid variables
 	if (gangs) {
 		variables = { "ALLOUTCOMES_W", "ALLOUTCOMES_X", "ALLOUTCOMES_Y",
 			"ALLOUTCOMES_Z", "ITERATIONS", "MYSCORE",
@@ -50,7 +49,7 @@ StrategyGenerator::~StrategyGenerator()
 }
 
 std::string StrategyGenerator::GenerateExpression(){
-	if (rng->GetRandFloat() < m_charExpressionProb){
+	if (RNG->GetRandFloat() < m_charExpressionProb){
 		return  GenerateCharExpression();
 	}
 	else{
@@ -76,14 +75,14 @@ std::string StrategyGenerator::GenerateArithExpression(){
 		AddSpace(buffer);
 		buffer += GetRandomVariable();
 		AddSpace(buffer);
-	} while (rng->GetRandFloat() < m_extendArithmeticProb);
+	} while (RNG->GetRandFloat() < m_extendArithmeticProb);
 
 	buffer += GetRandomRelOp();
 	AddSpace(buffer);
 	buffer += GetRandomVariable();
 	AddSpace(buffer);
 
-	while (rng->GetRandFloat() < m_extendArithmeticProb){
+	while (RNG->GetRandFloat() < m_extendArithmeticProb){
 		buffer += GetRandomArithOp();
 		AddSpace(buffer);
 		buffer += GetRandomVariable();
@@ -92,7 +91,7 @@ std::string StrategyGenerator::GenerateArithExpression(){
 	return buffer;
 }
 std::string StrategyGenerator::GenerateLine(){
-	if (rng->GetRandFloat() < m_ifProb){
+	if (RNG->GetRandFloat() < m_ifProb){
 		return GenerateIfLine();
 	}
 	else {
@@ -134,7 +133,7 @@ std::string StrategyGenerator::GenerateIfLine(){
 }
 
 std::string StrategyGenerator::GenerateAction(){
-	if (rng->GetRandFloat() < m_gotoProb){
+	if (RNG->GetRandFloat() < m_gotoProb){
 		return GenerateGoto();
 	}
 	else{
@@ -190,7 +189,7 @@ bool StrategyGenerator::ShouldAddAnotherLine(){
 		return true;
 	}
 	else{
-		return (rng->GetRandFloat() < m_addLineProb);
+		return (RNG->GetRandFloat() < m_addLineProb);
 	}
 }
 
@@ -203,19 +202,19 @@ void StrategyGenerator::AddEndLine(std::string& str){
 }
 
 std::string StrategyGenerator::GetRandomCharVariable(){
-	return charVariables[rng->GetRandInt(0, charVariables.size())];
+	return charVariables[RNG->GetRandInt(0, charVariables.size())];
 }
 std::string StrategyGenerator::GetRandomVariable(){ //TODO: What about ints?
-	return variables[rng->GetRandInt(0, variables.size())];
+	return variables[RNG->GetRandInt(0, variables.size())];
 }
 
 std::string StrategyGenerator::GetRandomArithOp(){
-	return PSL::arithmeticOps[rng->GetRandInt(0, PSL::arithmeticOps.size())];
+	return PSL::arithmeticOps[RNG->GetRandInt(0, PSL::arithmeticOps.size())];
 }
 std::string StrategyGenerator::GetRandomRelOp(){
-	return PSL::relationalOps[rng->GetRandInt(0, PSL::relationalOps.size())];
+	return PSL::relationalOps[RNG->GetRandInt(0, PSL::relationalOps.size())];
 }
 
 std::string StrategyGenerator::GetRandomOutcome(){
-	return PSL::outcomes[rng->GetRandInt(0, PSL::outcomes.size())];
+	return PSL::outcomes[RNG->GetRandInt(0, PSL::outcomes.size())];
 }
